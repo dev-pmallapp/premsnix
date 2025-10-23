@@ -11,7 +11,12 @@
         settings.hooks = {
           # FIXME: broken dependency on darwin
           actionlint.enable = pkgs.stdenv.hostPlatform.isLinux;
-          clang-tidy.enable = true;
+          clang-tidy = {
+            enable = pkgs.stdenv.hostPlatform.isDarwin;
+            excludes = [
+              "modules/home/programs/graphical/bars/sketchybar/dynamic-island-sketchybar/helper/.*"
+            ];
+          };
           deadnix = {
             enable = true;
 
@@ -29,7 +34,17 @@
           treefmt.enable = true;
           typos = {
             enable = true;
-            excludes = [ "generated/*" ];
+            excludes = [
+              "generated/*"
+              ".*\\.svg"
+              "modules/home/programs/graphical/bars/sketchybar/dynamic-island-sketchybar/.*"
+              "modules/home/programs/graphical/apps/caprine/custom\\.css"
+              "modules/home/programs/terminal/tools/ssh/default\\.nix"
+              "modules/home/programs/terminal/tools/git/shell-aliases\\.nix"
+              "modules/home/programs/graphical/bars/waybar/modules/(hyprland|sway)-modules\\.nix"
+              "modules/home/programs/terminal/media/ncmpcpp/default\\.nix"
+              "modules/home/suites/(emulation|development|video)/default\\.nix"
+            ];
           };
         };
       };

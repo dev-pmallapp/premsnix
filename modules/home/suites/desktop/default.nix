@@ -1,0 +1,88 @@
+{
+  config,
+  lib,
+  pkgs,
+
+  ...
+}:
+let
+  inherit (lib) mkDefault mkIf;
+
+  cfg = config.premunix.suites.desktop;
+in
+{
+  options.premunix.suites.desktop = {
+    enable = lib.mkEnableOption "common desktop applications";
+  };
+
+  config = mkIf cfg.enable {
+    premunix = {
+      programs = {
+        graphical = {
+          bars = {
+            sketchybar.enable = mkDefault pkgs.stdenv.hostPlatform.isDarwin;
+          };
+          browsers = {
+            firefox = {
+              enable = mkDefault true;
+              extensions.settings = {
+                "uBlock0@raymondhill.net" = {
+                  # Home-manager skip collision check
+                  force = true;
+                  settings = {
+                    selectedFilterLists = [
+                      "easylist"
+                      "easylist-annoyances"
+                      "easylist-chat"
+                      "easylist-newsletters"
+                      "easylist-notifications"
+                      "fanboy-cookiemonster"
+                      "ublock-badware"
+                      "ublock-cookies-easylist"
+                      "ublock-filters"
+                      "ublock-privacy"
+                      "ublock-quick-fixes"
+                      "ublock-unbreak"
+                    ];
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+
+      services = {
+        jankyborders.enable = mkDefault pkgs.stdenv.hostPlatform.isDarwin;
+        skhd.enable = mkDefault pkgs.stdenv.hostPlatform.isDarwin;
+      };
+
+      theme = {
+        gtk.enable = mkDefault pkgs.stdenv.hostPlatform.isLinux;
+        qt.enable = mkDefault pkgs.stdenv.hostPlatform.isLinux;
+      };
+    };
+
+    home.packages =
+      with pkgs;
+      [
+        meshcentral
+      ]
+      ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+        appimage-run
+        bitwarden-desktop
+        bleachbit
+        clac
+        dropbox
+        dupeguru
+        feh
+        kdePackages.filelight
+        fontpreview
+        input-leap
+        kdePackages.ark
+        kdePackages.gwenview
+        realvnc-vnc-viewer
+        rustdesk-flutter
+      ];
+  };
+}

@@ -1,0 +1,194 @@
+:root {
+  --base: #24273a;
+  --mantle: #1e2030;
+  --crust: #181926;
+
+  --text: #cad3f5;
+  --subtext0: #b8c0e0;
+  --subtext1: #a5adcb;
+
+  --surface0: #363a4f;
+  --surface1: #494d64;
+  --surface2: #5b6078;
+
+  --overlay0: #6e738d;
+  --overlay1: #8087a2;
+  --overlay2: #939ab7;
+
+  --blue: #8aadf4;
+  --lavender: #b7bdf8;
+  --sapphire: #7dc4e4;
+  --sky: #91d7e3;
+  --teal: #8bd5ca;
+  --green: #a6da95;
+  --yellow: #eed49f;
+  --peach: #f5a97f;
+  --maroon: #ee99a0;
+  --red: #ed8796;
+  --mauve: #c6a0f6;
+  --pink: #f5bde6;
+  --flamingo: #f0c6c6;
+  --rosewater: #f4dbd6;
+
+  /* Container Tab Colours */
+  --uc-identity-colour-blue: var(--blue);
+  --uc-identity-colour-turquoise: var(--teal);
+  --uc-identity-colour-green: var(--green);
+  --uc-identity-colour-yellow: var(--yellow);
+  --uc-identity-colour-orange: var(--peach);
+  --uc-identity-colour-red: var(--red);
+  --uc-identity-colour-pink: var(--pink);
+  --uc-identity-colour-purple: var(--mauve);
+
+  --uc-identity-colour-blue-muted: #7ed6df99;
+  --uc-identity-colour-turquoise-muted: #55e6c199;
+  --uc-identity-colour-green-muted: #b8e99499;
+  --uc-identity-colour-yellow-muted: #f7d794cc;
+  --uc-identity-colour-orange-muted: #f19066ff;
+  --uc-identity-colour-red-muted: #fc5c65ff;
+  --uc-identity-colour-pink-muted: #f78fb399;
+  --uc-identity-colour-purple-muted: #786fa6ff;
+
+  --uc-theme-colour: var(--window-colour, var(--toolbar-bgcolor));
+  --uc-hover-colour: var(--secondary-colour, rgba(0, 0, 0, 0.2));
+  --uc-inverted-colour: var(--inverted-colour, var(--toolbar-color));
+
+  --button-bgcolor: var(--uc-theme-colour) !important;
+  --button-hover-bgcolor: var(--uc-hover-colour) !important;
+  --button-active-bgcolor: var(--uc-hover-colour) !important;
+
+  --toolbarbutton-border-radius: var(--uc-border-radius) !important;
+
+  --tab-border-radius: var(--uc-border-radius) !important;
+  --lwt-text-color: var(--uc-inverted-colour) !important;
+  --lwt-tab-text: var(--uc-inverted-colour) !important;
+
+  --arrowpanel-border-radius: var(--uc-border-radius) !important;
+
+  --tab-block-margin: 2px !important;
+
+  /* URL colour in URL bar suggestions */
+  --urlbar-popup-url-color: var(--uc-identity-colour-blue) !important;
+
+  /*---+---+---+---+---+---+---+
+   | V | I | S | U | A | L | S |
+   +---+---+---+---+---+---+---*/
+
+  /* global border radius */
+  --uc-border-radius: 0;
+
+  /* dynamic url bar width settings */
+  --uc-urlbar-width: clamp(200px, 40vw, 500px);
+
+  /* dynamic tab width settings */
+  --uc-active-tab-width: clamp(100px, 20vw, 300px);
+  --uc-inactive-tab-width: clamp(50px, 15vw, 200px);
+
+  /* if active always shows the tab close button */
+  --show-tab-close-button: none;
+  /* DEFAULT: -moz-inline-box; */
+
+  /* if active only shows the tab close button on hover*/
+  --show-tab-close-button-hover: none;
+  /* DEFAULT: -moz-inline-box; */
+
+  /* adds left and right margin to the container-tabs indicator */
+  --container-tabs-indicator-margin: 10px;
+}
+
+@media (prefers-color-scheme:dark) {
+  :root {
+    --bg: #1a1b26;
+
+    --urlbar-bg: #181926;
+    --urlbar-border-top: #000;
+    --urldrop-bg: #0d0d15;
+    --urlbar-border-bottom: #404040;
+    --urlbar-height: 30px;
+    --urlbar-outline: #414868;
+
+    --fullscreen-warn: #181926;
+
+    --arrowpanel-background: var(--urlbar-bg) !important;
+    --button-hover-bgcolor: rgba(159, 159, 159, 0.35) !important;
+    --button-active-bgcolor: rgba(255, 255, 255, .2) !important;
+    --button-bgcolor: rgba(117, 117, 117, 0.9) !important;
+    --toolbarbutton-icon-fill-opacity: 0.8 !important;
+    --arrowpanel-border-color: rgb(55, 55, 55) !important;
+
+    --dark-menu-background-color: var(--base) !important;
+    --dark-menu-border-color: var(--mantle) !important;
+    --dark-menuitem-hover-background-color: rgba(159, 159, 159, 0.35) !important;
+
+    --window-colour: var(--base);
+    --secondary-colour: var(--mantle);
+    --inverted-colour: #fafafc;
+  }
+}
+
+@media (prefers-color-scheme:light) {
+  :root {
+    --bg: #f1f5f9;
+
+    --urlbar-bg: #cbd5e1;
+    --urlbar-border-top: #9ca3af;
+    --urlbar-border-bottom: #fff;
+    --urldrop-bg: #cbd5e1;
+    --urlbar-outline: #94a3b8;
+
+    --fullscreen-warn: rgb(25, 25, 25);
+
+    --arrowpanel-background: #e2e8f0 !important;
+    --button-hover-bgcolor: #9699a3 !important;
+  }
+}
+
+/* nav-bar-customization-target */
+
+/* Context Menu Cleanup - Hide unnecessary items to reduce size */
+#context-navigation,
+#context-sep-navigation,
+#context-stop,
+#context-bookmarkpage,
+#context-pocket,
+#context-sendpagetodevice,
+#context-sep-sendpagetodevice,
+#context-sep-copyimage,
+#context-sendimage,
+#context-setDesktopBackground,
+#context-inspect-a11y,
+#context-sep-viewbgimage,
+#context-viewbgimage,
+#context-sep-properties,
+#context-webrtc-indicator,
+#context-media-eme-learnmore,
+#context-media-eme-separator {
+  display: none !important;
+}
+
+/* Hide specific text selection context menu items */
+#context-sendlinktodevice,
+#context-sep-sendlinktodevice {
+  display: none !important;
+}
+
+/* Hide specific image context menu items */
+#context-copyimage-contents,
+#context-copyimage,
+#context-sep-copyimage {
+  display: none !important;
+}
+
+/* Hide video/media specific items */
+#context-media-play,
+#context-media-pause,
+#context-media-mute,
+#context-media-unmute,
+#context-media-loop,
+#context-media-showcontrols,
+#context-media-hidecontrols,
+#context-video-fullscreen,
+#context-video-pictureinpicture,
+#context-media-sep-commands {
+  display: none !important;
+}

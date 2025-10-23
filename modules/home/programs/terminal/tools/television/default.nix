@@ -1,0 +1,28 @@
+{
+  config,
+  lib,
+  ...
+}:
+let
+  inherit (lib) mkIf;
+
+  cfg = config.premunix.programs.terminal.tools.television;
+in
+{
+  options.premunix.programs.terminal.tools.television = {
+    enable = lib.mkEnableOption "television";
+  };
+
+  config = mkIf cfg.enable {
+    programs.television = {
+      enable = true;
+
+      settings = {
+        ui = {
+          use_nerd_font_icons = true;
+          theme = "catppuccin";
+        };
+      };
+    };
+  };
+}

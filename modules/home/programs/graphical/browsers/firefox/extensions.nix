@@ -1,0 +1,47 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  inherit (lib.premunix) mkOpt;
+
+  cfg = config.premunix.programs.graphical.browsers.firefox;
+in
+{
+  options.premunix.programs.graphical.browsers.firefox = {
+    extensions = {
+      packages = mkOpt (with lib.types; listOf package) (with pkgs.firefox-addons; [
+        angular-devtools
+        auto-tab-discard
+        bitwarden
+        # NOTE: annoying new page and permissions
+        # bypass-paywalls-clean
+        darkreader
+        firefox-color
+        firenvim
+        # Replaced with tampermonkey script
+        # frankerfacez
+        onepassword-password-manager
+        react-devtools
+        reduxdevtools
+        sponsorblock
+        stylus
+        tampermonkey
+        ublock-origin
+        user-agent-string-switcher
+      ]) "Extensions to install";
+
+      settings = mkOpt (with lib.types; attrsOf anything) {
+      } "Settings to apply to the extensions.";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    programs.firefox.profiles.${config.premunix.user.name}.extensions = {
+      inherit (cfg.extensions) packages settings;
+      force = cfg.extensions.settings != { };
+    };
+  };
+}
