@@ -37,7 +37,7 @@
     };
     nix-rosetta-builder = {
       # url = "github:cpick/nix-rosetta-builder";
-      url = "github:khaneliman/nix-rosetta-builder/speedfactor";
+      url = "github:pmallapp/nix-rosetta-builder/speedfactor";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixos-wsl = {
@@ -59,8 +59,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    hypr-socket-watch.url = "github:khaneliman/hypr-socket-watch";
-    khanelivim.url = "github:khaneliman/khanelivim";
+    hypr-socket-watch.url = "github:pmallapp/hypr-socket-watch";
+    khanelivim.url = "github:pmallapp/khanelivim";
     nh.url = "github:nix-community/nh";
     nixpkgs-citrix-workspace.url = "github:NixOS/nixpkgs/87894d3b7116a8e1c4827d66e17b89099d218c50";
     nix-flatpak.url = "github:gmodena/nix-flatpak/latest";
