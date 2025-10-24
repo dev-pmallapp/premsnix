@@ -70,8 +70,8 @@ in
 
     suites.common.enable = true;
     theme.stylix.enable = false;
-    # Ensure we don't pull large desktop icon/sound themes explicitly
-    home.packages = lib.mkForce [ ];
+    # Ensure we don't pull large desktop icon/sound themes explicitly (handled via home-manager, not a NixOS option)
+    # home.packages override removed: incorrect scope (belongs to home-manager). Minimalism handled in home config.
     # Graphical stack intentionally omitted (headless Pi)
     programs = {
       networking = {
