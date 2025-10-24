@@ -61,7 +61,6 @@ in
       apps.discord.enable = false;
       addons = {
         satty.enable = false;
-        noisetorch.enable = false;
       };
       browsers.firefox.enable = false;
     };
