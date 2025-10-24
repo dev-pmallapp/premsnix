@@ -43,7 +43,7 @@ in
     suites = {
       common = enabled;
       # Prevent any desktop/graphical suite auto-enables if present
-      desktop = false;
+      desktop.enable = false;
     };
 
     programs.graphical = {
