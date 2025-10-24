@@ -65,7 +65,7 @@ in
         manager = "networkmanager";
       };
       time = enabled;
-      xdg.portal.enable = mkForce false;
+      # xdg.portal disable removed: not a valid NixOS premsnix.system.xdg option path; handled in home layer if needed
     };
 
     suites.common.enable = true;
