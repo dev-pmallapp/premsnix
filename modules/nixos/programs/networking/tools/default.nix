@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) mkIf types;
+  inherit (lib) mkIf types getName;
   cfg = config.premsnix.programs.networking.tools;
   netPkgs = with pkgs; [
     bandwhich
@@ -39,13 +39,22 @@ in
       default = [ ];
       description = "Additional packages to append to the networking tools set.";
     };
+    excludePackages = lib.mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "List of package names to exclude from the curated networking tools (match by pname/getName).";
+    };
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = netPkgs ++ cfg.extraPackages;
+    environment.systemPackages =
+      let
+        filtered = builtins.filter (p: !(builtins.elem (getName p) cfg.excludePackages)) netPkgs;
+      in
+      filtered ++ cfg.extraPackages;
 
     # Allow network capture groups when tools enabled
-    premsnix.user.extraGroups = (config.premsnix.user.extraGroups or [ ]) ++ [
+    premsnix.user.extraGroups = lib.mkAfter [
       "network"
       "wireshark"
     ];

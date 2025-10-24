@@ -43,13 +43,19 @@ in
           if hasHostSecrets then secretsCandidate else lib.getFile "secrets/premsnix/pmallapp/default.yaml";
       };
       gpg = enabled;
-      keyring.enable = mkForce false; # ensure gnome-keyring not pulled
+      keyring.enable = mkForce false;
+      clamav.enable = mkForce false;
     };
 
     services = {
       openssh = enabled;
       power.enable = mkForce false;
       printing.enable = false;
+      fwupd.enable = mkForce false;
+      udisks2.enable = mkForce false;
+      upower.enable = mkForce false;
+      lact.enable = mkForce false;
+      ddccontrol.enable = mkForce false;
     };
 
     system = {
@@ -63,6 +69,10 @@ in
       networking = {
         enable = true;
         manager = "networkmanager";
+        networkmanager = {
+          enable = true;
+          plugins = [ ];
+        };
       };
       time = enabled;
       # xdg.portal disable removed: not a valid NixOS premsnix.system.xdg option path; handled in home layer if needed
@@ -77,6 +87,12 @@ in
       networking = {
         tools = {
           enable = true;
+          excludePackages = [
+            "nmap"
+            "rustscan"
+            "hurl"
+            "wakeonlan"
+          ];
         };
       };
     };
