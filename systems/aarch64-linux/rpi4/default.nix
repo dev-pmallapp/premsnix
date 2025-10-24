@@ -67,27 +67,7 @@ in
 
     suites.common.enable = true;
     theme.stylix.enable = false;
-    programs.graphical = {
-      # Explicitly disable graphical components for headless Pi usage
-      wms = {
-        sway.enable = false;
-        hyprland.enable = false;
-      };
-      bars = {
-        waybar.enable = false;
-        ashell.enable = false;
-        sketchybar.enable = false;
-      };
-      screenlockers.swaylock.enable = false;
-      desktop-environment.gnome.enable = false;
-      apps = {
-        discord.enable = false;
-      };
-      addons = {
-        noisetorch.enable = false;
-      };
-      browsers.firefox.enable = false;
-    };
+    # Graphical stack intentionally omitted (headless Pi)
     programs = {
       networking = {
         tools = {
