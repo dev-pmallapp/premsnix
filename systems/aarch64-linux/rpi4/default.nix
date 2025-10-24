@@ -26,19 +26,13 @@ in
 
   premsnix = {
     nix = enabled;
-
-    archetypes = {
-      server = enabled;
+    archetypes.server = enabled;
+    user.name = "pmallapp";
+    hardware.storage = {
+      enable = true;
+      ssdEnable = false;
     };
-
-    hardware = {
-      storage = {
-        enable = true;
-        ssdEnable = false;
-      };
-
-      fans.enable = mkForce false;
-    };
+    hardware.fans.enable = mkForce false;
 
     security = {
       doas = enabled;
@@ -72,10 +66,29 @@ in
     };
 
     suites.common.enable = true;
-
     theme.stylix.enable = false;
-
-    user.name = "pmallapp";
+    programs.graphical = {
+      # Explicitly disable graphical components for headless Pi usage
+      wms = {
+        sway.enable = false;
+        hyprland.enable = false;
+      };
+      bars = {
+        waybar.enable = false;
+        ashell.enable = false;
+        sketchybar.enable = false;
+      };
+      screenlockers.swaylock.enable = false;
+      desktop-environment.gnome.enable = false;
+      apps = {
+        discord.enable = false;
+      };
+      addons = {
+        satty.enable = false;
+        noisetorch.enable = false;
+      };
+      browsers.firefox.enable = false;
+    };
     programs = {
       networking = {
         tools = {
@@ -84,6 +97,13 @@ in
       };
     };
   };
+
+  # NixOS root user definition required by sd-image build
+  users.users.nixos = {
+    isSystemUser = true;
+    group = "nixos";
+  };
+  users.groups.nixos = { };
 
   nixpkgs.hostPlatform = mkDefault "aarch64-linux";
 

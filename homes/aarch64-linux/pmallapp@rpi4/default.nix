@@ -42,6 +42,28 @@ in
 
     suites = {
       common = enabled;
+      # Prevent any desktop/graphical suite auto-enables if present
+      desktop = false;
+    };
+
+    programs.graphical = {
+      wms = {
+        sway.enable = false;
+        hyprland.enable = false;
+      };
+      bars = {
+        waybar.enable = false;
+        ashell.enable = false;
+        sketchybar.enable = false;
+      };
+      screenlockers.swaylock.enable = false;
+      desktop-environment.gnome.enable = false;
+      apps.discord.enable = false;
+      addons = {
+        satty.enable = false;
+        noisetorch.enable = false;
+      };
+      browsers.firefox.enable = false;
     };
   };
 
