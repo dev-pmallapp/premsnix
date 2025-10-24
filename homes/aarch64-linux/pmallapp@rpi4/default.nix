@@ -64,6 +64,8 @@ in
       };
       browsers.firefox.enable = false;
     };
+    # Explicitly disable television terminal tool from common suite for headless minimal footprint
+    programs.terminal.tools.television.enable = false;
   };
 
   sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
