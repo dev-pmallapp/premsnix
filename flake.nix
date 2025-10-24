@@ -95,6 +95,7 @@
       flake = inputs.flake-parts.lib.mkFlake { inherit inputs; } {
         systems = [
           "x86_64-linux"
+          "aarch64-linux" # Added for Raspberry Pi 4 image build support
           "aarch64-darwin"
         ];
         imports = [
