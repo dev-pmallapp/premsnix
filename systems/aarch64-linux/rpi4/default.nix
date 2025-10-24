@@ -51,9 +51,6 @@ in
       openssh = enabled;
       power.enable = mkForce false;
       printing.enable = false;
-      fwupd.enable = mkForce false;
-      udisks2.enable = mkForce false;
-      upower.enable = mkForce false;
       lact.enable = mkForce false;
       ddccontrol.enable = mkForce false;
     };
@@ -69,10 +66,6 @@ in
       networking = {
         enable = true;
         manager = "networkmanager";
-        networkmanager = {
-          enable = true;
-          plugins = [ ];
-        };
       };
       time = enabled;
       # xdg.portal disable removed: not a valid NixOS premsnix.system.xdg option path; handled in home layer if needed
@@ -108,6 +101,19 @@ in
   nixpkgs.hostPlatform = mkDefault "aarch64-linux";
 
   services.openssh.settings.PasswordAuthentication = false;
+
+  # Disable upstream services not wrapped by premsnix.* modules here (headless minimal image)
+  services = {
+    fwupd.enable = lib.mkForce false;
+    udisks2.enable = lib.mkForce false;
+    upower.enable = lib.mkForce false;
+  };
+
+  # NetworkManager configuration (moved out of premsnix.system.networking which doesn't define a nested networkmanager attr)
+  networking.networkmanager = {
+    enable = true;
+    plugins = [ ];
+  };
 
   sops.secrets = optionalAttrs hasHostSecrets {
     "${wifiSecretName}" = {
