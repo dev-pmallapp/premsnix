@@ -29,7 +29,8 @@ in
     archetypes.server = enabled;
     user.name = "pmallapp";
     hardware.storage = {
-      enable = true;
+      # Disabled for minimal headless image to drop fs tooling (btrfs, ntfs3g, etc.)
+      enable = false;
       ssdEnable = false;
     };
     hardware.fans.enable = mkForce false;
@@ -42,6 +43,7 @@ in
           if hasHostSecrets then secretsCandidate else lib.getFile "secrets/premsnix/pmallapp/default.yaml";
       };
       gpg = enabled;
+      keyring.enable = mkForce false; # ensure gnome-keyring not pulled
     };
 
     services = {
@@ -63,10 +65,13 @@ in
         manager = "networkmanager";
       };
       time = enabled;
+      xdg.portal.enable = mkForce false;
     };
 
     suites.common.enable = true;
     theme.stylix.enable = false;
+    # Ensure we don't pull large desktop icon/sound themes explicitly
+    home.packages = lib.mkForce [ ];
     # Graphical stack intentionally omitted (headless Pi)
     programs = {
       networking = {

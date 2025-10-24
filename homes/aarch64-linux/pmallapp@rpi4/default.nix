@@ -66,6 +66,12 @@ in
     };
     # Explicitly disable television terminal tool from common suite for headless minimal footprint
     programs.terminal.tools.television.enable = false;
+    # Disable kitty emulator, yazi file manager, glxinfo (mesa-demos), and keyring/portals for headless
+    programs.terminal.emulators.kitty.enable = false;
+    programs.terminal.tools.yazi.enable = false;
+    programs.terminal.tools.glxinfo.enable = false; # prevents mesa-demos
+    services.keyring.enable = false; # premsnix security keyring layer
+    # xdg.portal disabled at system level; no need to redefine here
   };
 
   sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {

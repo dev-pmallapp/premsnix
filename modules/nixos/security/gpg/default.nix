@@ -11,9 +11,9 @@ let
     mkIf
     getExe'
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.security.gpg;
+  cfg = config.premsnix.security.gpg;
 
   gpgAgentConf = ''
     enable-ssh-support
@@ -23,7 +23,7 @@ let
   '';
 in
 {
-  options.premunix.security.gpg = with types; {
+  options.premsnix.security.gpg = with types; {
     enable = lib.mkEnableOption "GPG";
     agentTimeout = mkOpt int 5 "The amount of time to wait before continuing with shell init.";
     enableSSHSupport = lib.mkEnableOption "SSH support for GPG";
@@ -42,14 +42,15 @@ in
         fi
       '';
 
-    environment.systemPackages = with pkgs; [
-      cryptsetup
-      gnupg
-      paperkey
-      pinentry-qt
-    ];
+    # Minimize closure: drop pinentry-qt (use tty), cryptsetup (not needed on rpi4), paperkey optional
+    environment.systemPackages =
+      with pkgs;
+      [
+        gnupg
+      ]
+      ++ lib.optional cfg.enableSSHSupport pinentry-tty;
 
-    premunix = {
+    premsnix = {
       home.file = {
         ".gnupg/gpg-agent.conf".text = gpgAgentConf;
       };
@@ -60,7 +61,8 @@ in
         enable = true;
         inherit (cfg) enableSSHSupport;
         enableExtraSocket = true;
-        pinentryPackage = pkgs.pinentry-gnome3;
+        # Use lightweight tty pinentry
+        pinentryPackage = pkgs.pinentry-tty;
       };
     };
 
