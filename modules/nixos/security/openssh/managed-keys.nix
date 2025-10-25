@@ -1,17 +1,17 @@
 { config, lib, ... }:
 let
-  inherit (lib)
-    mkIf
-    mkEnableOption
-    getFile
-    optionalAttrs
-    ;
+  inherit (lib) mkIf mkEnableOption optionalAttrs;
   cfg = config.premsnix.security.openssh.managedKeys;
   username = config.premsnix.user.name or "pmallapp";
   host = config.networking.hostName;
 
-  # Resolve a candidate secrets file only when its feature is enabled to avoid any evaluation-time errors.
-  safeGet = path: if builtins.pathExists path then getFile path else null;
+  # Resolve a repository-relative path (if it exists) returning a path value or null.
+  safeGet =
+    rel:
+    let
+      p = ./. + "/" + rel;
+    in
+    if builtins.pathExists p then p else null;
 
   hostSecretPath =
     if cfg.manageHostKey then

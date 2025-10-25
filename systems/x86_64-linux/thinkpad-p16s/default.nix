@@ -88,6 +88,12 @@ in
         sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         inherit defaultSopsFile;
       };
+      openssh.managedKeys = {
+        enable = true;
+        manageHostKey = true;
+        manageKnownHosts = true;
+        manageUserAuthorizedKeys = false; # enable after secrets/users/pmallapp/authorized_keys exists
+      };
     };
 
     system = {

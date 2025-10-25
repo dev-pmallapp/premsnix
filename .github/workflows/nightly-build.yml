@@ -13,6 +13,7 @@ jobs:
         target:
           - nixosConfigurations.premsnix.config.system.build.toplevel
           - nixosConfigurations.nuc.config.system.build.toplevel
+          - nixosConfigurations.rpi4.config.system.build.sdImage
           - darwinConfigurations.mac.system
           - darwinConfigurations.mac-m1.system
     steps:
@@ -28,3 +29,9 @@ jobs:
         continue-on-error: true
       - name: Build ${{ matrix.target }}
         run: nix build .#${{ matrix.target }}
+      - name: Upload rpi4 sdImage artifact
+        if: contains(matrix.target, 'rpi4.config.system.build.sdImage')
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpi4-sdImage
+          path: result/sd-image/*.img.zst
