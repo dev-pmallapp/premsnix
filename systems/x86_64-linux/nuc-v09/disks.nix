@@ -13,8 +13,8 @@
         device = builtins.elemAt disks 0;
         type = "disk";
         content = {
-          type = "table";
-          format = "gpt";
+          # Migrated from legacy 'table' + 'format = gpt' to direct GPT syntax
+          type = "gpt";
           partitions = {
             EFI = {
               priority = 1;
@@ -62,8 +62,8 @@
         device = builtins.elemAt disks 1;
         type = "disk";
         content = {
-          type = "table";
-          format = "gpt";
+          # Migrated from legacy 'table' + 'format = gpt' to direct GPT syntax
+          type = "gpt";
           partitions = {
             root = {
               size = "100%";
@@ -85,8 +85,8 @@
         device = builtins.elemAt disks 2;
         type = "disk";
         content = {
-          type = "table";
-          format = "gpt";
+          # Migrated from legacy 'table' + 'format = gpt' to direct GPT syntax
+          type = "gpt";
           partitions = {
             root = {
               size = "100%";

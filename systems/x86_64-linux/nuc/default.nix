@@ -132,11 +132,10 @@ in
   };
 
   # Provide system user (image parity)
-  users.users.nixos = {
+  users.users.nixos = lib.mkForce {
     isSystemUser = true;
-    group = "nixos";
+    group = "users"; # align with primary user group to avoid conflict
   };
-  users.groups.nixos = { };
 
   # Network config merged from nuc-v09 (static). Adjust or override via deployment host.
   networking = {
@@ -160,6 +159,19 @@ in
     premsnix = {
       archetypes.wsl = enabled;
       security.gpg.enable = mkForce false;
+    };
+    # Resolve conflicting man pages enable by preferring minimal profile disable
+    documentation.man.enable = lib.mkForce false;
+    # Avoid bootloader conflicts inside WSL specialization
+    boot = {
+      loader = {
+        grub.enable = lib.mkForce false;
+        systemd-boot.enable = lib.mkForce false;
+        external.enable = lib.mkForce false;
+      };
+      bootspec.enable = lib.mkForce false;
+      # Lanzaboote secure boot not relevant in WSL
+      lanzaboote.enable = lib.mkForce false;
     };
   };
 }
