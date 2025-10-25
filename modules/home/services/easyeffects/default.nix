@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.services.easyeffects;
+  cfg = config.premsnix.services.easyeffects;
 in
 {
-  options.premunix.services.easyeffects = {
+  options.premsnix.services.easyeffects = {
     enable = lib.mkEnableOption "easyeffects";
   };
 

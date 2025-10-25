@@ -7,13 +7,13 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) default-attrs;
+  inherit (lib.premsnix) default-attrs;
 
-  cfg = config.premunix.system.boot;
-  themeCfg = config.premunix.theme;
+  cfg = config.premsnix.system.boot;
+  themeCfg = config.premsnix.theme;
 in
 {
-  options.premunix.system.boot = {
+  options.premsnix.system.boot = {
     enable = lib.mkEnableOption "booting";
     plymouth = lib.mkEnableOption "plymouth boot splash";
     secureBoot = lib.mkEnableOption "secure boot";

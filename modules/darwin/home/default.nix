@@ -6,10 +6,10 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 in
 {
-  options.premunix.home = {
+  options.premsnix.home = {
     file =
       mkOpt lib.types.attrs { }
         "A set of files to be managed by home-manager's <option>home.file</option>.";
@@ -21,14 +21,14 @@ in
   };
 
   config = {
-    premunix.home.extraOptions = {
-      home.file = lib.mkAliasDefinitions options.premunix.home.file;
+    premsnix.home.extraOptions = {
+      home.file = lib.mkAliasDefinitions options.premsnix.home.file;
       xdg.enable = true;
-      xdg.configFile = lib.mkAliasDefinitions options.premunix.home.configFile;
+      xdg.configFile = lib.mkAliasDefinitions options.premsnix.home.configFile;
     };
 
-    home-manager.users.${config.premunix.user.name} =
-      lib.mkAliasDefinitions options.premunix.home.extraOptions;
+    home-manager.users.${config.premsnix.user.name} =
+      lib.mkAliasDefinitions options.premsnix.home.extraOptions;
 
     home-manager = {
       # enables backing up existing files instead of erroring if conflicts exist

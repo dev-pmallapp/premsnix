@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.fastfetch;
+  cfg = config.premsnix.programs.terminal.tools.fastfetch;
 in
 {
-  options.premunix.programs.terminal.tools.fastfetch = {
+  options.premsnix.programs.terminal.tools.fastfetch = {
     enable = lib.mkEnableOption "fastfetch";
   };
 

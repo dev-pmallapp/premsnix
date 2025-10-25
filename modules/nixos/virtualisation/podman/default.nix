@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.virtualisation.podman;
+  cfg = config.premsnix.virtualisation.podman;
 in
 {
-  options.premunix.virtualisation.podman = {
+  options.premsnix.virtualisation.podman = {
     enable = lib.mkEnableOption "podman";
   };
 
@@ -27,7 +27,7 @@ in
       podman-desktop
     ];
 
-    premunix = {
+    premsnix = {
       user = {
         extraGroups = [
           "docker"

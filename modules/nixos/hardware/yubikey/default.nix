@@ -8,7 +8,7 @@
 let
   inherit (lib) mkIf getExe';
 
-  cfg = config.premunix.hardware.yubikey;
+  cfg = config.premsnix.hardware.yubikey;
 
   reload-yubikey =
     pkgs.writeShellScriptBin "reload-yubikey" # bash
@@ -17,7 +17,7 @@ let
       '';
 in
 {
-  options.premunix.hardware.yubikey = {
+  options.premsnix.hardware.yubikey = {
     enable = lib.mkEnableOption "Yubikey";
     enableSSHSupport = lib.mkEnableOption "SSH support for Yubikey";
   };

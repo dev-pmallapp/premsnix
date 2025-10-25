@@ -8,7 +8,7 @@
 let
   inherit (lib) mkIf mapAttrs;
 
-  cfg = config.premunix.system.fonts;
+  cfg = config.premsnix.system.fonts;
 in
 {
   imports = [ (lib.getFile "modules/common/system/fonts/default.nix") ];
@@ -16,7 +16,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages =
       with pkgs;
-      (lib.optionals (!config.premunix.archetypes.wsl.enable or false) [
+      (lib.optionals (!config.premsnix.archetypes.wsl.enable or false) [
         font-manager
         fontpreview
         smile

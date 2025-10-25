@@ -6,17 +6,17 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
-  cfg = config.premunix.programs.graphical.wms.aerospace;
+  inherit (lib.premsnix) mkOpt;
+  cfg = config.premsnix.programs.graphical.wms.aerospace;
 
   sketchybar = lib.getExe config.programs.sketchybar.finalPackage;
 in
 {
-  options.premunix.programs.graphical.wms.aerospace = {
+  options.premsnix.programs.graphical.wms.aerospace = {
     enable = lib.mkEnableOption "aerospace";
     debug = lib.mkEnableOption "debug output";
     logFile =
-      mkOpt lib.types.str "${config.premunix.user.home}/Library/Logs/aerospace.log"
+      mkOpt lib.types.str "${config.premsnix.user.home}/Library/Logs/aerospace.log"
         "Filepath of log output";
   };
 

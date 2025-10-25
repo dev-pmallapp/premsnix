@@ -35,7 +35,7 @@ _: {
             "firefox-addons"
             "hypr-socket-watch"
             # "hyprland"
-            "khanelivim"
+            # Removed legacy khanelivim entry
             "nh"
             "nix-flatpak"
             "nix-index-database"
@@ -77,6 +77,20 @@ _: {
     in
     {
       apps = groupApps // {
+        dev-check = {
+          type = "app";
+          meta.description = "Run development pre-commit checklist (format, flake check, builds)";
+          program = lib.getExe (
+            pkgs.writeShellApplication {
+              name = "dev-check";
+              text = ''
+                set -euo pipefail
+                repo_root="$(git rev-parse --show-toplevel 2>/dev/null || echo .)"
+                exec "$repo_root/scripts/dev-check.sh" "$@"
+              '';
+            }
+          );
+        };
         update-all = {
           type = "app";
           meta.description = "Update all flake inputs";

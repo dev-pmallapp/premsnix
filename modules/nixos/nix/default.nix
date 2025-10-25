@@ -10,7 +10,7 @@
 let
   inherit (lib) mkDefault mkIf;
 
-  cfg = config.premunix.nix;
+  cfg = config.premsnix.nix;
 in
 {
   imports = [ (lib.getFile "modules/common/nix/default.nix") ];

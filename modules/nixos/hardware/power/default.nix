@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.power;
+  cfg = config.premsnix.hardware.power;
 in
 {
-  options.premunix.hardware.power = {
+  options.premsnix.hardware.power = {
     enable = lib.mkEnableOption "support for extra power devices";
   };
 

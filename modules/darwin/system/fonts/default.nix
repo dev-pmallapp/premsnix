@@ -8,7 +8,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.fonts;
+  cfg = config.premsnix.system.fonts;
 in
 {
   imports = [ (lib.getFile "modules/common/system/fonts/default.nix") ];

@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.cpu.amd;
+  cfg = config.premsnix.hardware.cpu.amd;
 in
 {
-  options.premunix.hardware.cpu.amd = {
+  options.premsnix.hardware.cpu.amd = {
     enable = lib.mkEnableOption "support for amd cpu";
   };
 

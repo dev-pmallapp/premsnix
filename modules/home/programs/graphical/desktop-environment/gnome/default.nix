@@ -7,15 +7,15 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) default-attrs mkBoolOpt mkOpt;
+  inherit (lib.premsnix) default-attrs mkBoolOpt mkOpt;
 
-  cfg = config.premunix.programs.graphical.desktop-environment.gnome;
+  cfg = config.premsnix.programs.graphical.desktop-environment.gnome;
 
   get-wallpaper =
     wallpaper: if lib.isDerivation wallpaper then builtins.toString wallpaper else wallpaper;
 in
 {
-  options.premunix.programs.graphical.desktop-environment.gnome = {
+  options.premsnix.programs.graphical.desktop-environment.gnome = {
     enable = lib.mkEnableOption "GNOME desktop environment customization";
 
     shell = mkOpt (types.submodule {
@@ -64,8 +64,8 @@ in
               };
             })
             {
-              picture-uri = get-wallpaper "${pkgs.premunix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
-              picture-uri-dark = get-wallpaper "${pkgs.premunix.wallpapers}/share/wallpapers/cat-sound.png";
+              picture-uri = get-wallpaper "${pkgs.premsnix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
+              picture-uri-dark = get-wallpaper "${pkgs.premsnix.wallpapers}/share/wallpapers/cat-sound.png";
             }
             "Desktop background settings";
 
@@ -79,8 +79,8 @@ in
               };
             })
             {
-              picture-uri = get-wallpaper "${pkgs.premunix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
-              picture-uri-dark = get-wallpaper "${pkgs.premunix.wallpapers}/share/wallpapers/cat-sound.png";
+              picture-uri = get-wallpaper "${pkgs.premsnix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
+              picture-uri-dark = get-wallpaper "${pkgs.premsnix.wallpapers}/share/wallpapers/cat-sound.png";
             }
             "Screensaver settings";
 

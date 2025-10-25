@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.fzf;
+  cfg = config.premsnix.programs.terminal.tools.fzf;
 in
 {
-  options.premunix.programs.terminal.tools.fzf = {
+  options.premsnix.programs.terminal.tools.fzf = {
     enable = lib.mkEnableOption "fzf";
   };
 

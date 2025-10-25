@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.social;
+  cfg = config.premsnix.suites.social;
 in
 {
-  options.premunix.suites.social = {
+  options.premsnix.suites.social = {
     enable = lib.mkEnableOption "social configuration";
   };
 

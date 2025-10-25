@@ -3,7 +3,7 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.system.logging;
+  cfg = config.premsnix.system.logging;
 in
 
 {
@@ -11,7 +11,7 @@ in
     ./newsyslog.nix
   ];
 
-  options.premunix.system.logging = {
+  options.premsnix.system.logging = {
     enable = mkEnableOption "system logging configuration";
   };
 

@@ -9,12 +9,12 @@
 let
   inherit (lib) getExe mkIf mkEnableOption;
 
-  cfg = config.premunix.services.noisetorch;
-  osCfg = osConfig.premunix.programs.graphical.addons.noisetorch or { };
+  cfg = config.premsnix.services.noisetorch;
+  osCfg = osConfig.premsnix.programs.graphical.addons.noisetorch or { };
 in
 {
   options = {
-    premunix.services.noisetorch = {
+    premsnix.services.noisetorch = {
       enable = mkEnableOption "noisetorch service";
     };
   };

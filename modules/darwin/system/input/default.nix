@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf mkMerge mkEnableOption;
 
-  cfg = config.premunix.system.input;
+  cfg = config.premsnix.system.input;
 in
 {
-  options.premunix.system.input = {
+  options.premsnix.system.input = {
     enable = mkEnableOption "macOS input";
   };
 

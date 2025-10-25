@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.programs.terminal.tools.direnv;
+  cfg = config.premsnix.programs.terminal.tools.direnv;
 in
 {
-  options.premunix.programs.terminal.tools.direnv = {
+  options.premsnix.programs.terminal.tools.direnv = {
     enable = lib.mkEnableOption "direnv";
   };
 

@@ -1,15 +1,85 @@
-on: [push]
-name: Lint Nix code
+name: Lint & Flake Check
+on: [push, pull_request]
 jobs:
-  statix:
-    name: Lint code
+  eval:
+    name: Evaluate Flake (matrix)
+    strategy:
+      fail-fast: false
+      matrix:
+        system: [x86_64-linux, aarch64-linux]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: cachix/install-nix-action@v31
         with:
-          nix_path: nixpkgs=channel:nixos-unstable
-      - uses: cachix/cachix-action@v16
+          install_url: https://nixos.org/nix/install
+      - name: Cachix (optional cache)
+        uses: cachix/cachix-action@v15
         with:
-          name: statix
-      - uses: jocelynthode/statix-action@master
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Flake Show (JSON)
+        run: nix flake show --json > flake-show-${{ matrix.system }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flake-show-${{ matrix.system }}
+          path: flake-show-${{ matrix.system }}.json
+  format:
+    name: Format / Drift Detection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          install_url: https://nixos.org/nix/install
+      - name: Cachix (optional cache)
+        uses: cachix/cachix-action@v15
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build treefmt check (x86_64-linux)
+        run: nix build .#checks.x86_64-linux.treefmt
+      - name: Run nix fmt and capture diff
+        run: |
+          nix fmt || exit 1
+          if ! git diff --quiet; then
+            echo "Formatting drift detected" >&2
+            git --no-pager diff > formatting-diff.patch
+            exit 2
+          fi
+        continue-on-error: true
+      - name: Upload formatting diff
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatting-diff
+          path: formatting-diff.patch
+        continue-on-error: true
+      - name: Fail if drift
+        run: |
+          if [ -f formatting-diff.patch ]; then
+            echo "Drift present" >&2
+            exit 1
+          fi
+  meta-lint:
+    name: Static Linters (statix/deadnix)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          install_url: https://nixos.org/nix/install
+      - name: Cachix (optional cache)
+        uses: cachix/cachix-action@v15
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Statix Check
+        run: nix develop -c statix check .
+      - name: Deadnix Check
+        run: nix develop -c deadnix .
+      - name: Dev checklist (no builds)
+        run: nix run .#dev-check -- --no-build --skip-flake

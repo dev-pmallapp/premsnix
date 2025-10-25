@@ -6,16 +6,16 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.system.interface;
-  hmCfg = config.home-manager.users.${config.premunix.user.name};
+  cfg = config.premsnix.system.interface;
+  hmCfg = config.home-manager.users.${config.premsnix.user.name};
 in
 {
-  options.premunix.system.interface = {
+  options.premsnix.system.interface = {
     enable = mkEnableOption "macOS interface";
   };
 
   config = mkIf cfg.enable {
-    premunix.home.file = {
+    premsnix.home.file = {
       "Pictures/screenshots/.keep".text = "";
     };
 
@@ -94,7 +94,7 @@ in
 
         persistent-apps =
           let
-            hmApps = "/Users/${config.premunix.user.name}/Applications/Home Manager Apps";
+            hmApps = "/Users/${config.premsnix.user.name}/Applications/Home Manager Apps";
           in
           [
             "/System/Applications/System Settings.app"
@@ -106,10 +106,10 @@ in
             }
             "/System/Applications/Messages.app"
           ]
-          ++ lib.optionals config.premunix.suites.social.enable [
+          ++ lib.optionals config.premsnix.suites.social.enable [
             "${hmApps}/Caprine.app"
             "${hmApps}/Element.app"
-            (lib.mkIf config.premunix.tools.homebrew.enable { app = "${hmApps}/teams-for-linux.app"; })
+            (lib.mkIf config.premsnix.tools.homebrew.enable { app = "${hmApps}/teams-for-linux.app"; })
             "${hmApps}/Vesktop.app"
             (lib.mkIf hmCfg.programs.thunderbird.enable {
               app = "${hmApps}/Thunderbird.app";
@@ -125,7 +125,7 @@ in
               app = "${hmCfg.programs.firefox.package}/Applications/Firefox Developer Edition.app";
             })
             "/Applications/Safari.app"
-            (lib.mkIf (config.premunix.tools.homebrew.enable && config.premunix.suites.business.enable) {
+            (lib.mkIf (config.premsnix.tools.homebrew.enable && config.premsnix.suites.business.enable) {
               app = "/Applications/Fantastical.app";
             })
             "/System/Applications/Reminders.app"
@@ -136,7 +136,7 @@ in
               };
             }
             "/System/Applications/Music.app"
-            (lib.mkIf (config.premunix.tools.homebrew.enable && config.premunix.suites.video.enable) {
+            (lib.mkIf (config.premsnix.tools.homebrew.enable && config.premsnix.suites.video.enable) {
               app = "/Applications/Plex.app";
             })
             {
@@ -145,7 +145,7 @@ in
               };
             }
           ]
-          ++ lib.optionals config.premunix.suites.development.enable [
+          ++ lib.optionals config.premsnix.suites.development.enable [
             "${hmApps}/Visual Studio Code.app"
             "${hmApps}/Bruno.app"
             {
@@ -204,7 +204,7 @@ in
 
       screencapture = {
         disable-shadow = true;
-        location = "/Users/${config.premunix.user.name}/Pictures/screenshots/";
+        location = "/Users/${config.premsnix.user.name}/Pictures/screenshots/";
         type = "png";
       };
 

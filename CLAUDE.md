@@ -24,7 +24,7 @@ code in this repository.
 
 3. **Naming**: Use camelCase for variables, kebab-case for files/directories
 
-4. **Options**: Define namespace-scoped options (premunix.*)
+4. **Options**: Define namespace-scoped options (premsnix.*)
 
    - Reduce option repetition by using a shared top level option
    - Use top level option values throughout configuration when possible
@@ -57,7 +57,7 @@ code in this repository.
 
 ## Specialized Agents and Commands
 
-The premunix configuration includes specialized Claude Code agents and commands
+The premsnix configuration includes specialized Claude Code agents and commands
 designed for this Nix-based dotfiles system:
 
 ### Agents
@@ -73,7 +73,7 @@ designed for this Nix-based dotfiles system:
 
 #### Project Specialists
 
-- **Dotfiles Expert**: premunix configuration specialist and maintainer - knows
+- **Dotfiles Expert**: premsnix configuration specialist and maintainer - knows
   the complete module structure, host/user customizations, theme system, and
   patterns
 - **System Config Expert**: NixOS system configuration and administration
@@ -99,7 +99,7 @@ designed for this Nix-based dotfiles system:
 - `module-scaffold [name] [--nixos] [--home] [--darwin]`: Create new module
   templates with proper structure
 - `option-migrate [from] [to]`: Migrate deprecated options to new alternatives
-- `template-new [template-name] [target-dir]`: Create new projects from premunix
+- `template-new [template-name] [target-dir]`: Create new projects from premsnix
   templates
 - `flake-update [input] [--all] [--commit]`: Update flake inputs with proper
   commit messages
@@ -128,7 +128,7 @@ designed for this Nix-based dotfiles system:
 
 ### When to Use Specialized Agents
 
-- **Use Dotfiles Expert** when working with premunix-specific configurations,
+- **Use Dotfiles Expert** when working with premsnix-specific configurations,
   understanding module interactions, or making system-wide changes
 - **Use Nix specialists** for language-specific tasks, module creation, or
   refactoring Nix code

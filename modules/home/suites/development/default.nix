@@ -8,10 +8,10 @@
 }:
 let
   inherit (lib) mkIf mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
   tokenExports =
-    lib.optionalString (osConfig.premunix.security.sops.enable or false) # Bash
+    lib.optionalString (osConfig.premsnix.security.sops.enable or false) # Bash
       ''
         if [ -f ${config.sops.secrets.ANTHROPIC_API_KEY.path} ]; then
           ANTHROPIC_API_KEY="$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})"
@@ -35,11 +35,11 @@ let
         fi
       '';
 
-  cfg = config.premunix.suites.development;
-  isWSL = osConfig.premunix.archetypes.wsl.enable or false;
+  cfg = config.premsnix.suites.development;
+  isWSL = osConfig.premsnix.archetypes.wsl.enable or false;
 in
 {
-  options.premunix.suites.development = {
+  options.premsnix.suites.development = {
     enable = lib.mkEnableOption "common development configuration";
     azureEnable = lib.mkEnableOption "azure development configuration";
     dockerEnable = lib.mkEnableOption "docker development configuration";
@@ -80,7 +80,7 @@ in
         ]
         ++ lib.optionals cfg.nixEnable [
           hydra-check
-          premunix.build-by-path
+          premsnix.build-by-path
           nix-bisect
           nix-diff
           nix-fast-build
@@ -158,7 +158,7 @@ in
       zsh.initContent = tokenExports;
     };
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           editors = {
@@ -197,7 +197,7 @@ in
       services.ollama.enable = mkDefault (cfg.aiEnable && pkgs.stdenv.hostPlatform.isDarwin);
     };
 
-    sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       ANTHROPIC_API_KEY = {
         sopsFile = lib.getFile "secrets/CORE/default.yaml";
         path = "${config.home.homeDirectory}/.ANTHROPIC_API_KEY";

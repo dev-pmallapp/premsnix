@@ -107,9 +107,9 @@
                 {
                   tab = {
                     _props = {
-                      name = "premunix";
+                      name = "premsnix";
                       focus = true;
-                      cwd = "$HOME/premunix/";
+                      cwd = "$HOME/premsnix/";
                     };
                     _children = [
                       {
@@ -125,7 +125,7 @@
                     _props = {
                       name = "Git";
                       split_direction = "horizontal";
-                      cwd = "$HOME/premunix/";
+                      cwd = "$HOME/premsnix/";
                     };
                     _children = [
                       {
@@ -140,7 +140,7 @@
                   tab = {
                     _props = {
                       name = "Jujutsu";
-                      cwd = "$HOME/premunix/";
+                      cwd = "$HOME/premsnix/";
                     };
                     _children = [
                       {
@@ -177,7 +177,7 @@
                     _props = {
                       name = "Shell";
                       split_direction = "horizontal";
-                      cwd = "$HOME/premunix/";
+                      cwd = "$HOME/premsnix/";
                     };
                     _children = [
                       {

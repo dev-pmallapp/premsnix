@@ -93,7 +93,7 @@ in
       run = "plugin ouch";
       desc = "Compress with outch";
     }
-    ++ lib.optional config.premunix.suites.wlroots.enable {
+    ++ lib.optional config.premsnix.suites.wlroots.enable {
       on = [ "y" ];
       run = [
         ''shell -- for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list''

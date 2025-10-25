@@ -7,10 +7,10 @@
 }:
 let
 
-  cfg = config.premunix.security.sudo;
+  cfg = config.premsnix.security.sudo;
 in
 {
-  options.premunix.security.sudo = {
+  options.premsnix.security.sudo = {
     enable = lib.mkEnableOption "sudo";
   };
   config = lib.mkIf cfg.enable {

@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.premunix.services.snapper;
+  cfg = config.premsnix.services.snapper;
 
   safeStr = types.strMatching "[^\n\"]*" // {
     description = "string without line breaks or quotes";
@@ -15,7 +15,7 @@ let
   inherit (lib) types mkEnableOption mkIf;
 in
 {
-  options.premunix.services.snapper = {
+  options.premsnix.services.snapper = {
     enable = mkEnableOption "snapper";
 
     configs = lib.mkOption {

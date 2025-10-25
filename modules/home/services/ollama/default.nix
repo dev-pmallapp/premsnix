@@ -8,13 +8,13 @@
 }:
 let
 
-  cfg = config.premunix.services.ollama;
+  cfg = config.premsnix.services.ollama;
 
-  amdCfg = osConfig.premunix.hardware.gpu.amd or { };
-  hasHardwareConfig = (osConfig.premunix.hardware or null) != null;
+  amdCfg = osConfig.premsnix.hardware.gpu.amd or { };
+  hasHardwareConfig = (osConfig.premsnix.hardware or null) != null;
 in
 {
-  options.premunix.services.ollama = {
+  options.premsnix.services.ollama = {
     enable = lib.mkEnableOption "ollama";
     enableDebug = lib.mkEnableOption "debug";
   };

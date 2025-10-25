@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.tools.homebrew;
+  cfg = config.premsnix.tools.homebrew;
 in
 {
-  options.premunix.tools.homebrew = {
+  options.premsnix.tools.homebrew = {
     enable = lib.mkEnableOption "homebrew";
     masEnable = lib.mkEnableOption "Mac App Store downloads";
   };

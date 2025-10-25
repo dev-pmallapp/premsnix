@@ -10,11 +10,11 @@ let
 
   json = pkgs.formats.json { };
 
-  cfg = config.premunix.services.rnnoise;
+  cfg = config.premsnix.services.rnnoise;
 in
 {
   options = {
-    premunix.services.rnnoise = {
+    premsnix.services.rnnoise = {
       enable = mkEnableOption "rnnoise pipewire module";
     };
   };

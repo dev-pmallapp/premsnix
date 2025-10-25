@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) mkBoolOpt;
+  inherit (lib.premsnix) mkBoolOpt;
 
-  cfg = config.premunix.hardware.storage;
+  cfg = config.premsnix.hardware.storage;
 in
 {
-  options.premunix.hardware.storage = {
+  options.premsnix.hardware.storage = {
     enable = lib.mkEnableOption "support for extra storage devices";
     ssdEnable = mkBoolOpt true "Whether or not to enable support for SSD storage devices.";
   };

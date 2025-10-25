@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.vm;
+  cfg = config.premsnix.suites.vm;
 in
 {
-  options.premunix.suites.vm = {
+  options.premsnix.suites.vm = {
     enable = lib.mkEnableOption "vm";
   };
 

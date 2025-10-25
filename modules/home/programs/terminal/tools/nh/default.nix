@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.nh;
+  cfg = config.premsnix.programs.terminal.tools.nh;
 in
 {
-  options.premunix.programs.terminal.tools.nh = {
+  options.premsnix.programs.terminal.tools.nh = {
     enable = lib.mkEnableOption "nh";
   };
 
@@ -23,12 +23,12 @@ in
         enable = true;
       };
 
-      flake = "${config.home.homeDirectory}/premunix";
+      flake = "${config.home.homeDirectory}/premsnix";
     };
 
     launchd.agents.nh-clean.config = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-      StandardErrorPath = osConfig.premunix.programs.terminal.tools.nh.logPaths.stderr;
-      StandardOutPath = osConfig.premunix.programs.terminal.tools.nh.logPaths.stdout;
+      StandardErrorPath = osConfig.premsnix.programs.terminal.tools.nh.logPaths.stderr;
+      StandardOutPath = osConfig.premsnix.programs.terminal.tools.nh.logPaths.stdout;
     };
 
     home = {

@@ -25,7 +25,8 @@ in
     services = {
       sops = {
         enable = true;
-        defaultSopsFile = lib.getFile "secrets/khanelimac/pmallapp/default.yaml";
+        # Removed legacy khanelimac fallback; only new mac path supported
+        defaultSopsFile = lib.getFile "secrets/mac/pmallapp/default.yaml";
         sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
       };
     };

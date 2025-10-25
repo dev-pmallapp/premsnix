@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.editors.micro;
+  cfg = config.premsnix.programs.terminal.editors.micro;
 in
 {
-  options.premunix.programs.terminal.editors.micro = {
+  options.premsnix.programs.terminal.editors.micro = {
     enable = lib.mkEnableOption "micro";
     default = lib.mkEnableOption "setting micro as the session EDITOR";
   };

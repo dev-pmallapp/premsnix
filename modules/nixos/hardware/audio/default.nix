@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf mkForce;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.hardware.audio;
+  cfg = config.premsnix.hardware.audio;
 in
 {
-  options.premunix.hardware.audio = with types; {
+  options.premsnix.hardware.audio = with types; {
     enable = lib.mkEnableOption "audio support";
     alsa-monitor = mkOpt attrs { } "Alsa configuration.";
     extra-packages = mkOpt (listOf package) [
@@ -33,7 +33,7 @@ in
       ]
       ++ cfg.extra-packages;
 
-    premunix = {
+    premsnix = {
       user.extraGroups = [ "audio" ];
     };
 

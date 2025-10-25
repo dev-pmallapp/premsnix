@@ -7,10 +7,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.graphical.apps.zathura;
+  cfg = config.premsnix.programs.graphical.apps.zathura;
 in
 {
-  options.premunix.programs.graphical.apps.zathura = {
+  options.premsnix.programs.graphical.apps.zathura = {
     enable = mkEnableOption "zathura";
   };
 

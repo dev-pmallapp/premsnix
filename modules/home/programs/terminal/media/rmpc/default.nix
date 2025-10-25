@@ -7,10 +7,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.terminal.media.rmpc;
+  cfg = config.premsnix.programs.terminal.media.rmpc;
 in
 {
-  options.premunix.programs.terminal.media.rmpc = {
+  options.premsnix.programs.terminal.media.rmpc = {
     enable = mkEnableOption "rmpc";
   };
 

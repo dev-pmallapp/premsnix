@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.btop;
+  cfg = config.premsnix.programs.terminal.tools.btop;
 in
 {
-  options.premunix.programs.terminal.tools.btop = {
+  options.premsnix.programs.terminal.tools.btop = {
     enable = lib.mkEnableOption "btop";
   };
 

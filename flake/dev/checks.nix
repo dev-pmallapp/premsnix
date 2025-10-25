@@ -18,11 +18,8 @@
             ];
           };
           deadnix = {
-            enable = true;
-
-            settings = {
-              edit = true;
-            };
+            enable = false; # disabled to avoid in-place edits during commit
+            settings.edit = false;
           };
           eslint = {
             enable = true;
@@ -30,8 +27,12 @@
           };
           luacheck.enable = true;
           pre-commit-hook-ensure-sops.enable = true;
-          statix.enable = true;
-          treefmt.enable = true;
+          # Disable statix as a pre-commit hook (still runs via flake check / treefmt programs)
+          statix.enable = false;
+          # Fully disable treefmt in pre-commit; run manually with `nix fmt`
+          treefmt.enable = false;
+          # Optionally disable statix if it's blocking commits; leave enabled for now
+          # statix.enable = false;
           typos = {
             enable = true;
             excludes = [

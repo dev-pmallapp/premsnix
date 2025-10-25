@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.azure;
+  cfg = config.premsnix.programs.terminal.tools.azure;
 in
 {
-  options.premunix.programs.terminal.tools.azure = {
+  options.premsnix.programs.terminal.tools.azure = {
     enable = lib.mkEnableOption "common Azure utilities";
   };
 

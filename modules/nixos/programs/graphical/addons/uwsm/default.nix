@@ -7,17 +7,17 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.uwsm;
+  cfg = config.premsnix.programs.graphical.addons.uwsm;
 in
 {
-  options.premunix.programs.graphical.addons.uwsm = {
+  options.premsnix.programs.graphical.addons.uwsm = {
     enable = lib.mkEnableOption "uwsm";
   };
 
   config = mkIf cfg.enable {
     programs.uwsm.enable = true;
 
-    premunix.home = {
+    premsnix.home = {
       configFile = {
         "uwsm/env".text = ''
           export CLUTTER_BACKEND=wayland

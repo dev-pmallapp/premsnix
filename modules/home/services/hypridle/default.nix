@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.services.hypridle;
+  cfg = config.premsnix.services.hypridle;
 in
 {
-  options.premunix.services.hypridle = {
+  options.premsnix.services.hypridle = {
     enable = lib.mkEnableOption "hypridle service";
   };
 

@@ -7,13 +7,13 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.programs.terminal.tools.claude-code;
+  cfg = config.premsnix.programs.terminal.tools.claude-code;
 
   # Import all hook modules from the hooks directory
   hooks = lib.importDir ./hooks { inherit pkgs; };
 in
 {
-  options.premunix.programs.terminal.tools.claude-code = {
+  options.premsnix.programs.terminal.tools.claude-code = {
     enable = mkEnableOption "Claude Code configuration";
   };
 

@@ -5,12 +5,12 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.security.sops;
+  cfg = config.premsnix.security.sops;
 in
 {
-  options.premunix.security.sops = {
+  options.premsnix.security.sops = {
     enable = lib.mkEnableOption "sops";
     defaultSopsFile = mkOpt lib.types.path null "Default sops file.";
     sshKeyPaths = mkOpt (with lib.types; listOf path) [
@@ -25,13 +25,14 @@ in
       age = {
         inherit (cfg) sshKeyPaths;
 
-        keyFile = "${config.users.users.${config.premunix.user.name}.home}/.config/sops/age/keys.txt";
+        keyFile = "${config.users.users.${config.premsnix.user.name}.home}/.config/sops/age/keys.txt";
       };
     };
 
     sops.secrets = {
-      "khanelimac_pmallapp_ssh_key" = {
-        sopsFile = lib.getFile "secrets/khanelimac/pmallapp/default.yaml";
+      "mac_pmallapp_ssh_key" = {
+        # Legacy khanelimac fallback removed; only new path supported now
+        sopsFile = lib.getFile "secrets/mac/pmallapp/default.yaml";
       };
     };
   };

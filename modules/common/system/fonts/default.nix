@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.system.fonts;
+  cfg = config.premsnix.system.fonts;
 in
 {
-  options.premunix.system.fonts = with types; {
+  options.premsnix.system.fonts = with types; {
     enable = lib.mkEnableOption "managing fonts";
     fonts =
       with pkgs;

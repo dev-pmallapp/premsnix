@@ -6,10 +6,10 @@
   ...
 }:
 let
-  cfg = config.premunix.programs.graphical.addons.gamescope;
+  cfg = config.premsnix.programs.graphical.addons.gamescope;
 in
 {
-  options.premunix.programs.graphical.addons.gamescope = {
+  options.premsnix.programs.graphical.addons.gamescope = {
     enable = lib.mkEnableOption "gamescope";
   };
 

@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.tailscale;
+  cfg = config.premsnix.services.tailscale;
 in
 {
-  options.premunix.services.tailscale = {
+  options.premsnix.services.tailscale = {
     enable = mkOpt types.bool true "Whether to enable the Nix daemon.";
   };
 

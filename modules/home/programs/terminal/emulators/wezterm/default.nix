@@ -8,11 +8,11 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.emulators.wezterm;
+  cfg = config.premsnix.programs.terminal.emulators.wezterm;
   catppuccin = import (lib.getFile "modules/home/theme/catppuccin/colors.nix");
 in
 {
-  options.premunix.programs.terminal.emulators.wezterm = {
+  options.premsnix.programs.terminal.emulators.wezterm = {
     enable = lib.mkEnableOption "wezterm";
   };
 

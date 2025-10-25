@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.user;
+  cfg = config.premsnix.user;
 in
 {
-  options.premunix.user = with types; {
+  options.premsnix.user = with types; {
     email = mkOpt str "pmallapp12@gmail.com" "The email of the user.";
     extraGroups = mkOpt (listOf str) [ ] "Groups for the user to be assigned.";
     extraOptions = mkOpt attrs { } "Extra options passed to <option>users.users.<name></option>.";

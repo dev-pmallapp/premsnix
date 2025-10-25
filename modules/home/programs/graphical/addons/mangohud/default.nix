@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf literalExpression;
 
-  cfg = config.premunix.programs.graphical.mangohud;
+  cfg = config.premsnix.programs.graphical.mangohud;
 in
 {
-  options.premunix.programs.graphical.mangohud = {
+  options.premsnix.programs.graphical.mangohud = {
     enable = lib.mkEnableOption "mangohud";
   };
 

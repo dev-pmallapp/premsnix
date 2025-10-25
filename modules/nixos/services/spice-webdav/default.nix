@@ -13,10 +13,10 @@ let
     getExe'
     ;
 
-  cfg = config.premunix.services.spice-webdav;
+  cfg = config.premsnix.services.spice-webdav;
 in
 {
-  options.premunix.services.spice-webdav = with types; {
+  options.premsnix.services.spice-webdav = with types; {
     enable = lib.mkEnableOption "spice-webdav proxy support";
     package = mkOption {
       default = pkgs.phodav;

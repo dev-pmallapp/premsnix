@@ -14,7 +14,7 @@ let
     mkForce
     ;
 
-  cfg = config.premunix.programs.graphical.wms.sway;
+  cfg = config.premsnix.programs.graphical.wms.sway;
 
   mkStartCommand =
     let
@@ -48,7 +48,7 @@ in
               ''
           );
 
-          screenshot-path = "/home/${config.premunix.user.name}/Pictures/screenshots";
+          screenshot-path = "/home/${config.premsnix.user.name}/Pictures/screenshots";
           browser = "${getExe config.programs.firefox.package}";
           explorer = "nautilus";
           notification_center = "${getExe' config.services.swaync.package "swaync-client"}";

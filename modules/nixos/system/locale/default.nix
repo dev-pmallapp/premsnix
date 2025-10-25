@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf mkForce;
 
-  cfg = config.premunix.system.locale;
+  cfg = config.premsnix.system.locale;
 in
 {
-  options.premunix.system.locale = {
+  options.premsnix.system.locale = {
     enable = lib.mkEnableOption " manage locale settings";
   };
 

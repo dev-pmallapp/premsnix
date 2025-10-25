@@ -14,13 +14,13 @@ let
     mkMerge
     types
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
   inherit (inputs) waybar;
 
-  cfg = config.premunix.programs.graphical.bars.waybar;
+  cfg = config.premsnix.programs.graphical.bars.waybar;
 
   # Determine which style files to use based on whether stylix is enabled and catppuccin is not enabled
-  styleDir = if config.premunix.theme.catppuccin.enable then ./styles else ./base16-style;
+  styleDir = if config.premsnix.theme.catppuccin.enable then ./styles else ./base16-style;
 
   style = builtins.readFile "${styleDir}/style.css";
   controlCenterStyle = builtins.readFile "${styleDir}/control-center.css";
@@ -65,13 +65,13 @@ let
     modules-left = [
       "custom/power"
     ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.hyprland.enable [
+    ++ lib.optionals config.premsnix.programs.graphical.wms.hyprland.enable [
       "hyprland/workspaces"
     ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.sway.enable [ "sway/workspaces" ]
+    ++ lib.optionals config.premsnix.programs.graphical.wms.sway.enable [ "sway/workspaces" ]
     ++ [ "custom/separator-left" ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.hyprland.enable [ "hyprland/window" ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.sway.enable [ "sway/window" ];
+    ++ lib.optionals config.premsnix.programs.graphical.wms.hyprland.enable [ "hyprland/window" ]
+    ++ lib.optionals config.premsnix.programs.graphical.wms.sway.enable [ "sway/window" ];
   };
 
   fullSizeModules = {
@@ -82,8 +82,8 @@ let
       "custom/separator-right"
       "group/control-center"
     ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.hyprland.enable [ "hyprland/submap" ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.sway.enable [ "sway/mode" ]
+    ++ lib.optionals config.premsnix.programs.graphical.wms.hyprland.enable [ "hyprland/submap" ]
+    ++ lib.optionals config.premsnix.programs.graphical.wms.sway.enable [ "sway/mode" ]
     ++ [
       "custom/weather"
       "clock"
@@ -96,8 +96,8 @@ let
       "group/stats-drawer"
       "group/control-center"
     ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.hyprland.enable [ "hyprland/submap" ]
-    ++ lib.optionals config.premunix.programs.graphical.wms.sway.enable [ "sway/mode" ]
+    ++ lib.optionals config.premsnix.programs.graphical.wms.hyprland.enable [ "hyprland/submap" ]
+    ++ lib.optionals config.premsnix.programs.graphical.wms.sway.enable [ "sway/mode" ]
     ++ [
       "custom/weather"
       "clock"
@@ -112,8 +112,8 @@ let
       custom-modules
       default-modules
       group-modules
-      (lib.mkIf config.premunix.programs.graphical.wms.hyprland.enable hyprland-modules)
-      (lib.mkIf config.premunix.programs.graphical.wms.sway.enable sway-modules)
+      (lib.mkIf config.premsnix.programs.graphical.wms.hyprland.enable hyprland-modules)
+      (lib.mkIf config.premsnix.programs.graphical.wms.sway.enable sway-modules)
     ];
 
   generateOutputSettings =
@@ -129,7 +129,7 @@ let
     );
 in
 {
-  options.premunix.programs.graphical.bars.waybar = {
+  options.premsnix.programs.graphical.bars.waybar = {
     enable = lib.mkEnableOption "waybar in the desktop environment";
     enableDebug = lib.mkEnableOption "debug mode";
     enableInspect = lib.mkEnableOption "inspect mode";
@@ -179,7 +179,7 @@ in
       style = "${style}${controlCenterStyle}${powerStyle}${statsStyle}${workspacesStyle}";
     };
 
-    sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       weather_config = {
         sopsFile = lib.getFile "secrets/pmallapp/default.yaml";
         path = "${config.home.homeDirectory}/weather_config.json";

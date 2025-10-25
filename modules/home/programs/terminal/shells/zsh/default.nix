@@ -9,11 +9,11 @@ let
   inherit (lib) mkEnableOption mkIf;
   inherit (lib.strings) fileContents;
 
-  cfg = config.premunix.programs.terminal.shell.zsh;
+  cfg = config.premsnix.programs.terminal.shell.zsh;
 in
 {
 
-  options.premunix.programs.terminal.shell.zsh = {
+  options.premsnix.programs.terminal.shell.zsh = {
     enable = mkEnableOption "ZSH";
   };
 
@@ -47,7 +47,7 @@ in
           "NO_NOMATCH" # enable "no matches found" check
         ]
         # History options - only when Atuin is disabled
-        ++ lib.optionals (!config.premunix.programs.terminal.tools.atuin.enable) [
+        ++ lib.optionals (!config.premsnix.programs.terminal.tools.atuin.enable) [
           "HIST_VERIFY" # don't execute the line directly; instead perform history expansion and reload the line into the editing buffer
           "NO_HIST_BEEP" # don't beep in ZLE when a widget attempts to access a history entry which isn't there
         ];
@@ -87,7 +87,7 @@ in
           setopt no_global_rcs
         '';
 
-        history = lib.mkIf (!config.premunix.programs.terminal.tools.atuin.enable) {
+        history = lib.mkIf (!config.premsnix.programs.terminal.tools.atuin.enable) {
           # avoid cluttering $HOME with the histfile
           path = "${config.xdg.dataHome}/zsh/zsh_history";
 
@@ -117,7 +117,7 @@ in
 
         initContent = lib.mkMerge [
           (lib.mkOrder 450 (
-            lib.optionalString (!config.premunix.programs.terminal.tools.atuin.enable) # Bash
+            lib.optionalString (!config.premsnix.programs.terminal.tools.atuin.enable) # Bash
               ''
                 # Prevent the command from being written to history before it's
                 # executed; save it to LASTHIST instead.  Write it to history
@@ -166,7 +166,7 @@ in
             ${fileContents ./rc/misc.zsh}
 
             # Conditional autosuggest history filtering
-            ${lib.optionalString (!config.premunix.programs.terminal.tools.atuin.enable) ''
+            ${lib.optionalString (!config.premsnix.programs.terminal.tools.atuin.enable) ''
               # Ignore multiline commands in autosuggestions when using native zsh history
               ZSH_AUTOSUGGEST_HISTORY_IGNORE=$'*\n*'
             ''}

@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.wofi;
+  cfg = config.premsnix.programs.graphical.addons.wofi;
 in
 {
-  options.premunix.programs.graphical.addons.wofi = {
+  options.premsnix.programs.graphical.addons.wofi = {
     enable = lib.mkEnableOption "the Wofi in the desktop environment";
   };
 

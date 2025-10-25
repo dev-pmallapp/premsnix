@@ -6,10 +6,10 @@
 }:
 let
   inherit (lib) types;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 in
 {
-  options.premunix.host = {
+  options.premsnix.host = {
     name = mkOpt (types.nullOr types.str) host "The host name.";
   };
 }

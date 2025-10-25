@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.go;
+  cfg = config.premsnix.programs.terminal.tools.go;
 in
 {
-  options.premunix.programs.terminal.tools.go = {
+  options.premsnix.programs.terminal.tools.go = {
     enable = lib.mkEnableOption "Go support";
   };
 

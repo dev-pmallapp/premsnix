@@ -12,10 +12,10 @@ let
     genAttrs
     getExe
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
   inherit (cfg) dedupeFilesystems;
 
-  cfg = config.premunix.hardware.storage.btrfs;
+  cfg = config.premsnix.hardware.storage.btrfs;
 
   dedupeFilesystemsAttrSets = genAttrs dedupeFilesystems (name: {
     spec = "LABEL=${name}";
@@ -116,7 +116,7 @@ let
     };
 in
 {
-  options.premunix.hardware.storage.btrfs = with types; {
+  options.premsnix.hardware.storage.btrfs = with types; {
     enable = lib.mkEnableOption "support for btrfs devices";
     autoScrub = lib.mkEnableOption "btrfs autoScrub;";
     dedupe = lib.mkEnableOption "btrfs deduplication;";

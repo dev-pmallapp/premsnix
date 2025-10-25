@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf getExe;
 
-  cfg = config.premunix.display-managers.tuigreet;
+  cfg = config.premsnix.display-managers.tuigreet;
 in
 {
-  options.premunix.display-managers.tuigreet = {
+  options.premsnix.display-managers.tuigreet = {
     enable = lib.mkEnableOption "tuigreet";
   };
 

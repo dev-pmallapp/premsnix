@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.nix.linux-builder;
+  cfg = config.premsnix.nix.linux-builder;
 in
 {
-  options.premunix.nix.linux-builder = {
+  options.premsnix.nix.linux-builder = {
     enable = lib.mkEnableOption "linux-builder";
     cores = lib.mkOption {
       type = lib.types.int;

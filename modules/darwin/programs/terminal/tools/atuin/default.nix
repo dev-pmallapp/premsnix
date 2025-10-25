@@ -3,12 +3,12 @@
 let
   inherit (lib) mkIf mkOption types;
 
-  cfg = config.premunix.programs.terminal.tools.atuin;
-  userHome = config.users.users.${config.premunix.user.name}.home;
+  cfg = config.premsnix.programs.terminal.tools.atuin;
+  userHome = config.users.users.${config.premsnix.user.name}.home;
 in
 
 {
-  options.premunix.programs.terminal.tools.atuin = {
+  options.premsnix.programs.terminal.tools.atuin = {
     enable = lib.mkEnableOption "atuin log rotation";
 
     logPaths = {
@@ -31,7 +31,7 @@ in
       {
         logfilename = cfg.logPaths.stdout;
         mode = "644";
-        owner = config.premunix.user.name;
+        owner = config.premsnix.user.name;
         group = "staff";
         count = 7;
         size = "2048";
@@ -43,7 +43,7 @@ in
       {
         logfilename = cfg.logPaths.stderr;
         mode = "644";
-        owner = config.premunix.user.name;
+        owner = config.premsnix.user.name;
         group = "staff";
         count = 7;
         size = "2048";

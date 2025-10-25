@@ -7,13 +7,13 @@
 }:
 let
   inherit (lib) types mkEnableOption mkIf;
-  inherit (lib.premunix) mkOpt enabled;
-  inherit (config.premunix) user;
+  inherit (lib.premsnix) mkOpt enabled;
+  inherit (config.premsnix) user;
 
-  cfg = config.premunix.programs.terminal.tools.jujutsu;
+  cfg = config.premsnix.programs.terminal.tools.jujutsu;
 in
 {
-  options.premunix.programs.terminal.tools.jujutsu = {
+  options.premsnix.programs.terminal.tools.jujutsu = {
     enable = mkEnableOption "jujutsu";
     signByDefault = mkOpt types.bool true "Whether to sign commits by default.";
     signingKey =

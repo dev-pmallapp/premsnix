@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.graphical.apps.thunderbird;
+  cfg = config.premsnix.programs.graphical.apps.thunderbird;
 in
 {
-  options.premunix.programs.graphical.apps.thunderbird = {
+  options.premsnix.programs.graphical.apps.thunderbird = {
     enable = lib.mkEnableOption "thunderbird";
     accountsOrder = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -99,7 +99,7 @@ in
             {
               remote = {
                 inherit type url;
-                userName = config.premunix.user.email;
+                userName = config.premsnix.user.email;
               };
               local = {
                 inherit color;
@@ -107,24 +107,24 @@ in
               thunderbird = {
                 enable = true;
                 profiles = [
-                  config.premunix.user.name
+                  config.premsnix.user.name
                 ];
                 inherit color;
               };
             };
         in
         {
-          "${config.premunix.user.email}" = {
+          "${config.premsnix.user.email}" = {
             remote = {
               type = "caldav";
               url = "https://apidata.googleusercontent.com/caldav/v2/pmallapp12%40gmail.com/events/";
-              userName = config.premunix.user.email;
+              userName = config.premsnix.user.email;
             };
             primary = true;
             thunderbird = {
               enable = true;
               profiles = [
-                config.premunix.user.name
+                config.premsnix.user.name
               ];
               color = "#16a765";
             };
@@ -142,7 +142,7 @@ in
             }:
             let
               finalEnable =
-                if flavor == "davmail" && !config.premunix.services.davmail.enable then
+                if flavor == "davmail" && !config.premsnix.services.davmail.enable then
                   lib.warn "Davmail account '${address}' is disabled because davmail service is not enabled." false
                 else
                   enable;
@@ -154,12 +154,12 @@ in
                 flavor
                 primary
                 ;
-              realName = config.premunix.user.fullName;
+              realName = config.premsnix.user.fullName;
               userName = lib.mkIf (flavor == "davmail") address;
               thunderbird = {
                 enable = finalEnable;
                 profiles = [
-                  config.premunix.user.name
+                  config.premsnix.user.name
                 ];
                 settings = _id: {
                 };
@@ -167,8 +167,8 @@ in
             };
         in
         {
-          "${config.premunix.user.email}" = mkEmailConfig {
-            address = config.premunix.user.email;
+          "${config.premsnix.user.email}" = mkEmailConfig {
+            address = config.premsnix.user.email;
             primary = true;
             flavor = "gmail.com";
           };
@@ -180,7 +180,7 @@ in
       enable = true;
       package = pkgs.thunderbird-latest;
 
-      profiles.${config.premunix.user.name} = {
+      profiles.${config.premsnix.user.name} = {
         isDefault = true;
 
         inherit (cfg) accountsOrder;

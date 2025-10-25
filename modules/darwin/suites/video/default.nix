@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.video;
+  cfg = config.premsnix.suites.video;
 in
 {
-  options.premunix.suites.video = {
+  options.premsnix.suites.video = {
     enable = lib.mkEnableOption "video configuration";
   };
 
@@ -23,7 +23,7 @@ in
         "plex"
       ];
 
-      masApps = mkIf config.premunix.tools.homebrew.masEnable {
+      masApps = mkIf config.premsnix.tools.homebrew.masEnable {
         "Infuse" = 1136220934;
         "iMovie" = 408981434;
       };

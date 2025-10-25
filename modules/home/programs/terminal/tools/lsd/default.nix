@@ -8,7 +8,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.lsd;
+  cfg = config.premsnix.programs.terminal.tools.lsd;
 
   aliases = {
     ls = "${lib.getExe pkgs.lsd} -al";
@@ -17,7 +17,7 @@ let
   };
 in
 {
-  options.premunix.programs.terminal.tools.lsd = {
+  options.premsnix.programs.terminal.tools.lsd = {
     enable = lib.mkEnableOption "lsd";
   };
 

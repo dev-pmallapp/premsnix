@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.apps.partitionmanager;
+  cfg = config.premsnix.programs.graphical.apps.partitionmanager;
 in
 {
-  options.premunix.programs.graphical.apps.partitionmanager = {
+  options.premsnix.programs.graphical.apps.partitionmanager = {
     enable = lib.mkEnableOption "partitionmanager";
   };
 

@@ -11,24 +11,21 @@ let
     mkDefault
     mkIf
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.openssh;
+  cfg = config.premsnix.services.openssh;
 
-  authorizedKeys = [
-    # `premunix`
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuMXeT21L3wnxnuzl0rKuE5+8inPSi8ca/Y3ll4s9pC"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEilFPAgSUwW3N7PTvdTqjaV2MD3cY2oZGKdaS7ndKB"
-    # `khanelimac`
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJAZIwy7nkz8CZYR/ZTSNr+7lRBW2AYy1jw06b44zaID"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBG8l3jQ2EPLU+BlgtaQZpr4xr97n2buTLAZTxKHSsD"
-    # `thinkpad-p16s`
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeLt5cnRnKeil39Ds+CimMJQq/5dln32YqQ+EfYSCvc"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqCiZgjOmhsBTAFD0LbuwpfeuCnwXwMl2wByxC1UiRt"
-  ];
+  authorizedKeys =
+    if (config.premsnix.security.openssh.managedKeys.enable or false) then
+      [ ]
+    else
+      [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuMXeT21L3wnxnuzl0rKuE5+8inPSi8ca/Y3ll4s9pC"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEilFPAgSUwW3N7PTvdTqjaV2MD3cY2oZGKdaS7ndKB"
+      ];
 in
 {
-  options.premunix.services.openssh = with types; {
+  options.premsnix.services.openssh = with types; {
     enable = lib.mkEnableOption "OpenSSH support";
     startAgent = lib.mkEnableOption "starting openssh agent";
     authorizedKeys = mkOpt (listOf str) authorizedKeys "The public keys to apply.";
@@ -95,7 +92,7 @@ in
       inherit (cfg) extraConfig startAgent;
     };
 
-    premunix = {
+    premsnix = {
       user.extraOptions.openssh.authorizedKeys.keys = cfg.authorizedKeys;
     };
   };

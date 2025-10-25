@@ -14,10 +14,10 @@ let
     types
     ;
 
-  cfg = config.premunix.programs.graphical.addons.noisetorch;
+  cfg = config.premsnix.programs.graphical.addons.noisetorch;
 in
 {
-  options.premunix.programs.graphical.addons.noisetorch = {
+  options.premsnix.programs.graphical.addons.noisetorch = {
     enable = mkEnableOption "noisetorch service";
     package = mkOption {
       type = types.package;

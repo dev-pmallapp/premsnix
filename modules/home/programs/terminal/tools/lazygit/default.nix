@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.lazygit;
+  cfg = config.premsnix.programs.terminal.tools.lazygit;
 in
 {
-  options.premunix.programs.terminal.tools.lazygit = {
+  options.premsnix.programs.terminal.tools.lazygit = {
     enable = lib.mkEnableOption "lazygit";
   };
 
@@ -21,7 +21,7 @@ in
       settings = {
         gui = {
           authorColors = {
-            "${config.premunix.user.fullName}" = "#c6a0f6";
+            "${config.premsnix.user.fullName}" = "#c6a0f6";
             "dependabot[bot]" = "#eed49f";
           };
           branchColors = {

@@ -12,31 +12,29 @@ let
     mkIf
     foldl
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.terminal.tools.ssh;
+  cfg = config.premsnix.programs.terminal.tools.ssh;
 
-  user = config.users.users.${config.premunix.user.name};
+  user = config.users.users.${config.premsnix.user.name};
   user-id = builtins.toString user.uid;
 
-  other-hosts = lib.filterAttrs (_key: host: (host.config.premunix.user.name or null) != null) (
+  other-hosts = lib.filterAttrs (_key: host: (host.config.premsnix.user.name or null) != null) (
     (inputs.self.nixosConfigurations or { }) // (inputs.self.darwinConfigurations or { })
   );
 
-  authorizedKeys = [
-    # `premunix`
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuMXeT21L3wnxnuzl0rKuE5+8inPSi8ca/Y3ll4s9pC"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEilFPAgSUwW3N7PTvdTqjaV2MD3cY2oZGKdaS7ndKB"
-    # `khanelimac`
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJAZIwy7nkz8CZYR/ZTSNr+7lRBW2AYy1jw06b44zaID"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBG8l3jQ2EPLU+BlgtaQZpr4xr97n2buTLAZTxKHSsD"
-    # `thinkpad-p16s`
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeLt5cnRnKeil39Ds+CimMJQq/5dln32YqQ+EfYSCvc"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqCiZgjOmhsBTAFD0LbuwpfeuCnwXwMl2wByxC1UiRt"
-  ];
+  authorizedKeys =
+    if (config.premsnix.security.openssh.managedKeys.enable or false) then
+      [ ]
+    else
+      [
+        # migrated branding removed; retained minimal placeholders until managed keys fully enabled
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuMXeT21L3wnxnuzl0rKuE5+8inPSi8ca/Y3ll4s9pC"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKEilFPAgSUwW3N7PTvdTqjaV2MD3cY2oZGKdaS7ndKB"
+      ];
 in
 {
-  options.premunix.programs.terminal.tools.ssh = with types; {
+  options.premsnix.programs.terminal.tools.ssh = with types; {
     enable = lib.mkEnableOption "ssh support";
     authorizedKeys = mkOpt (listOf str) authorizedKeys "The public keys to apply.";
     extraConfig = mkOpt str "" "Extra configuration to apply.";
@@ -54,7 +52,7 @@ in
             acc: name:
             let
               remote = other-hosts.${name};
-              remote-user-name = remote.config.premunix.user.name;
+              remote-user-name = remote.config.premsnix.user.name;
               remote-user-id = builtins.toString remote.config.users.users.${remote-user-name}.uid;
             in
             acc

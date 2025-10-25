@@ -1,7 +1,7 @@
 # Module Enablement Matrix
 
 This document provides a comprehensive overview of which modules, programs, and
-services are enabled by each archetype and suite in the premunix configuration.
+services are enabled by each archetype and suite in the premsnix configuration.
 
 ## Archetype → Suite Mapping
 
@@ -163,7 +163,7 @@ services are enabled by each archetype and suite in the premunix configuration.
 | ------------------ | ------------------------------------------------------------------------------------------------- |
 | **Homebrew Casks** | `bitwarden`, `calibre`, `fantastical`, `libreoffice`, `meetingbar`, `microsoft-teams`, `obsidian` |
 | **Mac App Store**  | Brother iPrint&Scan, Keynote, Microsoft OneNote, Notability, Numbers, Pages                       |
-| **Premunix**       | `_1password`                                                                                      |
+| **Premsnix**       | `_1password`                                                                                      |
 
 </details>
 
@@ -174,7 +174,7 @@ services are enabled by each archetype and suite in the premunix configuration.
 | -------------------- | ---------------------------------------------------------------------------------------------------------- |
 | **System Packages**  | `duti`, `gawk`, `gnugrep`, `gnupg`, `gnused`, `gnutls`, `terminal-notifier`, `trash-cli`, `wtfutil`, `mas` |
 | **Homebrew Brews**   | `bashdb`                                                                                                   |
-| **Premunix Modules** | `nix`, `ssh`, `homebrew`, `openssh`, `fonts`, `input`, `interface`, `networking`                           |
+| **Premsnix Modules** | `nix`, `ssh`, `homebrew`, `openssh`, `fonts`, `input`, `interface`, `networking`                           |
 | **Custom Tools**     | `trace-symlink`, `trace-which`                                                                             |
 
 </details>
@@ -293,13 +293,13 @@ customization:
 
 ```nix
 # Enable a suite
-premunix.suites.development.enable = true;
+premsnix.suites.development.enable = true;
 
 # Override individual modules
-premunix.programs.graphical.apps.steam.enable = false;
+premsnix.programs.graphical.apps.steam.enable = false;
 
 # Configure suite options
-premunix.suites.development = {
+premsnix.suites.development = {
   enable = true;
   aiEnable = true;
   dockerEnable = true;

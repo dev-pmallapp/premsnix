@@ -9,12 +9,12 @@ let
     types
     mkIf
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.openssh;
+  cfg = config.premsnix.services.openssh;
 in
 {
-  options.premunix.services.openssh = with types; {
+  options.premsnix.services.openssh = with types; {
     enable = lib.mkEnableOption "OpenSSH support";
     authorizedKeys = mkOpt (listOf str) [ ] "The public keys to apply.";
     extraConfig = mkOpt str "" "Extra configuration to apply.";

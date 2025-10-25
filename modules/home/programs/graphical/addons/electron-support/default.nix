@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.electron-support;
+  cfg = config.premsnix.programs.graphical.addons.electron-support;
 in
 {
-  options.premunix.programs.graphical.addons.electron-support = {
+  options.premsnix.programs.graphical.addons.electron-support = {
     enable = lib.mkEnableOption "wayland electron support in the desktop environment";
   };
 

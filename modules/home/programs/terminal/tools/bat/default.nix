@@ -8,10 +8,10 @@
 let
   inherit (lib) getExe mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.bat;
+  cfg = config.premsnix.programs.terminal.tools.bat;
 in
 {
-  options.premunix.programs.terminal.tools.bat = {
+  options.premsnix.programs.terminal.tools.bat = {
     enable = lib.mkEnableOption "bat";
   };
 

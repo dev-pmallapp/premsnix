@@ -84,7 +84,7 @@ let
     }
     {
       key = "i";
-      path = "/run/media/${config.premunix.user.name}";
+      path = "/run/media/${config.premsnix.user.name}";
       desc = "Go to the media directory";
     }
     {

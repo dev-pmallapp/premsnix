@@ -5,17 +5,17 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.desktop;
+  cfg = config.premsnix.suites.desktop;
 in
 {
-  options.premunix.suites.desktop = {
+  options.premsnix.suites.desktop = {
     enable = lib.mkEnableOption "common desktop configuration";
   };
 
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           addons = {

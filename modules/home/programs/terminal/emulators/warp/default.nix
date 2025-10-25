@@ -8,11 +8,11 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.emulators.warp;
+  cfg = config.premsnix.programs.terminal.emulators.warp;
 
 in
 {
-  options.premunix.programs.terminal.emulators.warp = {
+  options.premsnix.programs.terminal.emulators.warp = {
     enable = lib.mkEnableOption "warp";
   };
 

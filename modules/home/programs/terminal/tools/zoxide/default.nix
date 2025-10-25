@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.zoxide;
+  cfg = config.premsnix.programs.terminal.tools.zoxide;
 in
 {
-  options.premunix.programs.terminal.tools.zoxide = {
+  options.premsnix.programs.terminal.tools.zoxide = {
     enable = lib.mkEnableOption "zoxide";
   };
 

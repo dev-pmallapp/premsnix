@@ -10,7 +10,7 @@ let
   inherit (lib.strings) optionalString concatStringsSep;
   inherit (lib.attrsets) mapAttrsToList;
 
-  cfg = config.premunix.programs.terminal.tools.run-as-service;
+  cfg = config.premsnix.programs.terminal.tools.run-as-service;
 
   sessionPath = optionalString (config.home.sessionPath != [ ]) ''
     export PATH=${concatStringsSep ":" config.home.sessionPath}:$PATH
@@ -40,7 +40,7 @@ let
   '';
 in
 {
-  options.premunix.programs.terminal.tools.run-as-service = {
+  options.premsnix.programs.terminal.tools.run-as-service = {
     enable = lib.mkEnableOption "systemd-run support";
   };
   config = mkIf cfg.enable { home.packages = [ run-as-service ]; };

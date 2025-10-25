@@ -7,20 +7,20 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.jankyborders;
-  inherit (osConfig.premunix.services.jankyborders) logPath;
+  cfg = config.premsnix.services.jankyborders;
+  inherit (osConfig.premsnix.services.jankyborders) logPath;
 in
 {
-  options.premunix.services.jankyborders = {
-    enable = lib.premunix.mkBoolOpt false "Whether to enable jankyborders in the desktop environment.";
+  options.premsnix.services.jankyborders = {
+    enable = lib.premsnix.mkBoolOpt false "Whether to enable jankyborders in the desktop environment.";
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.jankyborders;
       defaultText = lib.literalExpression "pkgs.jankyborders";
       description = "The jankyborders package to use.";
-      example = lib.literalExpression "pkgs.premunix.jankyborders";
+      example = lib.literalExpression "pkgs.premsnix.jankyborders";
     };
     logFile = mkOpt lib.types.str logPath "Filepath of log output";
   };

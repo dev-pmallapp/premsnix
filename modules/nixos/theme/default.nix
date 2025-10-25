@@ -12,9 +12,9 @@ let
     mkOption
     types
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.theme;
+  cfg = config.premsnix.theme;
 
   catppuccinAccents = [
     "rosewater"
@@ -41,7 +41,7 @@ let
 in
 {
   # TODO: consolidate home-manager and nixos module
-  options.premunix.theme = {
+  options.premsnix.theme = {
     enable = mkEnableOption "custom theme use for applications";
 
     cursor = {

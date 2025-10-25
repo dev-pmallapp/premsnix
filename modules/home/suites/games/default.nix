@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.games;
+  cfg = config.premsnix.suites.games;
 in
 {
-  options.premunix.suites.games = {
+  options.premsnix.suites.games = {
     enable = lib.mkEnableOption "common games configuration";
   };
 
@@ -30,7 +30,7 @@ in
       wowup-cf
     ];
 
-    premunix = {
+    premsnix = {
       programs = {
         terminal = {
           tools = {

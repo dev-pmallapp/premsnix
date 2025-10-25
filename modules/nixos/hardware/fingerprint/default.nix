@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.fingerprint;
+  cfg = config.premsnix.hardware.fingerprint;
 in
 {
-  options.premunix.hardware.fingerprint = {
+  options.premsnix.hardware.fingerprint = {
     enable = lib.mkEnableOption "fingerprint support";
   };
 

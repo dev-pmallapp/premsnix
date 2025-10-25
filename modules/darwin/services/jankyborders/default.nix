@@ -3,12 +3,12 @@
 let
   inherit (lib) mkIf mkOption types;
 
-  cfg = config.premunix.services.jankyborders;
-  userHome = config.users.users.${config.premunix.user.name}.home;
+  cfg = config.premsnix.services.jankyborders;
+  userHome = config.users.users.${config.premsnix.user.name}.home;
 in
 
 {
-  options.premunix.services.jankyborders = {
+  options.premsnix.services.jankyborders = {
     enable = lib.mkEnableOption "jankyborders log rotation";
 
     logPath = mkOption {
@@ -23,7 +23,7 @@ in
       {
         logfilename = cfg.logPath;
         mode = "644";
-        owner = config.premunix.user.name;
+        owner = config.premsnix.user.name;
         group = "staff";
         count = 7;
         size = "2048";

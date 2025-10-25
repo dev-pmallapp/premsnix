@@ -8,10 +8,10 @@
 let
   inherit (lib) getExe mkForce mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.ripgrep;
+  cfg = config.premsnix.programs.terminal.tools.ripgrep;
 in
 {
-  options.premunix.programs.terminal.tools.ripgrep = {
+  options.premsnix.programs.terminal.tools.ripgrep = {
     enable = lib.mkEnableOption "ripgrep";
   };
 

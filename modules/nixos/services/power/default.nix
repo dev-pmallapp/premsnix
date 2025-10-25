@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.power;
+  cfg = config.premsnix.services.power;
 in
 {
-  options.premunix.services.power = {
+  options.premsnix.services.power = {
     enable = lib.mkEnableOption "power profiles";
   };
 

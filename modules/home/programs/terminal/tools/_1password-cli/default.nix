@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools._1password-cli;
+  cfg = config.premsnix.programs.terminal.tools._1password-cli;
 in
 {
-  options.premunix.programs.terminal.tools._1password-cli = {
+  options.premsnix.programs.terminal.tools._1password-cli = {
     enable = lib.mkEnableOption "1password-cli";
     enableSshSocket = lib.mkEnableOption "ssh-agent socket";
   };

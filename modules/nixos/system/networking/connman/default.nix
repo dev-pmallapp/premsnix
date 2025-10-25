@@ -7,7 +7,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.networking;
+  cfg = config.premsnix.system.networking;
 in
 {
   config = mkIf (cfg.enable && cfg.manager == "connman") {
@@ -21,8 +21,8 @@ in
         "ifb"
         "ve"
       ]
-      ++ lib.optionals config.premunix.services.tailscale.enable [ "tailscale*" ]
-      ++ lib.optionals config.premunix.virtualisation.podman.enable [ "docker*" ];
+      ++ lib.optionals config.premsnix.services.tailscale.enable [ "tailscale*" ]
+      ++ lib.optionals config.premsnix.virtualisation.podman.enable [ "docker*" ];
     };
   };
 }

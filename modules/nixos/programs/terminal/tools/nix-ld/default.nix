@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.nix-ld;
+  cfg = config.premsnix.programs.terminal.tools.nix-ld;
 in
 {
-  options.premunix.programs.terminal.tools.nix-ld = {
+  options.premsnix.programs.terminal.tools.nix-ld = {
     enable = lib.mkEnableOption "nix-ld";
   };
 

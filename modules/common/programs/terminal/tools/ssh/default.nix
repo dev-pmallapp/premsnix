@@ -5,11 +5,11 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.terminal.tools.ssh;
+  cfg = config.premsnix.programs.terminal.tools.ssh;
 
-  user = config.users.users.${config.premunix.user.name};
+  user = config.users.users.${config.premsnix.user.name};
   user-id = builtins.toString user.uid;
 
   hosts = import ./hosts.nix;
@@ -44,7 +44,7 @@ let
   ) (builtins.attrNames other-hosts);
 in
 {
-  options.premunix.programs.terminal.tools.ssh = {
+  options.premsnix.programs.terminal.tools.ssh = {
     enable = lib.mkEnableOption "ssh support";
     extraConfig = mkOpt lib.types.str "" "Extra configuration to apply.";
     port = mkOpt lib.types.port 2222 "The port to listen on (in addition to 22).";
@@ -126,7 +126,7 @@ in
       );
     };
 
-    premunix = {
+    premsnix = {
       home.extraOptions = {
         programs.zsh.shellAliases = lib.foldl (
           aliases: system: aliases // { "ssh-${system}" = "ssh ${system} -t tmux a"; }

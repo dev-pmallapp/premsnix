@@ -7,18 +7,18 @@
 }:
 let
   inherit (lib) mkIf mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.wlroots;
+  cfg = config.premsnix.suites.wlroots;
 in
 {
-  options.premunix.suites.wlroots = {
+  options.premsnix.suites.wlroots = {
     enable = lib.mkEnableOption "common wlroots configuration";
   };
 
   config = mkIf cfg.enable {
 
-    premunix = {
+    premsnix = {
       services = {
         seatd = mkDefault enabled;
       };

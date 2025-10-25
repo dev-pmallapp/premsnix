@@ -8,10 +8,10 @@
 let
   inherit (lib) concatStringsSep mkIf;
 
-  cfg = config.premunix.services.earlyoom;
+  cfg = config.premsnix.services.earlyoom;
 in
 {
-  options.premunix.services.earlyoom = {
+  options.premsnix.services.earlyoom = {
     enable = lib.mkEnableOption "oomd";
   };
 

@@ -10,7 +10,7 @@
     Focus on:
     - Creating comprehensive development templates
     - Language-specific development environments
-    - Integration with existing premunix dev shells
+    - Integration with existing premsnix dev shells
     - Tool and dependency management in templates
     - IDE and editor configuration templates
     - Build system and CI/CD template integration
@@ -22,7 +22,7 @@
     - Integration with flake template system
 
     Always create templates that follow best practices for the target
-    technology while integrating seamlessly with the premunix ecosystem.
+    technology while integrating seamlessly with the premsnix ecosystem.
     Focus on developer productivity and maintainability.
   '';
 }

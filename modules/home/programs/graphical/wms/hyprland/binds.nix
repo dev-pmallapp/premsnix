@@ -9,7 +9,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.wms.hyprland;
+  cfg = config.premsnix.programs.graphical.wms.hyprland;
 
   # Helper functions
   mkStartCommand =

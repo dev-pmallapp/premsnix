@@ -11,11 +11,11 @@ let
   inherit (lib) mkIf;
   inherit (inputs) yazi-flavors;
 
-  cfg = config.premunix.programs.terminal.tools.yazi;
-  isWSL = osConfig.premunix.archetypes.wsl.enable or false;
+  cfg = config.premsnix.programs.terminal.tools.yazi;
+  isWSL = osConfig.premsnix.archetypes.wsl.enable or false;
 in
 {
-  options.premunix.programs.terminal.tools.yazi = {
+  options.premsnix.programs.terminal.tools.yazi = {
     enable = lib.mkEnableOption "yazi";
   };
 

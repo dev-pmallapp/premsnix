@@ -8,12 +8,12 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.programs.terminal.tools.gemini-cli;
+  cfg = config.premsnix.programs.terminal.tools.gemini-cli;
 
   sharedAiTools = import (lib.getFile "modules/common/ai-tools") { inherit lib; };
 in
 {
-  options.premunix.programs.terminal.tools.gemini-cli = {
+  options.premsnix.programs.terminal.tools.gemini-cli = {
     enable = mkEnableOption "Gemini CLI configuration";
   };
 
@@ -28,7 +28,7 @@ in
         autoAccept = false;
         security = {
           auth = {
-            selectedType = lib.mkIf (osConfig.premunix.security.sops.enable or false) "gemini-api-key";
+            selectedType = lib.mkIf (osConfig.premsnix.security.sops.enable or false) "gemini-api-key";
           };
         };
       };

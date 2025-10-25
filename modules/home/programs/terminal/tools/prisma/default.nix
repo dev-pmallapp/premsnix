@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf getExe';
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.terminal.tools.prisma;
+  cfg = config.premsnix.programs.terminal.tools.prisma;
 in
 {
-  options.premunix.programs.terminal.tools.prisma = with types; {
+  options.premsnix.programs.terminal.tools.prisma = with types; {
     enable = lib.mkEnableOption "Prisma";
     pkgs = {
       npm = mkOpt package pkgs.nodePackages.prisma "The NPM package to install";

@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.nix-search-tv;
+  cfg = config.premsnix.programs.terminal.tools.nix-search-tv;
 in
 {
-  options.premunix.programs.terminal.tools.nix-search-tv = {
+  options.premsnix.programs.terminal.tools.nix-search-tv = {
     enable = lib.mkEnableOption "nix-search-tv";
   };
 

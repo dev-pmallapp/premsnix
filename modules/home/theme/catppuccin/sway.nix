@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.premunix.theme.catppuccin;
+  cfg = config.premsnix.theme.catppuccin;
 in
 {
   config = lib.mkIf cfg.enable {

@@ -6,17 +6,17 @@
   ...
 }:
 let
-  cfg = config.premunix.security.polkit;
+  cfg = config.premsnix.security.polkit;
 in
 {
-  options.premunix.security.polkit = {
+  options.premsnix.security.polkit = {
     enable = lib.mkEnableOption "polkit";
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages =
       with pkgs;
-      lib.optionals (!config.premunix.programs.graphical.wms.hyprland.enable) [
+      lib.optionals (!config.premsnix.programs.graphical.wms.hyprland.enable) [
         kdePackages.polkit-kde-agent
       ];
 
@@ -41,7 +41,7 @@ in
     systemd = {
       user.services = {
         polkit-kde-authentication-agent-1 =
-          lib.mkIf (!config.premunix.programs.graphical.wms.hyprland.enable)
+          lib.mkIf (!config.premsnix.programs.graphical.wms.hyprland.enable)
             {
               after = [ "graphical-session.target" ];
               description = "polkit-kde-authentication-agent-1";

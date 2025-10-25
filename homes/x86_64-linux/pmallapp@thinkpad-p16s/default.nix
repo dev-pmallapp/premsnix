@@ -4,10 +4,10 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled disabled;
+  inherit (lib.premsnix) enabled disabled;
 in
 {
-  premunix = {
+  premsnix = {
     user = {
       enable = true;
       name = "pmallapp";
@@ -77,11 +77,12 @@ in
         musicDirectory = "nfs://austinserver.local/mnt/user/data/media/music";
       };
 
-      # sops = {
-      #   enable = true;
-      #   defaultSopsFile = lib.getFile "secrets/premunix/pmallapp/default.yaml";
-      #   sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
-      # };
+      sops = {
+        enable = true;
+        defaultSopsFile = lib.getFile "secrets/premsnix/pmallapp/default.yaml";
+        # Avoid referencing undefined 'config' (home-manager module not in scope here)
+        sshKeyPaths = [ "/home/pmallapp/.ssh/id_ed25519" ];
+      };
     };
 
     system = {
@@ -110,5 +111,5 @@ in
     };
   };
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.11";
 }

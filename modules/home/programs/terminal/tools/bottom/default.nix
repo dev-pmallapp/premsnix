@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.bottom;
+  cfg = config.premsnix.programs.terminal.tools.bottom;
 in
 {
-  options.premunix.programs.terminal.tools.bottom = {
+  options.premsnix.programs.terminal.tools.bottom = {
     enable = lib.mkEnableOption "bottom";
   };
 

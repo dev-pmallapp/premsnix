@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
 
   ...
 }:
@@ -27,7 +28,7 @@ in
     };
 
     # Personal archetype adds fun/toy packages removed from the slim common suite
-    environment.systemPackages = with config.pkgs; [
+    environment.systemPackages = with pkgs; [
       fortune
       lolcat
     ];

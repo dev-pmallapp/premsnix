@@ -7,10 +7,10 @@
 let
   inherit (lib) mkDefault mkIf;
 
-  cfg = config.premunix.hardware.tpm;
+  cfg = config.premsnix.hardware.tpm;
 in
 {
-  options.premunix.hardware.tpm = {
+  options.premsnix.hardware.tpm = {
     enable = lib.mkEnableOption "Trusted Platform Module 2 (TPM2)";
   };
 

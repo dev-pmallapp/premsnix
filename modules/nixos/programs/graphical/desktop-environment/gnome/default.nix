@@ -10,17 +10,17 @@ let
     types
     mkIf
     ;
-  inherit (lib.premunix)
+  inherit (lib.premsnix)
     enabled
     mkBoolOpt
     mkOpt
     ;
 
-  cfg = config.premunix.programs.graphical.desktop-environment.gnome;
+  cfg = config.premsnix.programs.graphical.desktop-environment.gnome;
   gdmHome = config.users.users.gdm.home;
 in
 {
-  options.premunix.programs.graphical.desktop-environment.gnome = with types; {
+  options.premsnix.programs.graphical.desktop-environment.gnome = with types; {
     enable = lib.mkEnableOption "using Gnome as the desktop environment";
     color-scheme = mkOpt (enum [
       "light"
@@ -67,7 +67,7 @@ in
       ];
     };
 
-    premunix = {
+    premsnix = {
       # TODO: gnome equivalent on home-manager
       # desktop.addons = {
       # electron-support = enabled;

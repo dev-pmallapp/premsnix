@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf getExe getExe';
 
-  cfg = config.premunix.programs.graphical.addons.mako;
+  cfg = config.premsnix.programs.graphical.addons.mako;
 in
 {
-  options.premunix.programs.graphical.addons.mako = {
+  options.premsnix.programs.graphical.addons.mako = {
     enable = lib.mkEnableOption "Mako in Sway";
   };
 

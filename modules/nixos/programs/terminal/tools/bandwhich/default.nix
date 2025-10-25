@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.bandwhich;
+  cfg = config.premsnix.programs.terminal.tools.bandwhich;
 in
 {
-  options.premunix.programs.terminal.tools.bandwhich = {
+  options.premsnix.programs.terminal.tools.bandwhich = {
     enable = lib.mkEnableOption "bandwhich";
   };
 

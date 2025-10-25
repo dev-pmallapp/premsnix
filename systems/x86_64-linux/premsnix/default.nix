@@ -100,7 +100,7 @@ in
                 ownerOnly ? false,
               }:
               {
-                browsable = true;
+                browseable = true;
                 inherit comment path;
                 only-owner-editable = ownerOnly;
                 public = true;
@@ -136,8 +136,12 @@ in
     suites.development = {
       enable = true;
       aiEnable = true;
-      dockerEnable = true;
       sqlEnable = true;
+    };
+
+    suites.virtualisation = {
+      enable = true;
+      dockerEnable = true;
     };
 
     system = {
@@ -174,4 +178,9 @@ in
   systemd.services.rpcbind.environment.RPCBIND_OPTIONS = "";
 
   system.stateVersion = "25.11";
+  # Provide system 'nixos' user for image parity / module expectations
+  users.users.nixos = {
+    isSystemUser = true;
+    group = "users";
+  };
 }

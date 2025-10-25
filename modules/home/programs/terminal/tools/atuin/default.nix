@@ -8,19 +8,19 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.atuin;
+  cfg = config.premsnix.programs.terminal.tools.atuin;
 
 in
 {
-  options.premunix.programs.terminal.tools.atuin = {
+  options.premsnix.programs.terminal.tools.atuin = {
     enable = lib.mkEnableOption "atuin";
     enableDebug = lib.mkEnableOption "atuin daemon debug logging";
   };
 
   config = mkIf cfg.enable {
     launchd.agents.atuin-daemon.config = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-      StandardErrorPath = osConfig.premunix.programs.terminal.tools.atuin.logPaths.stderr;
-      StandardOutPath = osConfig.premunix.programs.terminal.tools.atuin.logPaths.stdout;
+      StandardErrorPath = osConfig.premsnix.programs.terminal.tools.atuin.logPaths.stderr;
+      StandardOutPath = osConfig.premsnix.programs.terminal.tools.atuin.logPaths.stdout;
     };
 
     programs.atuin = {

@@ -15,12 +15,12 @@ let
     mkOption
     ;
   inherit (inputs) hypr-socket-watch;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.hyprpaper;
+  cfg = config.premsnix.services.hyprpaper;
 in
 {
-  options.premunix.services.hyprpaper = {
+  options.premsnix.services.hyprpaper = {
     enable = mkEnableOption "Hyprpaper";
     enableSocketWatch = mkEnableOption "hypr-socket-watch";
     monitors = mkOption {
@@ -53,7 +53,7 @@ in
         package = hypr-socket-watch.packages.${system}.hypr-socket-watch;
 
         monitor = "DP-1";
-        wallpapers = "${pkgs.premunix.wallpapers}/share/wallpapers/";
+        wallpapers = "${pkgs.premsnix.wallpapers}/share/wallpapers/";
         debug = false;
       };
     };

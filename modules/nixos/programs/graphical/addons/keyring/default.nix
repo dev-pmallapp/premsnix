@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.keyring;
+  cfg = config.premsnix.programs.graphical.addons.keyring;
 in
 {
-  options.premunix.programs.graphical.addons.keyring = {
+  options.premsnix.programs.graphical.addons.keyring = {
     enable = lib.mkEnableOption "the passwords application";
   };
 

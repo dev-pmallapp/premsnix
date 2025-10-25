@@ -12,13 +12,13 @@ let
     getExe'
     stringAfter
     ;
-  inherit (lib.premunix) mkBoolOpt mkOpt;
+  inherit (lib.premsnix) mkBoolOpt mkOpt;
 
-  cfg = config.premunix.display-managers.gdm;
+  cfg = config.premsnix.display-managers.gdm;
   gdmHome = config.users.users.gdm.home;
 in
 {
-  options.premunix.display-managers.gdm = with types; {
+  options.premsnix.display-managers.gdm = with types; {
     enable = lib.mkEnableOption "gdm";
     autoSuspend = mkBoolOpt true "Whether or not to suspend the machine after inactivity.";
     defaultSession = mkOpt (nullOr str) null "The default session to use.";
@@ -53,8 +53,8 @@ in
       stringAfter [ "users" ] # bash
         ''
           echo "Setting gdm permissions for user icon"
-          ${getExe' pkgs.acl "setfacl"} -m u:gdm:x /home/${config.premunix.user.name}
-          ${getExe' pkgs.acl "setfacl"} -m u:gdm:r /home/${config.premunix.user.name}/.face.icon || true
+          ${getExe' pkgs.acl "setfacl"} -m u:gdm:x /home/${config.premsnix.user.name}
+          ${getExe' pkgs.acl "setfacl"} -m u:gdm:r /home/${config.premsnix.user.name}/.face.icon || true
         '';
   };
 }

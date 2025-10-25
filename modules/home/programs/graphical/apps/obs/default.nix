@@ -7,10 +7,10 @@
 }:
 let
 
-  cfg = config.premunix.programs.graphical.apps.obs;
+  cfg = config.premsnix.programs.graphical.apps.obs;
 in
 {
-  options.premunix.programs.graphical.apps.obs = {
+  options.premsnix.programs.graphical.apps.obs = {
     enable = lib.mkEnableOption "support for OBS";
   };
 

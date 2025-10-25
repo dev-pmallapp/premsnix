@@ -8,13 +8,13 @@
 }:
 let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.programs.graphical.wms.sway;
+  cfg = config.premsnix.programs.graphical.wms.sway;
 
 in
 {
-  options.premunix.programs.graphical.wms.sway = {
+  options.premsnix.programs.graphical.wms.sway = {
     enable = mkEnableOption "sway";
     enableDebug = mkEnableOption "debug mode";
     appendConfig = lib.mkOption {
@@ -62,7 +62,7 @@ in
           grim
           grimblast
           hyprpicker
-          premunix.record_screen
+          premsnix.record_screen
           libnotify
           networkmanagerapplet
           playerctl
@@ -73,7 +73,7 @@ in
         ]
         ++ lib.optional (kdePackages ? xwaylandvideobridge) kdePackages.xwaylandvideobridge;
 
-      sessionVariables = lib.mkIf (!(osConfig.premunix.programs.graphical.wms.sway.withUWSM or false)) {
+      sessionVariables = lib.mkIf (!(osConfig.premsnix.programs.graphical.wms.sway.withUWSM or false)) {
         CLUTTER_BACKEND = "wayland";
         MOZ_ENABLE_WAYLAND = "1";
         MOZ_USE_XINPUT2 = "1";
@@ -87,7 +87,7 @@ in
       };
     };
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           launchers = {
@@ -168,7 +168,7 @@ in
       inherit (cfg) extraSessionCommands;
 
       systemd = {
-        enable = !(osConfig.premunix.programs.graphical.wms.sway.withUWSM or false);
+        enable = !(osConfig.premsnix.programs.graphical.wms.sway.withUWSM or false);
         xdgAutostart = true;
 
         variables = [

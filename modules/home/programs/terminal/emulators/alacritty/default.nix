@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.terminal.emulators.alacritty;
+  cfg = config.premsnix.programs.terminal.emulators.alacritty;
 in
 {
-  options.premunix.programs.terminal.emulators.alacritty = with types; {
+  options.premsnix.programs.terminal.emulators.alacritty = with types; {
     enable = lib.mkEnableOption "alacritty";
     font = {
       normal = mkOpt str (

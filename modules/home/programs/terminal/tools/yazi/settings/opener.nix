@@ -7,7 +7,7 @@
   ...
 }:
 let
-  isWSL = osConfig.premunix.archetypes.wsl.enable or false;
+  isWSL = osConfig.premsnix.archetypes.wsl.enable or false;
 in
 {
   opener = {

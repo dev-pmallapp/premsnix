@@ -12,12 +12,12 @@ let
     mkOption
     types
     ;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.programs.terminal.tools.gh;
+  cfg = config.premsnix.programs.terminal.tools.gh;
 in
 {
-  options.premunix.programs.terminal.tools.gh = {
+  options.premsnix.programs.terminal.tools.gh = {
     enable = mkEnableOption "the gh CLI tool";
 
     gitCredentialHelper = {

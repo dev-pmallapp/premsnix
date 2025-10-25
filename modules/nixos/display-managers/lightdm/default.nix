@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.display-managers.lightdm;
+  cfg = config.premsnix.display-managers.lightdm;
 in
 {
-  options.premunix.display-managers.lightdm = {
+  options.premsnix.display-managers.lightdm = {
     enable = lib.mkEnableOption "lightdm";
   };
 
@@ -21,25 +21,25 @@ in
 
       displayManager.lightdm = {
         enable = true;
-        background = "${pkgs.premunix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
+        background = "${pkgs.premsnix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
 
         greeters = {
           gtk = {
             enable = true;
 
             cursorTheme = {
-              inherit (config.premunix.desktop.addons.gtk.cursor) name;
-              package = config.premunix.desktop.addons.gtk.cursor.pkg;
+              inherit (config.premsnix.desktop.addons.gtk.cursor) name;
+              package = config.premsnix.desktop.addons.gtk.cursor.pkg;
             };
 
             iconTheme = {
-              inherit (config.premunix.desktop.addons.gtk.icon) name;
-              package = config.premunix.desktop.addons.gtk.icon.pkg;
+              inherit (config.premsnix.desktop.addons.gtk.icon) name;
+              package = config.premsnix.desktop.addons.gtk.icon.pkg;
             };
 
             theme = {
-              name = "${config.premunix.desktop.addons.gtk.theme.name}";
-              package = config.premunix.desktop.addons.gtk.theme.pkg;
+              name = "${config.premsnix.desktop.addons.gtk.theme.name}";
+              package = config.premsnix.desktop.addons.gtk.theme.pkg;
             };
           };
         };

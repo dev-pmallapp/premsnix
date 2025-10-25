@@ -6,10 +6,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.lact;
+  cfg = config.premsnix.services.lact;
 in
 {
-  options.premunix.services.lact = {
+  options.premsnix.services.lact = {
     enable = lib.mkEnableOption "lact";
   };
 

@@ -7,7 +7,7 @@
   ...
 }:
 let
-  cfg = config.premunix.programs.terminal.tools.zellij;
+  cfg = config.premsnix.programs.terminal.tools.zellij;
 in
 {
   imports = [
@@ -16,7 +16,7 @@ in
     ./layouts/system.nix
   ];
 
-  options.premunix.programs.terminal.tools.zellij = {
+  options.premsnix.programs.terminal.tools.zellij = {
     enable = lib.mkEnableOption "zellij";
   };
 
@@ -57,7 +57,7 @@ in
           settings = {
             # clipboard provider
             copy_command =
-              if pkgs.stdenv.hostPlatform.isLinux && (osConfig.premunix.archetypes.wsl.enable or false) then
+              if pkgs.stdenv.hostPlatform.isLinux && (osConfig.premsnix.archetypes.wsl.enable or false) then
                 "clip.exe"
               else if pkgs.stdenv.hostPlatform.isLinux then
                 "wl-copy"

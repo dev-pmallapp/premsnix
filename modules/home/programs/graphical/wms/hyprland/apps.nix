@@ -8,7 +8,7 @@
 let
   inherit (lib) mkIf getExe;
 
-  cfg = config.premunix.programs.graphical.wms.hyprland;
+  cfg = config.premsnix.programs.graphical.wms.hyprland;
 in
 {
   config = mkIf cfg.enable {
@@ -67,10 +67,10 @@ in
             ++ lib.optionals (osConfig.programs.steam.enable or false) [
               (mkStartCommand { slice = "b"; } "steam")
             ]
-            ++ lib.optionals config.premunix.suites.social.enable [
+            ++ lib.optionals config.premsnix.suites.social.enable [
               (mkStartCommand { slice = "b"; } "element-desktop")
             ]
-            ++ lib.optionals config.premunix.suites.business.enable [
+            ++ lib.optionals config.premsnix.suites.business.enable [
               (mkStartCommand { slice = "b"; } "teams-for-linux")
               (mkStartCommand { slice = "b"; } "thunderbird")
             ]

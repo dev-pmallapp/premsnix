@@ -6,7 +6,7 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.programs.terminal.tools.opencode;
+  cfg = config.premsnix.programs.terminal.tools.opencode;
 in
 {
   imports = [
@@ -17,7 +17,7 @@ in
     ./provider.nix
   ];
 
-  options.premunix.programs.terminal.tools.opencode = {
+  options.premsnix.programs.terminal.tools.opencode = {
     enable = mkEnableOption "OpenCode configuration";
   };
 

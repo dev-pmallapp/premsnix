@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.geoclue;
+  cfg = config.premsnix.services.geoclue;
 in
 {
-  options.premunix.services.geoclue = {
+  options.premsnix.services.geoclue = {
     enable = lib.mkEnableOption "geoclue support";
   };
 

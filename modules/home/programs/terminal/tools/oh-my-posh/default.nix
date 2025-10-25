@@ -6,10 +6,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.oh-my-posh;
+  cfg = config.premsnix.programs.terminal.tools.oh-my-posh;
 in
 {
-  options.premunix.programs.terminal.tools.oh-my-posh = {
+  options.premsnix.programs.terminal.tools.oh-my-posh = {
     enable = lib.mkEnableOption "oh-my-posh";
   };
 

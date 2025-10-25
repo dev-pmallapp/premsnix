@@ -4,10 +4,10 @@
   ...
 }:
 let
-  cfg = config.premunix.programs.graphical.addons.swappy;
+  cfg = config.premsnix.programs.graphical.addons.swappy;
 in
 {
-  options.premunix.programs.graphical.addons.swappy = {
+  options.premsnix.programs.graphical.addons.swappy = {
     enable = lib.mkEnableOption "Swappy in the desktop environment";
   };
 

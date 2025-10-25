@@ -44,7 +44,7 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: dep_graph.py <flake-output>")
         print(
-            "Example: dep_graph.py .#nixosConfigurations.premunix.config.system.build.toplevel"
+            "Example: dep_graph.py .#nixosConfigurations.premsnix.config.system.build.toplevel"
         )
         sys.exit(1)
 

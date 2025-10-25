@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.social;
+  cfg = config.premsnix.suites.social;
 in
 {
-  options.premunix.suites.social = {
+  options.premsnix.suites.social = {
     enable = lib.mkEnableOption "social configuration";
   };
 
@@ -28,7 +28,7 @@ in
         telegram-desktop
       ];
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical.apps = {
           caprine = lib.mkDefault enabled;

@@ -14,11 +14,11 @@ let
     types
     ;
 
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
   palette = import ./colors.nix;
 
-  cfg = config.premunix.theme.catppuccin;
+  cfg = config.premsnix.theme.catppuccin;
 in
 {
   imports = [
@@ -29,7 +29,7 @@ in
     ./sway.nix
   ];
 
-  options.premunix.theme.catppuccin = {
+  options.premsnix.theme.catppuccin = {
     enable = mkEnableOption "catppuccin theme for applications";
 
     accent = mkOption {
@@ -101,7 +101,7 @@ in
           gitui = enabled;
           glamour = enabled;
           helix = enabled;
-          hyprland = mkIf config.premunix.programs.graphical.wms.hyprland.enable {
+          hyprland = mkIf config.premsnix.programs.graphical.wms.hyprland.enable {
             enable = true;
             inherit (cfg) accent;
           };
@@ -141,7 +141,7 @@ in
 
                 warpStyle = "${warpPkg.outPath}/themes/catppuccin_macchiato.yml";
               in
-              mkIf config.premunix.programs.terminal.emulators.warp.enable {
+              mkIf config.premsnix.programs.terminal.emulators.warp.enable {
                 ".warp/themes/catppuccin_macchiato.yaml".source = warpStyle;
                 ".local/share/warp-terminal/themes/catppuccin_macchiato.yaml".source = warpStyle;
               }
@@ -154,17 +154,17 @@ in
           ];
 
           pointerCursor = mkIf pkgs.stdenv.hostPlatform.isLinux {
-            inherit (config.premunix.theme.gtk.cursor) name package size;
+            inherit (config.premsnix.theme.gtk.cursor) name package size;
           };
 
           sessionVariables = mkIf pkgs.stdenv.hostPlatform.isLinux {
-            CURSOR_THEME = config.premunix.theme.gtk.cursor.name;
+            CURSOR_THEME = config.premsnix.theme.gtk.cursor.name;
           };
         };
 
         programs = {
           # Additional program settings that don't follow the common pattern
-          satty.settings = mkIf config.premunix.programs.graphical.addons.satty.enable {
+          satty.settings = mkIf config.premsnix.programs.graphical.addons.satty.enable {
             color-palette = {
               palette = [
                 palette.colors.red.hex
@@ -258,7 +258,7 @@ in
         };
 
         xdg.configFile =
-          mkIf (pkgs.stdenv.hostPlatform.isLinux && config.premunix.programs.graphical.apps.discord.enable)
+          mkIf (pkgs.stdenv.hostPlatform.isLinux && config.premsnix.programs.graphical.apps.discord.enable)
             {
               # TODO: use packaged version
               "ArmCord/themes/Catppuccin-Macchiato-BD".source = ./Catppuccin-Macchiato-BD;

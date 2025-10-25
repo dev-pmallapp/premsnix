@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.navi;
+  cfg = config.premsnix.programs.terminal.tools.navi;
 in
 {
-  options.premunix.programs.terminal.tools.navi = {
+  options.premsnix.programs.terminal.tools.navi = {
     enable = lib.mkEnableOption "navi";
   };
 

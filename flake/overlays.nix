@@ -21,7 +21,7 @@ let
     else
       { };
 
-  premunixPackagesOverlay =
+  premsnixPackagesOverlay =
     final: prev:
     let
       directory = ../packages;
@@ -31,7 +31,7 @@ let
       };
     in
     {
-      premunix = prev.lib.fix (
+      premsnix = prev.lib.fix (
         self:
         prev.lib.mapAttrs (
           _name: func: final.callPackage func (self // { inherit inputs; })
@@ -39,14 +39,14 @@ let
       );
     };
 
-  allOverlays = (lib.attrValues dynamicOverlaysSet) ++ [ premunixPackagesOverlay ];
+  allOverlays = (lib.attrValues dynamicOverlaysSet) ++ [ premsnixPackagesOverlay ];
 
 in
 {
   flake = {
     overlays = dynamicOverlaysSet // {
-      default = premunixPackagesOverlay;
-      premunix = premunixPackagesOverlay;
+      default = premsnixPackagesOverlay;
+      premsnix = premsnixPackagesOverlay;
     };
 
     perSystem =
@@ -54,7 +54,7 @@ in
       {
         pkgs = pkgs.extend (lib.composeManyExtensions allOverlays);
 
-        packages = config.pkgs.premunix;
+        packages = config.pkgs.premsnix;
       };
   };
 }

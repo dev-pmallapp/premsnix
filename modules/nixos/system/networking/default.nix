@@ -11,12 +11,12 @@ let
     mkIf
     mkDefault
     ;
-  inherit (lib.premunix) mkBoolOpt mkOpt;
+  inherit (lib.premsnix) mkBoolOpt mkOpt;
 
-  cfg = config.premunix.system.networking;
+  cfg = config.premsnix.system.networking;
 in
 {
-  options.premunix.system.networking = with types; {
+  options.premsnix.system.networking = with types; {
     enable = lib.mkEnableOption "networking support";
     hosts = mkOpt attrs { } "An attribute set to merge with <option>networking.hosts</option>";
     optimizeTcp = mkBoolOpt false "Optimize TCP connections";
@@ -122,7 +122,7 @@ in
       traceroute
     ];
 
-    premunix.user.extraGroups = [
+    premsnix.user.extraGroups = [
       "network"
       "wireshark"
     ];

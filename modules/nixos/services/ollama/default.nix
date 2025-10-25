@@ -6,13 +6,13 @@
 }:
 let
 
-  cfg = config.premunix.services.ollama;
+  cfg = config.premsnix.services.ollama;
 
-  amdCfg = config.premunix.hardware.gpu.amd;
+  amdCfg = config.premsnix.hardware.gpu.amd;
 
 in
 {
-  options.premunix.services.ollama = {
+  options.premsnix.services.ollama = {
     enable = lib.mkEnableOption "ollama";
     enableDebug = lib.mkEnableOption "debug";
   };

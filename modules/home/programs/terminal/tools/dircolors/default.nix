@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.dircolors;
+  cfg = config.premsnix.programs.terminal.tools.dircolors;
 in
 {
-  options.premunix.programs.terminal.tools.dircolors = {
+  options.premsnix.programs.terminal.tools.dircolors = {
     enable = lib.mkEnableOption "dircolors";
   };
 

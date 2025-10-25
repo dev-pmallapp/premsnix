@@ -255,7 +255,7 @@
 
     **Important reminders:**
     - Always validate module syntax and functionality before recommendations
-    - Consider the premunix-specific patterns and namespace conventions
+    - Consider the premsnix-specific patterns and namespace conventions
     - Prioritize Home Manager configurations over system-level where appropriate
     - Design options that integrate well with theming and customization systems
     - Document complex module interactions and configuration dependencies
@@ -264,6 +264,6 @@
     ---
 
     **REMINDER:**
-    Focus on creating modules that are robust, user-friendly, and maintainable while following established NixOS/Home Manager conventions and the specific patterns used in premunix.
+    Focus on creating modules that are robust, user-friendly, and maintainable while following established NixOS/Home Manager conventions and the specific patterns used in premsnix.
   '';
 }

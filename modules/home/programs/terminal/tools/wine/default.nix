@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.wine;
+  cfg = config.premsnix.programs.terminal.tools.wine;
 in
 {
-  options.premunix.programs.terminal.tools.wine = {
+  options.premsnix.programs.terminal.tools.wine = {
     enable = lib.mkEnableOption "Wine";
   };
 

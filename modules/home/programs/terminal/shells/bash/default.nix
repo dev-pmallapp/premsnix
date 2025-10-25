@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.shell.bash;
+  cfg = config.premsnix.programs.terminal.shell.bash;
 in
 {
-  options.premunix.programs.terminal.shell.bash = {
+  options.premsnix.programs.terminal.shell.bash = {
     enable = lib.mkEnableOption "bash";
   };
 

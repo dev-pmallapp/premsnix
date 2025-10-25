@@ -9,7 +9,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.swaync;
+  cfg = config.premsnix.programs.graphical.addons.swaync;
 
   dependencies = with pkgs; [
     bash
@@ -34,7 +34,7 @@ let
   style = import ./style.nix { inherit lib; };
 in
 {
-  options.premunix.programs.graphical.addons.swaync = {
+  options.premsnix.programs.graphical.addons.swaync = {
     enable = lib.mkEnableOption "swaync in the desktop environment";
   };
 

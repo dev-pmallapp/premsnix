@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.tools.qmk;
+  cfg = config.premsnix.tools.qmk;
 in
 {
-  options.premunix.tools.qmk = {
+  options.premsnix.tools.qmk = {
     enable = lib.mkEnableOption "QMK";
   };
 

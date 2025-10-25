@@ -123,8 +123,11 @@ in
       common = enabled;
       development = {
         enable = true;
-        dockerEnable = true;
         sqlEnable = true;
+      };
+      virtualisation = {
+        enable = true;
+        dockerEnable = true;
       };
     };
 

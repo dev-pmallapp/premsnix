@@ -8,10 +8,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.syncthing;
+  cfg = config.premsnix.services.syncthing;
 in
 {
-  options.premunix.services.syncthing = {
+  options.premsnix.services.syncthing = {
     enable = mkEnableOption "syncthing";
   };
 

@@ -5,10 +5,10 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 in
 {
-  premunix = {
+  premsnix = {
     user = {
       enable = true;
       name = "pmallapp";
@@ -40,5 +40,5 @@ in
     };
   };
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 }

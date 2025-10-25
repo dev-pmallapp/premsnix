@@ -8,10 +8,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.terminal.media.ncmpcpp;
+  cfg = config.premsnix.programs.terminal.media.ncmpcpp;
 in
 {
-  options.premunix.programs.terminal.media.ncmpcpp = {
+  options.premsnix.programs.terminal.media.ncmpcpp = {
     enable = mkEnableOption "ncmpcpp";
   };
 
@@ -46,7 +46,7 @@ in
         }
       ];
 
-      mpdMusicDir = mkIf config.premunix.services.mpd.enable config.premunix.services.mpd.musicDirectory;
+      mpdMusicDir = mkIf config.premsnix.services.mpd.enable config.premsnix.services.mpd.musicDirectory;
 
       settings = {
         # TODO: see how much UI customization can be done

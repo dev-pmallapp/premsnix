@@ -11,6 +11,8 @@
   <a href="https://wiki.nixos.org/wiki/Flakes" target="_blank">
  <img alt="Nix Flakes Ready" src="https://img.shields.io/static/v1?logo=nixos&logoColor=d8dee9&label=Nix%20Flakes&labelColor=5e81ac&message=Ready&color=d8dee9&style=for-the-badge">
 </a>
+ <a href="https://github.com/pmallapp/premsnix/actions/workflows/fmt.yml"><img src="https://img.shields.io/github/actions/workflow/status/pmallapp/premsnix/fmt.yml?branch=main&label=fmt&colorA=363a4f&colorB=8aadf4&style=for-the-badge"></a>
+ <a href="https://github.com/pmallapp/premsnix/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/pmallapp/premsnix/lint.yml?branch=main&label=lint&colorA=363a4f&colorB=a6da95&style=for-the-badge"></a>
 </p>
 
 Welcome to premsnix, a personal Nix configuration repository. This repository
@@ -25,6 +27,7 @@ customizations to enhance the Nix experience.
 4. [Exported Packages](#exported-packages)
 5. [Screenshots](#screenshots)
 6. [Resources](#resources)
+7. [CI & Reproducibility](#ci--reproducibility)
 
 ## Getting Started
 
@@ -179,3 +182,44 @@ Other configurations from where I learned and copied:
   design and implementation
 - [Fufexan/dotfiles](https://github.com/fufexan/dotfiles)
 - [NotAShelf/nyx](https://github.com/NotAShelf/nyx)
+
+## CI & Reproducibility
+
+Workflows:
+
+- Format (fmt.yml): Ensures treefmt formatting + detects drift (uploads diff
+  when failing)
+- Lint & Flake (lint.yml): Split jobs
+  - eval: flake show JSON (matrix: x86_64-linux, aarch64-linux)
+  - format: second-layer drift detection + diff artifact
+  - meta-lint: statix + deadnix static analysis
+- Nightly Host Builds (nightly-build.yml): Builds selected systems to warm cache
+
+Local reproduction:
+
+```
+# Formatting parity
+nix build .#checks.$(nix eval --raw --expr 'builtins.currentSystem').treefmt
+nix fmt
+
+# Lint parity
+nix develop -c statix check .
+nix develop -c deadnix .
+
+# System build (example)
+nix build .#nixosConfigurations.premsnix.config.system.build.toplevel
+```
+
+Branch protection recommendation:
+
+1. Require fmt + lint workflows to pass on main-protected branches.
+2. Optionally require Nightly Host Builds for release branches.
+3. Enable mandatory status checks before merge (GitHub settings) referencing
+   these workflows.
+4. Treat formatting drift failures as non-mergeable until `nix fmt` re-run
+   locally.
+
+Artifacts:
+
+- Formatting diff: `formatting-diff.patch` & file list when drift detected.
+- Flake evaluation: `flake-show-<system>.json` for each matrix system.

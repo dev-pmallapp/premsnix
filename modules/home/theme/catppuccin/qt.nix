@@ -6,12 +6,12 @@
   ...
 }:
 let
-  inherit (lib.premunix) capitalize;
-  cfg = config.premunix.theme.catppuccin;
+  inherit (lib.premsnix) capitalize;
+  cfg = config.premsnix.theme.catppuccin;
 in
 {
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       theme = {
         qt = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           theme = {
@@ -40,7 +40,7 @@ in
 
       style = {
         name = "kvantum";
-        inherit (config.premunix.theme.qt.theme) package;
+        inherit (config.premsnix.theme.qt.theme) package;
       };
     };
   };

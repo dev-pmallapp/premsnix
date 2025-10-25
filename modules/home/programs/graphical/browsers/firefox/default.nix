@@ -13,9 +13,9 @@ let
     mkMerge
     optionalAttrs
     ;
-  inherit (lib.premunix) mkBoolOpt mkOpt;
+  inherit (lib.premsnix) mkBoolOpt mkOpt;
 
-  cfg = config.premunix.programs.graphical.browsers.firefox;
+  cfg = config.premsnix.programs.graphical.browsers.firefox;
 in
 {
   imports = [
@@ -23,7 +23,7 @@ in
     ./search.nix
   ];
 
-  options.premunix.programs.graphical.browsers.firefox = with types; {
+  options.premsnix.programs.graphical.browsers.firefox = with types; {
     enable = lib.mkEnableOption "Firefox";
 
     extraConfig = mkOpt str "" "Extra configuration for the user profile JS file.";
@@ -87,12 +87,12 @@ in
       profiles = {
         "dev-edition-default" = {
           id = 0;
-          path = "${config.premunix.user.name}";
+          path = "${config.premsnix.user.name}";
         };
 
-        ${config.premunix.user.name} = {
+        ${config.premsnix.user.name} = {
           inherit (cfg) extraConfig;
-          inherit (config.premunix.user) name;
+          inherit (config.premsnix.user) name;
 
           id = 1;
 
@@ -224,7 +224,7 @@ in
               "sidebar.verticalTabs" = true;
               "sidebar.visibility" = "expand-on-hover";
 
-              "widget.wayland.fractional-scale.enabled" = config.premunix.suites.wlroots.enable;
+              "widget.wayland.fractional-scale.enabled" = config.premsnix.suites.wlroots.enable;
             }
             (optionalAttrs cfg.gpuAcceleration {
               "dom.webgpu.enabled" = true;

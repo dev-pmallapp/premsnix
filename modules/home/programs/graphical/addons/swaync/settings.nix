@@ -138,15 +138,15 @@ in
           }
           {
             label = "  Record area";
-            command = ''${lib.getExe pkgs.premunix.record_screen} area & ; swaync-client -t'';
+            command = ''${lib.getExe pkgs.premsnix.record_screen} area & ; swaync-client -t'';
           }
           {
             label = "  Record screen";
-            command = ''${lib.getExe pkgs.premunix.record_screen} screen & ; swaync-client -t'';
+            command = ''${lib.getExe pkgs.premsnix.record_screen} screen & ; swaync-client -t'';
           }
           {
             label = "  Stop Record";
-            command = ''${lib.getExe pkgs.premunix.record_screen} stop & ; swaync-client -t'';
+            command = ''${lib.getExe pkgs.premsnix.record_screen} stop & ; swaync-client -t'';
           }
         ];
       };

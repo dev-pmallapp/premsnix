@@ -5,12 +5,12 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.archetypes.workstation;
+  cfg = config.premsnix.archetypes.workstation;
 in
 {
-  options.premunix.archetypes.workstation = {
+  options.premsnix.archetypes.workstation = {
     enable = lib.mkEnableOption "the workstation archetype";
   };
 
@@ -22,7 +22,7 @@ in
       casks = [ "deskflow" ];
     };
 
-    premunix = {
+    premsnix = {
       suites = {
         business = enabled;
         common = enabled;

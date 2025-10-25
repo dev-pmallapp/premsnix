@@ -8,10 +8,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.wl-clip-persist;
+  cfg = config.premsnix.services.wl-clip-persist;
 in
 {
-  options.premunix.services.wl-clip-persist = {
+  options.premsnix.services.wl-clip-persist = {
     enable = mkEnableOption "wl-clip-persist";
 
     systemdTargets = lib.mkOption {

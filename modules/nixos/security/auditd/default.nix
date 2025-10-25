@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.security.auditd;
+  cfg = config.premsnix.security.auditd;
 in
 {
-  options.premunix.security.auditd = {
+  options.premsnix.security.auditd = {
     enable = lib.mkEnableOption "default auditd configuration";
   };
 

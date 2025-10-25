@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.jjui;
+  cfg = config.premsnix.programs.terminal.tools.jjui;
 in
 {
-  options.premunix.programs.terminal.tools.jjui = {
+  options.premsnix.programs.terminal.tools.jjui = {
     enable = lib.mkEnableOption "jjui";
   };
 

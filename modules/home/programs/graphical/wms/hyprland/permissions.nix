@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.premunix.programs.graphical.wms.hyprland;
+  cfg = config.premsnix.programs.graphical.wms.hyprland;
 
   mkPackagePermission =
     pkg: permission: action:
@@ -47,7 +47,7 @@ in
             pkgs.grim
             pkgs.grimblast
             pkgs.hyprpicker
-            pkgs.premunix.record_screen
+            pkgs.premsnix.record_screen
           ] "screencopy" "allow"
           ++ [
             (mkPackagePathPermission config.wayland.windowManager.hyprland.portalPackage

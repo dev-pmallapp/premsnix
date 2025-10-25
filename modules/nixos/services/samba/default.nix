@@ -12,9 +12,9 @@ let
     optionalAttrs
     types
     ;
-  inherit (lib.premunix) mkBoolOpt mkOpt;
+  inherit (lib.premsnix) mkBoolOpt mkOpt;
 
-  cfg = config.premunix.services.samba;
+  cfg = config.premsnix.services.samba;
 
   bool-to-yes-no = value: if value then "yes" else "no";
 
@@ -29,7 +29,7 @@ let
           browseable = mkBoolOpt true "Whether the share is browseable.";
           comment = mkOpt str name "An optional comment.";
           read-only = mkBoolOpt false "Whether the share should be read only.";
-          only-owner-editable = mkBoolOpt false "Whether the share is only writable by the system owner (premunix.user.name).";
+          only-owner-editable = mkBoolOpt false "Whether the share is only writable by the system owner (premsnix.user.name).";
 
           extra-config = mkOpt attrs { } "Extra configuration options for the share.";
         };
@@ -37,7 +37,7 @@ let
     );
 in
 {
-  options.premunix.services.samba = with types; {
+  options.premsnix.services.samba = with types; {
     enable = mkEnableOption "Samba";
     browseable = mkBoolOpt true "Whether the shares are browseable.";
     workgroup = mkOpt str "WORKGROUP" "The workgroup to use.";
@@ -75,7 +75,7 @@ in
           "read only" = bool-to-yes-no value.read-only;
         }
         // (optionalAttrs value.only-owner-editable {
-          "write list" = config.premunix.user.name;
+          "write list" = config.premsnix.user.name;
           "read list" = "guest, nobody";
           "create mask" = "0755";
           "directory mask" = "0755";
@@ -89,7 +89,7 @@ in
     #   sambaUserSetup = {
     #     text = ''
     #       PATH=$PATH:${lib.makeBinPath [ pkgs.samba ]}
-    #       pdbedit -i smbpasswd:/home/${config.premunix.user.name}/smbpasswd -e tdbsam:/var/lib/samba/private/passdb.tdb
+    #       pdbedit -i smbpasswd:/home/${config.premsnix.user.name}/smbpasswd -e tdbsam:/var/lib/samba/private/passdb.tdb
     #     '';
     #     deps = [ ];
     #   };

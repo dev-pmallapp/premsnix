@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.premunix.services.ssh-agent;
+  cfg = config.premsnix.services.ssh-agent;
 in
 {
-  options.premunix.services.ssh-agent = {
+  options.premsnix.services.ssh-agent = {
     enable = lib.mkEnableOption "ssh-agent service";
   };
 

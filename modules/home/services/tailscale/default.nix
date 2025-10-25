@@ -8,10 +8,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.tailscale;
+  cfg = config.premsnix.services.tailscale;
 in
 {
-  options.premunix.services.tailscale = {
+  options.premsnix.services.tailscale = {
     enable = mkEnableOption "tailscale";
   };
 

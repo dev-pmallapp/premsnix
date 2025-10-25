@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.games;
+  cfg = config.premsnix.suites.games;
 in
 {
-  options.premunix.suites.games = {
+  options.premsnix.suites.games = {
     enable = lib.mkEnableOption "games configuration";
   };
 

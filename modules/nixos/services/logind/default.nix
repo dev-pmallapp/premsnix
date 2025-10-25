@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.services.logind;
+  cfg = config.premsnix.services.logind;
 in
 {
-  options.premunix.services.logind = {
+  options.premsnix.services.logind = {
     enable = mkEnableOption "logind";
   };
 

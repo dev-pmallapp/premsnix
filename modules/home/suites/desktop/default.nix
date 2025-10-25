@@ -8,15 +8,15 @@
 let
   inherit (lib) mkDefault mkIf;
 
-  cfg = config.premunix.suites.desktop;
+  cfg = config.premsnix.suites.desktop;
 in
 {
-  options.premunix.suites.desktop = {
+  options.premsnix.suites.desktop = {
     enable = lib.mkEnableOption "common desktop applications";
   };
 
   config = mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           bars = {

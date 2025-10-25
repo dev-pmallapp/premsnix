@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.emulation;
+  cfg = config.premsnix.suites.emulation;
 in
 {
-  options.premunix.suites.emulation = {
+  options.premsnix.suites.emulation = {
     enable = lib.mkEnableOption "emulation configuration";
     retroarchFull = lib.mkEnableOption "emulation configuration";
   };
@@ -44,7 +44,7 @@ in
       ]
       ++ lib.optionals cfg.retroarchFull [ retroarchFull ];
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           apps = {

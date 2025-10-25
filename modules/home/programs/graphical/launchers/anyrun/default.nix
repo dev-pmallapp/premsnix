@@ -11,10 +11,10 @@
 let
   inherit (inputs) anyrun-nixos-options;
 
-  cfg = config.premunix.programs.graphical.launchers.anyrun;
+  cfg = config.premsnix.programs.graphical.launchers.anyrun;
 in
 {
-  options.premunix.programs.graphical.launchers.anyrun = {
+  options.premsnix.programs.graphical.launchers.anyrun = {
     enable = lib.mkEnableOption "anyrun in the desktop environment";
   };
 

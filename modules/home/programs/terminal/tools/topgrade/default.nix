@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.topgrade;
+  cfg = config.premsnix.programs.terminal.tools.topgrade;
 in
 {
-  options.premunix.programs.terminal.tools.topgrade = {
+  options.premsnix.programs.terminal.tools.topgrade = {
     enable = lib.mkEnableOption "topgrade";
   };
 

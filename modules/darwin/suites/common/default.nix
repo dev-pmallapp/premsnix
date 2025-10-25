@@ -7,9 +7,9 @@
 }:
 let
   inherit (lib) mkIf mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.common;
+  cfg = config.premsnix.suites.common;
 in
 {
   imports = [ (lib.getFile "modules/common/suites/common/default.nix") ];
@@ -37,12 +37,12 @@ in
           trash-cli
           wtfutil
         ]
-        ++ lib.optionals config.premunix.tools.homebrew.masEnable [
+        ++ lib.optionals config.premsnix.tools.homebrew.masEnable [
           mas
         ];
     };
 
-    premunix = {
+    premsnix = {
       home.extraOptions = {
         home.shellAliases = {
           # Prevent shell log command from overriding macos log

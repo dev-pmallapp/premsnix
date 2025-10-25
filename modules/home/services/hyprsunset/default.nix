@@ -10,10 +10,10 @@ let
     mkEnableOption
     ;
 
-  cfg = config.premunix.services.hyprsunset;
+  cfg = config.premsnix.services.hyprsunset;
 in
 {
-  options.premunix.services.hyprsunset = {
+  options.premsnix.services.hyprsunset = {
     enable = mkEnableOption "Hyprsunset";
   };
 

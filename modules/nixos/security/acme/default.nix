@@ -6,14 +6,14 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.security.acme;
+  cfg = config.premsnix.security.acme;
 in
 {
-  options.premunix.security.acme = {
+  options.premsnix.security.acme = {
     enable = lib.mkEnableOption "default ACME configuration";
-    email = mkOpt lib.types.str config.premunix.user.email "The email to use.";
+    email = mkOpt lib.types.str config.premsnix.user.email "The email to use.";
     staging = mkOpt lib.types.bool virtual "Whether to use the staging server or not.";
   };
 

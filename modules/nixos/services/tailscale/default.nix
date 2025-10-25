@@ -8,12 +8,12 @@
 let
   inherit (lib) types mkIf;
   inherit (lib.modules) mkBefore;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.tailscale;
+  cfg = config.premsnix.services.tailscale;
 in
 {
-  options.premunix.services.tailscale = with types; {
+  options.premsnix.services.tailscale = with types; {
     enable = lib.mkEnableOption "Tailscale";
     autoconnect = {
       enable = lib.mkEnableOption "automatic connection to Tailscale";
@@ -25,7 +25,7 @@ in
     assertions = [
       {
         assertion = cfg.autoconnect.enable -> cfg.autoconnect.key != "";
-        message = "premunix.services.tailscale.autoconnect.key must be set";
+        message = "premsnix.services.tailscale.autoconnect.key must be set";
       }
     ];
 
@@ -57,7 +57,7 @@ in
       enable = true;
       permitCertUid = "root";
       useRoutingFeatures = "both";
-      extraSetFlags = [ "--operator=${config.premunix.user.name}" ];
+      extraSetFlags = [ "--operator=${config.premsnix.user.name}" ];
     };
 
     systemd = {

@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.premunix.security.pam;
+  cfg = config.premsnix.security.pam;
 in
 {
-  options.premunix.security.pam = {
+  options.premsnix.security.pam = {
     enable = lib.mkEnableOption "pam";
   };
 

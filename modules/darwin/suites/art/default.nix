@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.art;
+  cfg = config.premsnix.suites.art;
 in
 {
-  options.premunix.suites.art = {
+  options.premsnix.suites.art = {
     enable = lib.mkEnableOption "art configuration";
   };
 
@@ -29,7 +29,7 @@ in
         "mediainfo"
       ];
 
-      masApps = mkIf config.premunix.tools.homebrew.masEnable { "Pixelmator" = 407963104; };
+      masApps = mkIf config.premsnix.tools.homebrew.masEnable { "Pixelmator" = 407963104; };
     };
   };
 }

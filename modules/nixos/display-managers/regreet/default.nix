@@ -11,11 +11,11 @@ let
     getExe
     getExe'
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.display-managers.regreet;
-  themeCfg = config.premunix.theme;
-  gtkCfg = config.premunix.desktop.addons.gtk;
+  cfg = config.premsnix.display-managers.regreet;
+  themeCfg = config.premsnix.theme;
+  gtkCfg = config.premsnix.desktop.addons.gtk;
 
   greetdHyprlandConfig = pkgs.writeText "greetd-hyprland-config" ''
     ${cfg.hyprlandOutput}
@@ -35,7 +35,7 @@ let
   '';
 in
 {
-  options.premunix.display-managers.regreet = with types; {
+  options.premsnix.display-managers.regreet = with types; {
     enable = lib.mkEnableOption "greetd";
     hyprlandOutput = mkOpt lines "" "Hyprlands Outputs config.";
   };
@@ -52,14 +52,14 @@ in
 
       settings = {
         background = {
-          path = "${pkgs.premunix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
+          path = "${pkgs.premsnix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
           fit = "Cover";
         };
 
         GTK = {
           application_prefer_dark_theme = true;
           cursor_theme_name = "${themeCfg.cursor.name}";
-          font_name = "${config.premunix.system.fonts.default} * 12";
+          font_name = "${config.premsnix.system.fonts.default} * 12";
           icon_theme_name = "${themeCfg.icon.name}";
           theme_name = "${gtkCfg.theme.name}";
         };

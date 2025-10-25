@@ -14,10 +14,10 @@ let
     mkForce
     getExe'
     ;
-  inherit (lib.premunix) mkOpt enabled;
-  inherit (config.premunix) user;
+  inherit (lib.premsnix) mkOpt enabled;
+  inherit (config.premsnix) user;
 
-  cfg = config.premunix.programs.terminal.tools.git;
+  cfg = config.premsnix.programs.terminal.tools.git;
   usingKitty = config.programs.kitty.enable or false;
   # Only one of delta or difftastic may be enabled; prefer delta unless kitty is unavailable.
   useDifftastic = !usingKitty;
@@ -27,7 +27,7 @@ let
   shell-aliases = import ./shell-aliases.nix { inherit config lib pkgs; };
 
   tokenExports =
-    lib.optionalString (osConfig.premunix.security.sops.enable or false) # Bash
+    lib.optionalString (osConfig.premsnix.security.sops.enable or false) # Bash
       ''
         if [ -f ${config.sops.secrets."github/access-token".path} ]; then
           GITHUB_TOKEN="$(cat ${config.sops.secrets."github/access-token".path})"
@@ -41,7 +41,7 @@ let
       '';
 in
 {
-  options.premunix.programs.terminal.tools.git = {
+  options.premsnix.programs.terminal.tools.git = {
     enable = mkEnableOption "Git";
     includes = mkOpt (types.listOf types.attrs) [ ] "Git includeIf paths and conditions.";
     signByDefault = mkOpt types.bool true "Whether to sign commits by default.";
@@ -161,7 +161,7 @@ in
 
           safe = {
             directory = [
-              "~/premunix/"
+              "~/premsnix/"
               "/etc/nixos"
               "/etc/nix-darwin"
             ];
@@ -203,7 +203,7 @@ in
       inherit (shell-aliases) shellAliases;
     };
 
-    sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       "github/access-token" = {
         sopsFile = lib.getFile "secrets/pmallapp/default.yaml";
         path = "${config.home.homeDirectory}/.config/gh/access-token";

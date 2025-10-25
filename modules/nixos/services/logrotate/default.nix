@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.logrotate;
+  cfg = config.premsnix.services.logrotate;
 in
 {
-  options.premunix.services.logrotate = {
+  options.premsnix.services.logrotate = {
     enable = lib.mkEnableOption "logrotate";
   };
 

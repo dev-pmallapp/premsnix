@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.bluetooth;
+  cfg = config.premsnix.hardware.bluetooth;
 in
 {
-  options.premunix.hardware.bluetooth = {
+  options.premsnix.hardware.bluetooth = {
     enable = lib.mkEnableOption "support for extra bluetooth devices";
     autoConnect = lib.mkOption {
       type = lib.types.bool;

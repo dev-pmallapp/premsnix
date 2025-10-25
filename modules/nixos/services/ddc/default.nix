@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.ddccontrol;
+  cfg = config.premsnix.services.ddccontrol;
 in
 {
-  options.premunix.services.ddccontrol = {
+  options.premsnix.services.ddccontrol = {
     enable = lib.mkEnableOption "ddccontrol";
   };
 

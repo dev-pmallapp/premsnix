@@ -8,10 +8,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.graphical.apps.caprine;
+  cfg = config.premsnix.programs.graphical.apps.caprine;
 in
 {
-  options.premunix.programs.graphical.apps.caprine = {
+  options.premsnix.programs.graphical.apps.caprine = {
     enable = mkEnableOption "caprine";
   };
 

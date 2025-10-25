@@ -4,7 +4,7 @@
   ...
 }:
 let
-  cfg = config.premunix.theme.catppuccin;
+  cfg = config.premsnix.theme.catppuccin;
 
   catppuccin = import (lib.getFile "modules/home/theme/catppuccin/colors.nix");
 in

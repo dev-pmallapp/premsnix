@@ -17,10 +17,10 @@ let
     type: default: description:
     lib.mkOption { inherit type default description; };
 
-  cfg = config.premunix.theme.stylix;
+  cfg = config.premsnix.theme.stylix;
 in
 {
-  options.premunix.theme.stylix = {
+  options.premsnix.theme.stylix = {
     enable = mkEnableOption "stylix theme for applications";
     theme = mkOpt types.str "catppuccin-macchiato" "base16 theme file name";
 
@@ -46,13 +46,13 @@ in
 
   config = mkIf cfg.enable (
     lib.optionalAttrs (options ? stylix) {
-      home = mkIf (pkgs.stdenv.hostPlatform.isLinux && !config.premunix.theme.catppuccin.enable) {
+      home = mkIf (pkgs.stdenv.hostPlatform.isLinux && !config.premsnix.theme.catppuccin.enable) {
         pointerCursor = {
           inherit (cfg.cursor) name package size;
         };
       };
 
-      gtk.gtk3 = mkIf (pkgs.stdenv.hostPlatform.isLinux && !config.premunix.theme.catppuccin.enable) {
+      gtk.gtk3 = mkIf (pkgs.stdenv.hostPlatform.isLinux && !config.premsnix.theme.catppuccin.enable) {
         font = null;
       };
 
@@ -108,50 +108,50 @@ in
 
         targets = {
           # Set profile names for firefox
-          firefox.profileNames = [ config.premunix.user.name ];
+          firefox.profileNames = [ config.premsnix.user.name ];
 
           # TODO: Very custom styling, integrate with their variables
           # Currently setup only for catppuccin/nix
           vscode.enable = false;
 
           # Disable targets when catppuccin is enabled
-          alacritty.enable = !config.premunix.theme.catppuccin.enable;
-          bat.enable = !config.premunix.theme.catppuccin.enable;
-          btop.enable = !config.premunix.theme.catppuccin.enable;
-          cava.enable = !config.premunix.theme.catppuccin.enable;
-          fish.enable = !config.premunix.theme.catppuccin.enable;
-          foot.enable = !config.premunix.theme.catppuccin.enable;
-          fzf.enable = !config.premunix.theme.catppuccin.enable;
-          ghostty.enable = !config.premunix.theme.catppuccin.enable;
-          gitui.enable = !config.premunix.theme.catppuccin.enable;
-          helix.enable = !config.premunix.theme.catppuccin.enable;
-          k9s.enable = !config.premunix.theme.catppuccin.enable;
+          alacritty.enable = !config.premsnix.theme.catppuccin.enable;
+          bat.enable = !config.premsnix.theme.catppuccin.enable;
+          btop.enable = !config.premsnix.theme.catppuccin.enable;
+          cava.enable = !config.premsnix.theme.catppuccin.enable;
+          fish.enable = !config.premsnix.theme.catppuccin.enable;
+          foot.enable = !config.premsnix.theme.catppuccin.enable;
+          fzf.enable = !config.premsnix.theme.catppuccin.enable;
+          ghostty.enable = !config.premsnix.theme.catppuccin.enable;
+          gitui.enable = !config.premsnix.theme.catppuccin.enable;
+          helix.enable = !config.premsnix.theme.catppuccin.enable;
+          k9s.enable = !config.premsnix.theme.catppuccin.enable;
           kitty = {
-            enable = !config.premunix.theme.catppuccin.enable;
+            enable = !config.premsnix.theme.catppuccin.enable;
           };
-          lazygit.enable = !config.premunix.theme.catppuccin.enable;
-          ncspot.enable = !config.premunix.theme.catppuccin.enable;
-          neovim.enable = !config.premunix.theme.catppuccin.enable;
-          tmux.enable = !config.premunix.theme.catppuccin.enable;
-          vesktop.enable = !config.premunix.theme.catppuccin.enable;
-          yazi.enable = !config.premunix.theme.catppuccin.enable;
-          zathura.enable = !config.premunix.theme.catppuccin.enable;
-          zellij.enable = !config.premunix.theme.catppuccin.enable;
+          lazygit.enable = !config.premsnix.theme.catppuccin.enable;
+          ncspot.enable = !config.premsnix.theme.catppuccin.enable;
+          neovim.enable = !config.premsnix.theme.catppuccin.enable;
+          tmux.enable = !config.premsnix.theme.catppuccin.enable;
+          vesktop.enable = !config.premsnix.theme.catppuccin.enable;
+          yazi.enable = !config.premsnix.theme.catppuccin.enable;
+          zathura.enable = !config.premsnix.theme.catppuccin.enable;
+          zellij.enable = !config.premsnix.theme.catppuccin.enable;
         }
         // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
-          gnome.enable = !config.premunix.theme.catppuccin.enable;
+          gnome.enable = !config.premsnix.theme.catppuccin.enable;
           # FIXME: not working
           gtk.enable = false;
-          hyprland.enable = !config.premunix.theme.catppuccin.enable;
+          hyprland.enable = !config.premsnix.theme.catppuccin.enable;
           # FIXME:: upstream needs module fix
           hyprlock.useWallpaper = false;
           hyprlock.enable = false;
-          qt.enable = !config.premunix.theme.catppuccin.enable;
-          sway.enable = !config.premunix.theme.catppuccin.enable;
+          qt.enable = !config.premsnix.theme.catppuccin.enable;
+          sway.enable = !config.premsnix.theme.catppuccin.enable;
           # TODO: Very custom styling, integrate with their variables
           # Currently setup only for catppuccin/nix
           swaync.enable = false;
-          waybar.enable = !config.premunix.theme.catppuccin.enable;
+          waybar.enable = !config.premsnix.theme.catppuccin.enable;
         };
       };
     }

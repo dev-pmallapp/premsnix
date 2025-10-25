@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.music;
+  cfg = config.premsnix.suites.music;
 in
 {
-  options.premunix.suites.music = {
+  options.premsnix.suites.music = {
     enable = lib.mkEnableOption "common music configuration";
   };
 
@@ -32,7 +32,7 @@ in
         youtube-music
       ];
 
-    premunix = {
+    premsnix = {
       programs.terminal = {
         media = {
           ncmpcpp = lib.mkDefault enabled;

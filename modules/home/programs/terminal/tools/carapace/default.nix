@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.carapace;
+  cfg = config.premsnix.programs.terminal.tools.carapace;
 in
 {
-  options.premunix.programs.terminal.tools.carapace = {
+  options.premsnix.programs.terminal.tools.carapace = {
     enable = lib.mkEnableOption "carapace";
   };
 

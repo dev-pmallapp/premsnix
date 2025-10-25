@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.services.seatd;
+  cfg = config.premsnix.services.seatd;
 in
 {
-  options.premunix.services.seatd = {
+  options.premsnix.services.seatd = {
     enable = mkEnableOption "seatd";
   };
 
@@ -19,7 +19,7 @@ in
       seatd = {
         enable = true;
         # NOTE: does it matter?
-        user = config.premunix.user.name;
+        user = config.premsnix.user.name;
       };
     };
   };

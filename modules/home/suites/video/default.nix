@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.video;
+  cfg = config.premsnix.suites.video;
 in
 {
-  options.premunix.suites.video = {
+  options.premsnix.suites.video = {
     enable = lib.mkEnableOption "video configuration";
   };
 
@@ -31,7 +31,7 @@ in
       ]
       ++ lib.optionals stdenv.hostPlatform.isDarwin [ iina ];
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical.apps = {
           obs = lib.mkDefault enabled;

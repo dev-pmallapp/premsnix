@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf mkForce mkMerge;
 
-  cfg = config.premunix.archetypes.wsl;
+  cfg = config.premsnix.archetypes.wsl;
 in
 {
-  options.premunix.archetypes.wsl = {
+  options.premsnix.archetypes.wsl = {
     enable = lib.mkEnableOption "the wsl archetype";
     enableGUI = lib.mkEnableOption "GUI support in WSL (enables desktop portals, graphics, theming)";
   };
@@ -46,7 +46,7 @@ in
         chrony.enable = mkForce false;
       };
 
-      premunix = {
+      premsnix = {
         # Networking handled by host
         system.networking.enable = mkForce (!config.wsl.wslConf.network.generateResolvConf);
         # WSL Doesn't support `oomd`
@@ -105,7 +105,7 @@ in
     #     extraPortals = mkForce [ ];
     #   };
     #
-    #   premunix.theme = {
+    #   premsnix.theme = {
     #     gtk.enable = mkForce false;
     #     qt.enable = mkForce false;
     #   };

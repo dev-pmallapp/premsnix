@@ -244,10 +244,10 @@ def main():
         print("Usage: why-depends [--fast] <host-name-or-flake-output> <partial-pname>")
         print()
         print("Examples:")
-        print("  why-depends premunix chromium-unwrapped")
+        print("  why-depends premsnix chromium-unwrapped")
         print("  why-depends --fast khanelimac firefox")
         print(
-            "  why-depends .#nixosConfigurations.premunix.config.system.build.toplevel chromium-unwrapped"
+            "  why-depends .#nixosConfigurations.premsnix.config.system.build.toplevel chromium-unwrapped"
         )
         print()
         print("Options:")

@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.theme.gtk;
+  cfg = config.premsnix.theme.gtk;
 in
 {
-  options.premunix.theme.gtk = with types; {
+  options.premsnix.theme.gtk = with types; {
     enable = lib.mkEnableOption "customizing GTK and apply themes";
 
     theme = {

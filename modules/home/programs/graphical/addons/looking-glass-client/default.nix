@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.looking-glass-client;
+  cfg = config.premsnix.programs.graphical.addons.looking-glass-client;
 in
 {
-  options.premunix.programs.graphical.addons.looking-glass-client = {
+  options.premsnix.programs.graphical.addons.looking-glass-client = {
     enable = lib.mkEnableOption "the Looking Glass client";
   };
 

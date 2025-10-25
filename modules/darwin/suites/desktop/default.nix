@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.desktop;
+  cfg = config.premsnix.suites.desktop;
 in
 {
-  options.premunix.suites.desktop = {
+  options.premsnix.suites.desktop = {
     enable = lib.mkEnableOption "common desktop configuration";
   };
 
@@ -29,7 +29,7 @@ in
       xquartz
     ];
 
-    premunix = {
+    premsnix = {
       desktop = {
         wms = {
           yabai = mkDefault enabled;
@@ -63,7 +63,7 @@ in
         "beeftornado/rmtree"
       ];
 
-      masApps = mkIf config.premunix.tools.homebrew.masEnable {
+      masApps = mkIf config.premsnix.tools.homebrew.masEnable {
         "AmorphousMemoryMark" = 1495719766;
         "Amphetamine" = 937984704;
         "AutoMounter" = 1160435653;

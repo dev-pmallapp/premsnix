@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.time;
+  cfg = config.premsnix.system.time;
 in
 {
-  options.premunix.system.time = {
+  options.premsnix.system.time = {
     enable = lib.mkEnableOption "time related settings";
   };
 

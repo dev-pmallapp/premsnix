@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.screenlockers.swaylock;
+  cfg = config.premsnix.programs.graphical.screenlockers.swaylock;
 in
 {
-  options.premunix.programs.graphical.screenlockers.swaylock = {
+  options.premsnix.programs.graphical.screenlockers.swaylock = {
     enable = lib.mkEnableOption "swaylock in the desktop environment";
   };
 
@@ -20,7 +20,7 @@ in
       enable = true;
       package = pkgs.swaylock-effects;
 
-      settings = {
+      settings = lib.mkForce {
         ignore-empty-password = true;
         disable-caps-lock-text = true;
         font = "MonaspaceArgon";
@@ -30,7 +30,7 @@ in
         timestr = "%R";
         datestr = "%a, %e of %B";
 
-        image = "${pkgs.premunix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
+        image = "${pkgs.premsnix.wallpapers}/share/wallpapers/flatppuccin_macchiato.png";
 
         fade-in = "0.2";
 

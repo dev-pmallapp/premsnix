@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) mkDefault mkIf versionOlder;
-  cfg = config.premunix.hardware.gpu.nvidia;
+  cfg = config.premsnix.hardware.gpu.nvidia;
 
   # use the latest possible nvidia package
   nvStable = config.boot.kernelPackages.nvidiaPackages.stable.version;
@@ -20,7 +20,7 @@ let
       config.boot.kernelPackages.nvidiaPackages.beta;
 in
 {
-  options.premunix.hardware.gpu.nvidia = {
+  options.premsnix.hardware.gpu.nvidia = {
     enable = lib.mkEnableOption "support for nvidia";
     enableCudaSupport = lib.mkEnableOption "support for cuda";
     enableNvtop = lib.mkEnableOption "install nvtop for nvidia";
@@ -48,7 +48,7 @@ in
       ];
 
     hardware = {
-      nvidia = mkIf (!config.premunix.hardware.gpu.amd.enable) {
+      nvidia = mkIf (!config.premsnix.hardware.gpu.amd.enable) {
         package = mkDefault nvidiaPackage;
         modesetting.enable = mkDefault true;
 

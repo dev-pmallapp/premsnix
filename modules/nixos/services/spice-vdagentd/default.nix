@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf getExe';
 
-  cfg = config.premunix.services.spice-vdagentd;
+  cfg = config.premsnix.services.spice-vdagentd;
 in
 {
-  options.premunix.services.spice-vdagentd = {
+  options.premsnix.services.spice-vdagentd = {
     enable = lib.mkEnableOption "spice-vdagent support";
   };
 

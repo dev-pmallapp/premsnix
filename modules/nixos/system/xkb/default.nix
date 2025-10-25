@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.xkb;
+  cfg = config.premsnix.system.xkb;
 in
 {
-  options.premunix.system.xkb = {
+  options.premsnix.system.xkb = {
     enable = lib.mkEnableOption "xkb";
   };
 

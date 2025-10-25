@@ -37,14 +37,14 @@
   "group/control-center" = {
     orientation = "horizontal";
     modules =
-      lib.optionals config.premunix.programs.graphical.wms.hyprland.enable [ "custom/hyprsunset" ]
+      lib.optionals config.premsnix.programs.graphical.wms.hyprland.enable [ "custom/hyprsunset" ]
       ++ [
         "gamemode"
         "idle_inhibitor"
         "systemd-failed-units"
         "custom/notification"
       ]
-      ++ lib.optionals (osConfig.premunix.security.sops.enable or false) [ "custom/github" ]
+      ++ lib.optionals (osConfig.premsnix.security.sops.enable or false) [ "custom/github" ]
       ++ [
         "bluetooth"
         "group/audio"

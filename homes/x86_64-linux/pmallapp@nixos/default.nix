@@ -5,10 +5,10 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 in
 {
-  premunix = {
+  premsnix = {
     user = {
       enable = true;
       name = "pmallapp";
@@ -26,7 +26,7 @@ in
     services = {
       sops = {
         enable = true;
-        defaultSopsFile = lib.getFile "secrets/premunix/pmallapp/default.yaml";
+        defaultSopsFile = lib.getFile "secrets/premsnix/pmallapp/default.yaml";
         sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
       };
     };
@@ -41,5 +41,5 @@ in
     };
   };
 
-  home.stateVersion = "21.11";
+  home.stateVersion = "25.11";
 }

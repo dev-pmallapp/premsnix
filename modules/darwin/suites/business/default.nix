@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.business;
+  cfg = config.premsnix.suites.business;
 in
 {
-  options.premunix.suites.business = {
+  options.premsnix.suites.business = {
     enable = lib.mkEnableOption "business configuration";
   };
 
@@ -27,7 +27,7 @@ in
         "obsidian"
       ];
 
-      masApps = mkIf config.premunix.tools.homebrew.masEnable {
+      masApps = mkIf config.premsnix.tools.homebrew.masEnable {
         "Brother iPrint&Scan" = 1193539993;
         "Keynote" = 409183694;
         "Microsoft OneNote" = 784801555;
@@ -37,7 +37,7 @@ in
       };
     };
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           apps = {

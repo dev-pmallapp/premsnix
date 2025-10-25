@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.gpu.amd;
+  cfg = config.premsnix.hardware.gpu.amd;
 in
 {
-  options.premunix.hardware.gpu.amd = {
+  options.premsnix.hardware.gpu.amd = {
     enable = lib.mkEnableOption "support for amdgpu";
     enableRocmSupport = lib.mkEnableOption "support for rocm";
     enableNvtop = lib.mkEnableOption "install nvtop for amd";

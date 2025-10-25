@@ -14,13 +14,13 @@ let
     concatStringsSep
     getExe
     ;
-  inherit (lib.premunix) mkOpt enabled;
-  inherit (config.premunix) user;
+  inherit (lib.premsnix) mkOpt enabled;
+  inherit (config.premsnix) user;
 
-  cfg = config.premunix.virtualisation.kvm;
+  cfg = config.premsnix.virtualisation.kvm;
 in
 {
-  options.premunix.virtualisation.kvm = with types; {
+  options.premsnix.virtualisation.kvm = with types; {
     enable = lib.mkEnableOption "KVM virtualisation";
     # Use `machinectl` and then `machinectl status <name>` to
     # get the unit "*.scope" of the virtual machine.
@@ -88,7 +88,7 @@ in
       spiceUSBRedirection.enable = true;
     };
 
-    premunix = {
+    premsnix = {
       user = {
         extraGroups = [
           "disk"

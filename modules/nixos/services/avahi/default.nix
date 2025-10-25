@@ -5,12 +5,12 @@
   ...
 }:
 let
-  cfg = config.premunix.services.avahi;
+  cfg = config.premsnix.services.avahi;
 
   inherit (lib) mkEnableOption mkIf;
 in
 {
-  options.premunix.services.avahi = {
+  options.premsnix.services.avahi = {
     enable = mkEnableOption "Avahi";
   };
 

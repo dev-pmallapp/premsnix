@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.cpu.intel;
+  cfg = config.premsnix.hardware.cpu.intel;
 in
 {
-  options.premunix.hardware.cpu.intel = {
+  options.premsnix.hardware.cpu.intel = {
     enable = lib.mkEnableOption "support for intel cpu";
   };
 

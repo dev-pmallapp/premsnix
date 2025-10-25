@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.premunix.services.open-webui;
+  cfg = config.premsnix.services.open-webui;
 in
 {
-  options.premunix.services.open-webui = {
+  options.premsnix.services.open-webui = {
     enable = lib.mkEnableOption "ollama ui";
   };
 

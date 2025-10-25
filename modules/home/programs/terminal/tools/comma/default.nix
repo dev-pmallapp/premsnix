@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.comma;
+  cfg = config.premsnix.programs.terminal.tools.comma;
 in
 {
-  options.premunix.programs.terminal.tools.comma = {
+  options.premsnix.programs.terminal.tools.comma = {
     enable = lib.mkEnableOption "comma";
   };
 

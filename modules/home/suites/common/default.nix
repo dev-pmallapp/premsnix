@@ -8,13 +8,13 @@
 }:
 let
   inherit (lib) mkIf mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.common;
-  isWSL = osConfig.premunix.archetypes.wsl.enable or false;
+  cfg = config.premsnix.suites.common;
+  isWSL = osConfig.premsnix.archetypes.wsl.enable or false;
 in
 {
-  options.premunix.suites.common = {
+  options.premsnix.suites.common = {
     enable = lib.mkEnableOption "common configuration";
   };
 
@@ -31,7 +31,7 @@ in
       };
 
       shellAliases = {
-        nixcfg = "nvim ~/premunix/flake.nix";
+        nixcfg = "nvim ~/premsnix/flake.nix";
         # Closure size checking aliases
         ncs-sys = ''f(){ nix build ".#nixosConfigurations.$1.config.system.build.toplevel" --no-link && nix path-info --recursive --closure-size --human-readable $(nix eval --raw ".#nixosConfigurations.$1.config.system.build.toplevel.outPath") | tail -1; }; f'';
         ncs-darwin = ''f(){ nix build ".#darwinConfigurations.$1.config.system.build.toplevel" --no-link && nix path-info --recursive --closure-size --human-readable $(nix eval --raw ".#darwinConfigurations.$1.config.system.build.toplevel.outPath") | tail -1; }; f'';
@@ -62,7 +62,7 @@ in
         pngpaste
       ];
 
-    premunix = {
+    premsnix = {
       programs = {
         terminal = {
           emulators = {

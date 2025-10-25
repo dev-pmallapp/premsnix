@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.security.usbguard;
+  cfg = config.premsnix.security.usbguard;
 in
 {
-  options.premunix.security.usbguard = {
+  options.premsnix.security.usbguard = {
     enable = lib.mkEnableOption "default usbguard configuration";
   };
 
@@ -16,7 +16,7 @@ in
     services.usbguard = {
       IPCAllowedUsers = [
         "root"
-        "${config.premunix.user.name}"
+        "${config.premsnix.user.name}"
       ];
       presentDevicePolicy = "allow";
       rules = ''

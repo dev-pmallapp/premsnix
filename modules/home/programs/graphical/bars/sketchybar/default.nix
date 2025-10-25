@@ -9,7 +9,7 @@
 let
   inherit (lib) mkIf getExe;
 
-  cfg = config.premunix.programs.graphical.bars.sketchybar;
+  cfg = config.premsnix.programs.graphical.bars.sketchybar;
 
   shellAliases = {
     push = # bash
@@ -18,7 +18,7 @@ let
   };
 in
 {
-  options.premunix.programs.graphical.bars.sketchybar = {
+  options.premsnix.programs.graphical.bars.sketchybar = {
     enable = lib.mkEnableOption "sketchybar in the desktop environment";
   };
 
@@ -44,14 +44,14 @@ in
             gnused
             jankyborders
             jq
-            pkgs.premunix.dynamic-island-helper
-            pkgs.premunix.sketchyhelper
+            pkgs.premsnix.dynamic-island-helper
+            pkgs.premsnix.sketchyhelper
             wttrbar
           ]
-          ++ lib.optionals (osConfig.premunix.desktop.wms.yabai.enable or false) [
+          ++ lib.optionals (osConfig.premsnix.desktop.wms.yabai.enable or false) [
             osConfig.services.yabai.package
           ]
-          ++ lib.optionals config.premunix.programs.graphical.wms.aerospace.enable [
+          ++ lib.optionals config.premsnix.programs.graphical.wms.aerospace.enable [
             config.programs.aerospace.package
           ];
 
@@ -85,14 +85,14 @@ in
         -- Window manager configuration for sketchybar
         return {
           use_aerospace = ${
-            if (config.premunix.programs.graphical.wms.aerospace.enable or false) then "true" else "false"
+            if (config.premsnix.programs.graphical.wms.aerospace.enable or false) then "true" else "false"
           },
-          use_yabai = ${if (osConfig.premunix.desktop.wms.yabai.enable or false) then "true" else "false"},
+          use_yabai = ${if (osConfig.premsnix.desktop.wms.yabai.enable or false) then "true" else "false"},
         }
       '';
     };
 
-    sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       weather_config = {
         sopsFile = lib.getFile "secrets/pmallapp/default.yaml";
         path = "${config.home.homeDirectory}/weather_config.json";

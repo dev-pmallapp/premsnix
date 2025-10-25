@@ -91,6 +91,8 @@
             "*.zsh"
             "*Makefile"
             "*makefile"
+            # Exclude Python virtual environments
+            ".venv"
 
             # Unique files
             "homes/x86_64-linux/nixos@nuc-v11/git/windows-compat-config"
@@ -100,8 +102,8 @@
             "modules/home/programs/graphical/bars/sketchybar/dynamic-island-sketchybar/scripts/islands/music/get_artwork.scpt"
             "modules/home/programs/graphical/bars/sketchybar/dynamic-island-sketchybar/scripts/islands/volume/data/cache"
             "modules/home/programs/graphical/bars/sketchybar/dynamic-island-sketchybar/sketchybarrc"
-            "systems/x86_64-linux/premunix/hyprlandOutput"
-            "systems/x86_64-linux/premunix/swayOutput"
+            "systems/x86_64-linux/premsnix/hyprlandOutput"
+            "systems/x86_64-linux/premsnix/swayOutput"
           ];
 
           formatter.ruff-format.options = [ "--isolated" ];

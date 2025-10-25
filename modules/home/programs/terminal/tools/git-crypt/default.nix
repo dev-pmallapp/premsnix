@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.git-crypt;
+  cfg = config.premsnix.programs.terminal.tools.git-crypt;
 in
 {
-  options.premunix.programs.terminal.tools.git-crypt = {
+  options.premsnix.programs.terminal.tools.git-crypt = {
     enable = lib.mkEnableOption "git-crypt";
   };
 

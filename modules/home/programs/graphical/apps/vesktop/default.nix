@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.programs.graphical.apps.vesktop;
+  cfg = config.premsnix.programs.graphical.apps.vesktop;
 in
 {
-  options.premunix.programs.graphical.apps.vesktop = {
+  options.premsnix.programs.graphical.apps.vesktop = {
     enable = lib.mkEnableOption "Vesktop";
   };
 

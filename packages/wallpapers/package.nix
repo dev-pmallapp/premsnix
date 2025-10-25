@@ -48,7 +48,7 @@ let
   installTarget = "$out/share/wallpapers";
 in
 stdenvNoCC.mkDerivation {
-  name = "premunix.wallpapers";
+  name = "premsnix.wallpapers";
   src = ./assets;
 
   installPhase = # bash

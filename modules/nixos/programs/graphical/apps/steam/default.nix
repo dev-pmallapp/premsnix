@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.apps.steam;
+  cfg = config.premsnix.programs.graphical.apps.steam;
 in
 {
-  options.premunix.programs.graphical.apps.steam = {
+  options.premsnix.programs.graphical.apps.steam = {
     enable = lib.mkEnableOption "support for Steam";
   };
 

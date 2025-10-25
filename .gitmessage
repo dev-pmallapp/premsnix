@@ -1,0 +1,20 @@
+# Commit Message Template
+# Format: component: concise action (no period)
+# Examples:
+#   ssh: replace static authorized keys with sops managed
+#   virtualization: add kvm + qemu toggles
+#   docs: add manual commit checklist
+#   flake.lock: update
+#
+# Lines starting with # are ignored.
+
+
+# Checklist (run BEFORE committing, remove or leave commented):
+# [ ] nix fmt
+# [ ] nix flake check
+# [ ] nix build .#nixosConfigurations.${HOST}.config.system.build.toplevel (if NixOS system touched)
+# [ ] nix build .#darwinConfigurations.${MAC_HOST}.system (if macOS host touched)
+# [ ] nix build .#homeConfigurations."${USER}@${HOST}".activationPackage (if home modules touched)
+# [ ] git diff --cached --name-only (review staged files)
+# [ ] secrets updated via sops (no plaintext secrets)
+# [ ] commit message uses component: description pattern

@@ -7,13 +7,13 @@
 }:
 let
   inherit (lib) mkIf getExe;
-  inherit (config.premunix) user;
+  inherit (config.premsnix) user;
   inherit (config.users.users.${user.name}) home;
 
-  cfg = config.premunix.programs.graphical.addons.kanshi;
+  cfg = config.premsnix.programs.graphical.addons.kanshi;
 in
 {
-  options.premunix.programs.graphical.addons.kanshi = {
+  options.premsnix.programs.graphical.addons.kanshi = {
     enable = lib.mkEnableOption "Kanshi in the desktop environment";
   };
 

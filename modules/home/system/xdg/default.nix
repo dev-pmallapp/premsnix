@@ -8,7 +8,7 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.system.xdg;
+  cfg = config.premsnix.system.xdg;
 
   browser = [
     "firefox-devedition.desktop"
@@ -159,7 +159,7 @@ let
 in
 {
   # NOTE: Can test with `, ashpd-demo`
-  options.premunix.system.xdg = {
+  options.premsnix.system.xdg = {
     enable = mkEnableOption "xdg";
   };
 
@@ -171,7 +171,7 @@ in
       cacheHome = config.home.homeDirectory + "/.local/cache";
 
       configFile."xdg-desktop-portal-wlr/config" =
-        lib.mkIf config.premunix.programs.graphical.wms.sway.enable
+        lib.mkIf config.premsnix.programs.graphical.wms.sway.enable
           {
             text = ''
               [screencast]
@@ -193,7 +193,7 @@ in
         xdgOpenUsePortal = true;
 
         config = {
-          hyprland = mkIf config.premunix.programs.graphical.wms.hyprland.enable {
+          hyprland = mkIf config.premsnix.programs.graphical.wms.hyprland.enable {
             default = [
               "hyprland"
               "gtk"
@@ -203,7 +203,7 @@ in
             "org.freedesktop.impl.portal.Screenshot" = "hyprland";
           };
 
-          sway = mkIf config.premunix.programs.graphical.wms.sway.enable {
+          sway = mkIf config.premsnix.programs.graphical.wms.sway.enable {
             default = lib.mkDefault [
               "wlr"
               "gtk"

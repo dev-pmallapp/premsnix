@@ -1,6 +1,6 @@
-# Contributing to premunix
+# Contributing to premsnix
 
-Thank you for your interest in contributing to premunix! This document provides
+Thank you for your interest in contributing to premsnix! This document provides
 guidelines for contributing to this Nix-based dotfiles configuration.
 
 ## Code Style and Conventions
@@ -20,7 +20,7 @@ guidelines for contributing to this Nix-based dotfiles configuration.
    - Use camelCase for variables
    - Use kebab-case for files/directories
 
-4. **Options**: Define namespace-scoped options (premunix.*)
+4. **Options**: Define namespace-scoped options (premsnix.*)
    - Reduce option repetition by using a shared top level option
    - Use top level option values throughout configuration when possible
 
@@ -76,24 +76,126 @@ component: description
 
 ### Before Making Changes
 
-1. **Format code**: Run `nix fmt` (uses treefmt with nixfmt, deadnix, statix)
-2. **Run pre-commit hooks**: `nix run .#checks.${system}.pre-commit-hooks`
-3. **Check a specific system**:
-   `nix build .#nixosConfigurations.${host}.config.system.build.toplevel`
+1. (Optional) Sync & update flake inputs: `nix flake update` (only when needed)
+2. Skim recent changes: `git fetch --all --prune && git rebase origin/main` (or
+   merge)
+3. Pick a target system to validate (e.g. `${host}` you care about)
+4. Ensure secrets you’ll touch are present (sops-nix) before editing modules
+
+### Before Committing (Manual Checklist)
+
+Pre-commit hooks that auto-format were intentionally disabled to speed
+iteration. You MUST run the following manually before every commit:
+
+1. Format everything:
+   - `nix fmt`
+2. Run flake checks (includes treefmt + statix + other format validators in
+   read-only mode):
+   - `nix flake check`
+3. (If touching a host) Build at least one affected system:
+   - `nix build .#nixosConfigurations.${host}.config.system.build.toplevel`
+   - For Darwin: `nix build .#darwinConfigurations.${host}.system`
+4. (If touching home modules) Dry-eval a home configuration:
+   - `nix build .#homeConfigurations."${user}@${host}".activationPackage`
+5. Stage & review diff:
+   - `git add -p`
+   - `git diff --cached`
+6. Commit with a scoped message (see below)
+
+Shortcuts:
+
+```
+# Basic (format + flake check)
+nix fmt && nix flake check
+
+# Full (with one host build)
+nix fmt && nix flake check && nix build .#nixosConfigurations.${host}.config.system.build.toplevel
+
+# Flake app wrapper (auto finds repo root)
+nix run .#dev-check -- --host ${host}
+
+# Auto-fix (deadnix --edit + statix fix + reformat)
+nix run .#dev-check -- --host ${host} --fix
+```
+
+Optional git alias:
+
+```
+git config alias.dev-check '!./scripts/dev-check.sh'
+```
+
+### Optional Pre-Push Hook
+
+To enforce a minimal gate (formatting unchanged + flake check) before pushes:
+
+```
+ln -sf ../../scripts/pre-push-check.sh .git/hooks/pre-push
+# or set a hooks path:
+git config core.hooksPath .githooks
+mkdir -p .githooks
+cp scripts/pre-push-check.sh .githooks/pre-push && chmod +x .githooks/pre-push
+```
+
+Skip the hook for an emergency push:
+
+```
+SKIP_PRE_PUSH=1 git push
+```
+
+### Branch Protection & CI Guarantees
+
+Recommended protected branch rules:
+
+1. Require latest successful runs of:
+   - Formatting Check (fmt.yml)
+   - Lint & Flake Check (lint.yml)
+2. (Optional) Require Nightly Host Builds on release branches.
+3. Disallow force pushes to main; use PRs to ensure checks run.
+4. Mark formatting drift failures as required (ensures contributors run
+   `nix fmt`).
+
+CI artifacts for debugging:
+
+- `formatting-diff.patch`: Unified diff of required formatting changes.
+- `flake-show-<system>.json`: Flake output graph per system from eval job.
+
+To reproduce CI locally:
+
+```
+# Format & drift check
+nix build .#checks.$(nix eval --raw --expr 'builtins.currentSystem').treefmt
+nix fmt
+
+# Linters
+nix develop -c statix check .
+nix develop -c deadnix .
+
+# Example system build
+nix build .#nixosConfigurations.premsnix.config.system.build.toplevel
+```
+
+If any formatter would have changed files, re-run `nix fmt` until `git diff` is
+clean.
 
 ### Making Changes
 
 1. Follow the code style guidelines above
-2. Test your changes on your system
-3. Ensure all formatting and checks pass
+2. Test your changes on your system or a representative subset
+3. Keep commits focused and minimal (avoid mixing refactors with feature
+   changes)
 4. Use secrets management with sops-nix for any sensitive data
+5. Avoid committing generated artifacts or decrypted secrets
 
 ### Submitting Changes
 
-1. Create atomic commits - each commit should represent one logical change
+1. Create atomic commits - one logical change per commit
 2. Follow the commit message convention
-3. Ensure pre-commit hooks pass
-4. Test that the configuration builds successfully
+3. Ensure manual checklist (format + flake check + build) is clean
+4. Include only necessary changes (no accidental reformat churn outside touched
+   scope)
+5. Test that at least one representative system and/or home config builds
+   successfully
+6. Push and let CI re-run the formatting / lint checks in read-only mode
 
 ## Available Tools
 
@@ -124,7 +226,7 @@ The repository includes specialized Claude Code commands:
 
 When using Claude Code, specialized agents are available:
 
-- **Dotfiles Expert**: premunix configuration specialist
+- **Dotfiles Expert**: premsnix configuration specialist
 - **Nix Expert/Module Expert/Refactor**: Nix language specialists
 - **System Config Expert**: NixOS system configuration specialist
 - **Security Auditor**: Security analysis specialist
@@ -142,4 +244,4 @@ When using Claude Code, specialized agents are available:
 - Follow security best practices in configurations
 - Use the Security Auditor agent for security-related changes
 
-Thank you for contributing to premunix!
+Thank you for contributing to premsnix!

@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf mkOption;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.hardware.rgb.openrgb;
+  cfg = config.premsnix.hardware.rgb.openrgb;
 in
 {
-  options.premunix.hardware.rgb.openrgb = with types; {
+  options.premsnix.hardware.rgb.openrgb = with types; {
     enable = lib.mkEnableOption "support for rgb controls";
     motherboard = mkOption {
       type = types.nullOr (
@@ -32,7 +32,7 @@ in
       i2c-tools
     ];
 
-    premunix.home.configFile =
+    premsnix.home.configFile =
       { }
       // lib.optionalAttrs (cfg.openRGBConfig != null) {
         "OpenRGB/sizes.ors".source = cfg.openRGBConfig + "/sizes.ors";

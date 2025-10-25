@@ -5,17 +5,17 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.archetypes.personal;
+  cfg = config.premsnix.archetypes.personal;
 in
 {
-  options.premunix.archetypes.personal = {
+  options.premsnix.archetypes.personal = {
     enable = lib.mkEnableOption "the personal archetype";
   };
 
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       suites = {
         art = enabled;
         common = enabled;

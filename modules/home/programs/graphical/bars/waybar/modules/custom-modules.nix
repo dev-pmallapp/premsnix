@@ -10,7 +10,7 @@ let
   inherit (lib) getExe getExe';
 
   githubHelper = pkgs.writeShellScriptBin "githubHelper" ''
-    ${lib.optionalString (osConfig.premunix.security.sops.enable or false) ''
+    ${lib.optionalString (osConfig.premsnix.security.sops.enable or false) ''
       ${getExe pkgs.gh} auth login --with-token < ${config.sops.secrets."github/access-token".path}
     ''}
 
@@ -187,7 +187,7 @@ in
 
   "custom/weather" = {
     exec = "${getExe pkgs.wttrbar} --fahrenheit --ampm${
-      lib.optionalString (osConfig.premunix.security.sops.enable or false
+      lib.optionalString (osConfig.premsnix.security.sops.enable or false
       ) " --location $(jq '.wttr.location' ~/weather_config.json)"
     }";
     return-type = "json";

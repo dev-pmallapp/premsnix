@@ -40,7 +40,7 @@ rec {
     }:
     { lib, ... }:
     {
-      options.premunix.${name} = lib.mkOption {
+      options.premsnix.${name} = lib.mkOption {
         type = lib.types.submodule {
           options = {
             enable = lib.mkEnableOption description;
@@ -50,10 +50,10 @@ rec {
         default = { };
       };
 
-      config = lib.mkIf config.premunix.${name}.enable config;
+      config = lib.mkIf config.premsnix.${name}.enable config;
     };
 
-  # Migrated premunix utilities
+  # Migrated premsnix utilities
   # Option creation helpers
   mkOpt =
     type: default: description:

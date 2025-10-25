@@ -7,10 +7,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.tray;
+  cfg = config.premsnix.services.tray;
 in
 {
-  options.premunix.services.tray = {
+  options.premsnix.services.tray = {
     enable = mkEnableOption "tray";
   };
 

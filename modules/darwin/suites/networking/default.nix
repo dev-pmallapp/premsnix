@@ -6,17 +6,17 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.networking;
+  cfg = config.premsnix.suites.networking;
 in
 {
-  options.premunix.suites.networking = {
+  options.premsnix.suites.networking = {
     enable = lib.mkEnableOption "networking configuration";
   };
 
   config = mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       services = {
         tailscale = lib.mkDefault enabled;
       };

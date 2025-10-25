@@ -8,7 +8,7 @@
 }:
 let
   inherit (lib) mkIf getExe;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
   sketchybar = getExe config.programs.sketchybar.finalPackage;
   yabai =
@@ -17,11 +17,11 @@ let
     else
       getExe pkgs.yabai;
 
-  cfg = config.premunix.services.skhd;
-  inherit (osConfig.premunix.services.skhd) logPath;
+  cfg = config.premsnix.services.skhd;
+  inherit (osConfig.premsnix.services.skhd) logPath;
 in
 {
-  options.premunix.services.skhd = {
+  options.premsnix.services.skhd = {
     enable = lib.mkEnableOption "skhd";
     logFile = mkOpt lib.types.str logPath "Filepath of log output";
   };

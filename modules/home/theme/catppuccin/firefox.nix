@@ -6,15 +6,15 @@
   ...
 }:
 let
-  cfg = config.premunix.theme.catppuccin;
+  cfg = config.premsnix.theme.catppuccin;
 in
 {
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       programs.graphical.browsers.firefox.extensions.settings = {
         "FirefoxColor@mozilla.com" =
           lib.mkIf
-            (builtins.elem pkgs.firefox-addons.firefox-color config.premunix.programs.graphical.browsers.firefox.extensions.packages)
+            (builtins.elem pkgs.firefox-addons.firefox-color config.premsnix.programs.graphical.browsers.firefox.extensions.packages)
             {
               force = true;
               settings = {

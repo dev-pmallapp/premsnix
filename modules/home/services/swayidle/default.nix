@@ -7,10 +7,10 @@
   ...
 }:
 let
-  cfg = config.premunix.services.swayidle;
+  cfg = config.premsnix.services.swayidle;
 in
 {
-  options.premunix.services.swayidle = {
+  options.premsnix.services.swayidle = {
     enable = lib.mkEnableOption "swayidle service";
   };
 

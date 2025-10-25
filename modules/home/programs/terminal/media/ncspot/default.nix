@@ -7,10 +7,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.terminal.media.ncspot;
+  cfg = config.premsnix.programs.terminal.media.ncspot;
 in
 {
-  options.premunix.programs.terminal.media.ncspot = {
+  options.premsnix.programs.terminal.media.ncspot = {
     enable = mkEnableOption "ncspot";
   };
 

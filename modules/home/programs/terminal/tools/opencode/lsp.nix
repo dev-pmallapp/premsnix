@@ -13,10 +13,10 @@
           };
           options = {
             nixos = {
-              expr = "(builtins.getFlake \"/home/pmallapp/premunix\").nixosConfigurations.premunix.options";
+              expr = "(builtins.getFlake \"/home/pmallapp/premsnix\").nixosConfigurations.premsnix.options";
             };
             home-manager = {
-              expr = "(builtins.getFlake \"/home/pmallapp/premunix\").homeConfigurations.\"pmallapp@premunix\".options";
+              expr = "(builtins.getFlake \"/home/pmallapp/premsnix\").homeConfigurations.\"pmallapp@premsnix\".options";
             };
           };
         };

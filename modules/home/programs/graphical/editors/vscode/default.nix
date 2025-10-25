@@ -8,19 +8,19 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (lib.premunix) mkBoolOpt;
+  inherit (lib.premsnix) mkBoolOpt;
 
-  cfg = config.premunix.programs.graphical.editors.vscode;
+  cfg = config.premsnix.programs.graphical.editors.vscode;
 in
 {
-  options.premunix.programs.graphical.editors.vscode = {
+  options.premsnix.programs.graphical.editors.vscode = {
     enable = mkEnableOption "Whether or not to enable vscode";
     declarativeConfig = mkBoolOpt true "Whether or not to enable vscode.";
   };
 
   config = mkIf cfg.enable {
     home.file = {
-      ".vscode/argv.json" = mkIf config.premunix.services.keyring.enable {
+      ".vscode/argv.json" = mkIf config.premsnix.services.keyring.enable {
         text = builtins.toJSON {
           "enable-crash-reporter" = true;
           "crash-reporter-id" = "53a6c113-87c4-4f20-9451-dd67057ddb95";
@@ -59,11 +59,11 @@ in
               wakatime.vscode-wakatime
               yzhang.markdown-all-in-one
             ]
-            ++ lib.optionals config.premunix.suites.development.dockerEnable [
+            ++ lib.optionals config.premsnix.suites.development.dockerEnable [
               ms-azuretools.vscode-docker
               ms-vscode-remote.remote-containers
             ]
-            ++ lib.optionals config.premunix.suites.development.aiEnable [
+            ++ lib.optionals config.premsnix.suites.development.aiEnable [
               github.copilot
               github.copilot-chat
             ];
@@ -294,7 +294,7 @@ in
         };
     };
 
-    sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       wakatime = {
         sopsFile = lib.getFile "secrets/pmallapp/default.yaml";
         path = "${config.home.homeDirectory}/.wakatime.cfg";

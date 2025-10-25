@@ -9,4 +9,35 @@ jobs:
       - uses: cachix/install-nix-action@v31
         with:
           install_url: https://nixos.org/nix/install
-      - run: nix build .#checks.x86_64-linux.treefmt
+      - name: Cachix (optional cache)
+        uses: cachix/cachix-action@v15
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Cache Nix store (derivation build deps)
+        uses: actions/cache@v4
+        with:
+          path: |
+            /home/runner/.cache/nix
+          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
+          restore-keys: ${{ runner.os }}-nix-
+      - name: Treefmt check (derivation)
+        run: nix build .#checks.x86_64-linux.treefmt
+      - name: Verify no formatting drift
+        run: |
+          nix fmt
+          if ! git diff --quiet; then
+            echo "Formatting drift detected. Run 'nix fmt' locally and recommit." >&2
+            git diff --name-only > formatting-drift-files.txt
+            git --no-pager diff > formatting-diff.patch
+            exit 1
+          fi
+      - name: Upload formatting diff artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatting-drift
+          path: |
+            formatting-diff.patch
+            formatting-drift-files.txt

@@ -11,12 +11,12 @@ let
     mkDefault
     types
     ;
-  inherit (lib.premunix) mkOpt boolToNum nested-default-attrs;
+  inherit (lib.premsnix) mkOpt boolToNum nested-default-attrs;
 
-  cfg = config.premunix.theme.gtk;
+  cfg = config.premsnix.theme.gtk;
 in
 {
-  options.premunix.theme.gtk = {
+  options.premsnix.theme.gtk = {
     enable = lib.mkEnableOption "customizing GTK and apply themes";
     usePortal = lib.mkEnableOption "using the GTK Portal";
 
@@ -92,8 +92,8 @@ in
           color-scheme = "prefer-dark";
           cursor-size = cfg.cursor.size;
           cursor-theme = cfg.cursor.name;
-          font-name = "${osConfig.premunix.system.fonts.default or "MonaspaceNeon"} ${
-            toString (osConfig.premunix.system.fonts.size or 10)
+          font-name = "${osConfig.premsnix.system.fonts.default or "MonaspaceNeon"} ${
+            toString (osConfig.premsnix.system.fonts.size or 10)
           }";
           gtk-theme = cfg.theme.name;
           icon-theme = cfg.icon.name;
@@ -105,8 +105,8 @@ in
       enable = true;
 
       font = {
-        name = mkDefault (osConfig.premunix.system.fonts.default or "MonaspaceNeon");
-        size = mkDefault (osConfig.premunix.system.fonts.size or 10);
+        name = mkDefault (osConfig.premsnix.system.fonts.default or "MonaspaceNeon");
+        size = mkDefault (osConfig.premsnix.system.fonts.size or 10);
       };
 
       gtk2 = {

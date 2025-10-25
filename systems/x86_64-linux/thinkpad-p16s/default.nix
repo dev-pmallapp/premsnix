@@ -5,7 +5,11 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
+  secretsCandidate = ../../../secrets/thinkpad-p16s/default.yaml;
+  hasHostSecrets = builtins.pathExists secretsCandidate;
+  defaultSopsFile =
+    if hasHostSecrets then secretsCandidate else lib.getFile "secrets/premsnix/pmallapp/default.yaml";
 in
 {
   imports = [
@@ -15,7 +19,7 @@ in
     # ./specializations.nix
   ];
 
-  premunix = {
+  premsnix = {
     nix = enabled;
 
     archetypes = {
@@ -70,7 +74,7 @@ in
         # TODO: make part of ssh config proper
         extraConfig = ''
           Host server
-            User ${config.premunix.user.name}
+            User ${config.premsnix.user.name}
             Hostname austinserver.local
         '';
       };
@@ -79,11 +83,11 @@ in
     security = {
       keyring = enabled;
       sudo-rs = enabled;
-      # sops = {
-      #   enable = true;
-      #   sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      #   defaultSopsFile = lib.getFile "secrets/thinkpad-p16s/default.yaml";
-      # };
+      sops = {
+        enable = true;
+        sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+        inherit defaultSopsFile;
+      };
     };
 
     system = {
@@ -133,5 +137,10 @@ in
     rpcbind.enable = true; # needed for NFS
   };
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
+  # Provide system 'nixos' user to satisfy assertions for modules expecting its presence
+  users.users.nixos = {
+    isSystemUser = true;
+    group = "users";
+  };
 }

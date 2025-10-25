@@ -7,10 +7,10 @@
 }:
 let
 
-  cfg = config.premunix.programs.terminal.tools.eza;
+  cfg = config.premsnix.programs.terminal.tools.eza;
 in
 {
-  options.premunix.programs.terminal.tools.eza = {
+  options.premsnix.programs.terminal.tools.eza = {
     enable = lib.mkEnableOption "eza";
   };
 

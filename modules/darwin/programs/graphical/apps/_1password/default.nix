@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.apps._1password;
+  cfg = config.premsnix.programs.graphical.apps._1password;
 in
 {
-  options.premunix.programs.graphical.apps._1password = {
+  options.premsnix.programs.graphical.apps._1password = {
     enable = lib.mkEnableOption "1password";
   };
 
@@ -28,7 +28,7 @@ in
     };
 
     homebrew = {
-      masApps = mkIf config.premunix.tools.homebrew.masEnable {
+      masApps = mkIf config.premsnix.tools.homebrew.masEnable {
         "1Password for Safari" = 1569813296;
       };
     };

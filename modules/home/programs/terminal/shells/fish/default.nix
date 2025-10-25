@@ -9,10 +9,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.shell.fish;
+  cfg = config.premsnix.programs.terminal.shell.fish;
 in
 {
-  options.premunix.programs.terminal.shell.fish = {
+  options.premsnix.programs.terminal.shell.fish = {
     enable = lib.mkEnableOption "fish";
   };
 

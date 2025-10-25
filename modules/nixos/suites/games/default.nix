@@ -6,17 +6,17 @@
 }:
 let
   inherit (lib) mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.games;
+  cfg = config.premsnix.suites.games;
 in
 {
-  options.premunix.suites.games = {
+  options.premsnix.suites.games = {
     enable = lib.mkEnableOption "common games configuration";
   };
 
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           addons = {

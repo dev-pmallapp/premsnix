@@ -15,9 +15,9 @@ let
     getExe
     getExe'
     ;
-  inherit (lib.premunix) mkOpt enabled;
+  inherit (lib.premsnix) mkOpt enabled;
 
-  cfg = config.premunix.user;
+  cfg = config.premsnix.user;
 
   home-directory =
     if cfg.name == null then
@@ -28,13 +28,13 @@ let
       "/home/${cfg.name}";
 in
 {
-  options.premunix.user = {
+  options.premsnix.user = {
     enable = mkOpt types.bool false "Whether to configure the user account.";
     email = mkOpt types.str "pmallapp12@gmail.com" "The email of the user.";
     fullName = mkOpt types.str "Austin Horstman" "The full name of the user.";
     home = mkOpt (types.nullOr types.str) home-directory "The user's home directory.";
     icon =
-      mkOpt (types.nullOr types.package) pkgs.premunix.user-icon
+      mkOpt (types.nullOr types.package) pkgs.premsnix.user-icon
         "The profile picture to use for the user.";
     name = mkOpt (types.nullOr types.str) username "The user account.";
   };
@@ -44,11 +44,11 @@ in
       assertions = [
         {
           assertion = cfg.name != null;
-          message = "premunix.user.name must be set";
+          message = "premsnix.user.name must be set";
         }
         {
           assertion = cfg.home != null;
-          message = "premunix.user.home must be set";
+          message = "premsnix.user.home must be set";
         }
       ];
 
@@ -96,7 +96,7 @@ in
           flake = "nix flake";
           nix = "nix -vL";
           gsed = "${getExe pkgs.gnused}";
-          hmvar-reload = ''__HM_ZSH_SESS_VARS_SOURCED=0 source "/etc/profiles/per-user/${config.premunix.user.name}/etc/profile.d/hm-session-vars.sh"'';
+          hmvar-reload = ''__HM_ZSH_SESS_VARS_SOURCED=0 source "/etc/profiles/per-user/${config.premsnix.user.name}/etc/profile.d/hm-session-vars.sh"'';
 
           # File management
           rcp = "${getExe pkgs.rsync} -rahP --mkpath --modify-window=1"; # Rsync copy keeping all attributes,timestamps,permissions"

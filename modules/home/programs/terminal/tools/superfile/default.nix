@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.superfile;
+  cfg = config.premsnix.programs.terminal.tools.superfile;
 in
 {
-  options.premunix.programs.terminal.tools.superfile = {
+  options.premsnix.programs.terminal.tools.superfile = {
     enable = lib.mkEnableOption "superfile";
   };
 

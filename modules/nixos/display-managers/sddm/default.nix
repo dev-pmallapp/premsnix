@@ -7,14 +7,14 @@
 }:
 let
   inherit (lib) mkIf getExe' stringAfter;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.display-managers.sddm;
+  cfg = config.premsnix.display-managers.sddm;
 
-  userName = config.premunix.user.name;
+  userName = config.premsnix.user.name;
 in
 {
-  options.premunix.display-managers.sddm = {
+  options.premsnix.display-managers.sddm = {
     enable = lib.mkEnableOption "sddm";
   };
 
@@ -23,9 +23,9 @@ in
       catppuccin-sddm-corners
     ];
 
-    premunix.home.configFile =
+    premsnix.home.configFile =
       let
-        inherit (config.home-manager.users.${userName}.premunix.user) icon;
+        icon = lib.attrByPath [ "home-manager" "users" userName "premsnix" "user" "icon" ] null config;
       in
       lib.mkIf (icon != null) {
         "sddm/faces/.${userName}".source = icon;

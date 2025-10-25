@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.emulators.foot;
+  cfg = config.premsnix.programs.terminal.emulators.foot;
 in
 {
-  options.premunix.programs.terminal.emulators.foot = {
+  options.premsnix.programs.terminal.emulators.foot = {
     enable = lib.mkEnableOption "foot";
   };
 

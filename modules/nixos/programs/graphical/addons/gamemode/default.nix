@@ -6,9 +6,9 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.graphical.addons.gamemode;
+  cfg = config.premsnix.programs.graphical.addons.gamemode;
 
   defaultStartScript = ''
     ${lib.getExe' pkgs.libnotify "notify-send"} 'GameMode started'
@@ -19,7 +19,7 @@ let
   '';
 in
 {
-  options.premunix.programs.graphical.addons.gamemode = {
+  options.premsnix.programs.graphical.addons.gamemode = {
     enable = lib.mkEnableOption "gamemode";
     endscript = mkOpt (with lib.types; nullOr str) null "The script to run when disabling gamemode.";
     startscript = mkOpt (with lib.types; nullOr str) null "The script to run when enabling gamemode.";

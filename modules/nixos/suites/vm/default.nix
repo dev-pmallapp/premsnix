@@ -6,17 +6,17 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.vm;
+  cfg = config.premsnix.suites.vm;
 in
 {
-  options.premunix.suites.vm = {
+  options.premsnix.suites.vm = {
     enable = lib.mkEnableOption "common vm configuration";
   };
 
   config = mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       services = {
         spice-vdagentd = lib.mkDefault enabled;
         spice-webdav = lib.mkDefault enabled;

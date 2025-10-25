@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.satty;
+  cfg = config.premsnix.programs.graphical.addons.satty;
 in
 {
-  options.premunix.programs.graphical.addons.satty = {
+  options.premsnix.programs.graphical.addons.satty = {
     enable = lib.mkEnableOption "satty";
   };
 
@@ -30,7 +30,7 @@ in
         };
 
         font = {
-          family = lib.mkDefault (osConfig.premunix.system.fonts.default or "MonaspaceNeon");
+          family = lib.mkDefault (osConfig.premsnix.system.fonts.default or "MonaspaceNeon");
           style = "Bold";
         };
       };

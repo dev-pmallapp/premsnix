@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.browsers.chromium;
+  cfg = config.premsnix.programs.graphical.browsers.chromium;
 in
 {
-  options.premunix.programs.graphical.browsers.chromium = {
+  options.premsnix.programs.graphical.browsers.chromium = {
     enable = lib.mkEnableOption "chromium";
   };
 

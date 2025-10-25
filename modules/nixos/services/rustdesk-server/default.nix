@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.rustdesk-server;
+  cfg = config.premsnix.services.rustdesk-server;
 in
 {
-  options.premunix.services.rustdesk-server = {
+  options.premsnix.services.rustdesk-server = {
     enable = mkEnableOption "rustdesk-server";
     relayHosts = mkOpt (lib.types.listOf lib.types.str) [ ] "Groups for the user to be assigned.";
   };

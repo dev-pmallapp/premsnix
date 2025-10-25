@@ -8,11 +8,11 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.networking;
+  cfg = config.premsnix.system.networking;
 in
 {
   config = mkIf (cfg.enable && cfg.manager == "networkmanager") {
-    premunix.user.extraGroups = [ "networkmanager" ];
+    premsnix.user.extraGroups = [ "networkmanager" ];
 
     networking = {
       networkmanager = {
@@ -34,9 +34,9 @@ in
           "interface-name:br-*"
           "interface-name:rndis*"
         ]
-        ++ lib.optionals config.premunix.services.tailscale.enable [ "interface-name:tailscale*" ]
-        ++ lib.optionals config.premunix.virtualisation.podman.enable [ "interface-name:docker*" ]
-        ++ lib.optionals config.premunix.virtualisation.kvm.enable [ "interface-name:virbr*" ];
+        ++ lib.optionals config.premsnix.services.tailscale.enable [ "interface-name:tailscale*" ]
+        ++ lib.optionals config.premsnix.virtualisation.podman.enable [ "interface-name:docker*" ]
+        ++ lib.optionals config.premsnix.virtualisation.kvm.enable [ "interface-name:virbr*" ];
       };
     };
     # Slows down rebuilds timing out for network.

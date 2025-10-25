@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.file-managers.thunar;
+  cfg = config.premsnix.programs.graphical.file-managers.thunar;
 in
 {
-  options.premunix.programs.graphical.file-managers.thunar = {
+  options.premsnix.programs.graphical.file-managers.thunar = {
     enable = lib.mkEnableOption "the xfce file manager";
   };
 

@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.launchers.walker;
+  cfg = config.premsnix.programs.graphical.launchers.walker;
 in
 {
-  options.premunix.programs.graphical.launchers.walker = {
+  options.premsnix.programs.graphical.launchers.walker = {
     enable = lib.mkEnableOption "walker in the desktop environment";
   };
 
@@ -20,7 +20,7 @@ in
       systemd.enable = true;
 
       settings = {
-        theme = "premunix";
+        theme = "premsnix";
         close_when_open = true;
         disable_click_to_close = false;
         ignore_mouse = false;
@@ -147,7 +147,7 @@ in
       };
 
       theme = {
-        name = "premunix";
+        name = "premsnix";
         layout = {
           window = {
             width = 1000;

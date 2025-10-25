@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.security.keyring;
+  cfg = config.premsnix.security.keyring;
 in
 {
-  options.premunix.security.keyring = {
+  options.premsnix.security.keyring = {
     enable = lib.mkEnableOption "gnome keyring";
   };
 

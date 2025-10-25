@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.networking;
+  cfg = config.premsnix.system.networking;
 in
 {
-  options.premunix.system.networking = {
+  options.premsnix.system.networking = {
     enable = lib.mkEnableOption "networking support";
   };
 

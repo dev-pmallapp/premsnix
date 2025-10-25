@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.tray-tui;
+  cfg = config.premsnix.programs.terminal.tools.tray-tui;
 in
 {
-  options.premunix.programs.terminal.tools.tray-tui = {
+  options.premsnix.programs.terminal.tools.tray-tui = {
     enable = lib.mkEnableOption "tray-tui";
   };
 

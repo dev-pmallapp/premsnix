@@ -1,0 +1,30 @@
+name: Nightly Host Builds
+on:
+  schedule:
+    - cron: "15 2 * * *" # Daily at 02:15 UTC
+  workflow_dispatch:
+jobs:
+  build-hosts:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO: Keep this list in sync with systems/ & homes/ structure
+        target:
+          - nixosConfigurations.premsnix.config.system.build.toplevel
+          - nixosConfigurations.nuc.config.system.build.toplevel
+          - darwinConfigurations.mac.system
+          - darwinConfigurations.mac-m1.system
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          install_url: https://nixos.org/nix/install
+      - name: Cachix (optional cache)
+        uses: cachix/cachix-action@v15
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build ${{ matrix.target }}
+        run: nix build .#${{ matrix.target }}

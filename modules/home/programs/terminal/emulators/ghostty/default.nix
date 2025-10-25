@@ -8,11 +8,11 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.emulators.ghostty;
+  cfg = config.premsnix.programs.terminal.emulators.ghostty;
 
 in
 {
-  options.premunix.programs.terminal.emulators.ghostty = {
+  options.premsnix.programs.terminal.emulators.ghostty = {
     enable = lib.mkEnableOption "ghostty";
   };
 

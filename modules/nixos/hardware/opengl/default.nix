@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.hardware.opengl;
+  cfg = config.premsnix.hardware.opengl;
 in
 {
-  options.premunix.hardware.opengl = {
+  options.premsnix.hardware.opengl = {
     enable = lib.mkEnableOption "support for opengl";
   };
 
@@ -34,7 +34,7 @@ in
       ];
     };
 
-    premunix.user.extraGroups = [
+    premsnix.user.extraGroups = [
       "render"
       "video"
     ];

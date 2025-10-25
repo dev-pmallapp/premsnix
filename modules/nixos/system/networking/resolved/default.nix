@@ -7,7 +7,7 @@
 let
   inherit (lib) mkIf mkForce;
 
-  cfg = config.premunix.system.networking;
+  cfg = config.premsnix.system.networking;
 in
 {
   config = mkIf (cfg.enable && cfg.dns == "systemd-resolved") {

@@ -7,22 +7,22 @@
 }:
 let
   inherit (lib) getExe;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.desktop.wms.yabai;
-  hmCfg = config.home-manager.users.${config.premunix.user.name};
+  cfg = config.premsnix.desktop.wms.yabai;
+  hmCfg = config.home-manager.users.${config.premsnix.user.name};
 in
 {
-  options.premunix.desktop.wms.yabai = {
+  options.premsnix.desktop.wms.yabai = {
     enable = lib.mkEnableOption "yabai";
     debug = lib.mkEnableOption "debug output";
     logFile = mkOpt lib.types.str "${
-      config.users.users.${config.premunix.user.name}.home
+      config.users.users.${config.premsnix.user.name}.home
     }/Library/Logs/yabai.log" "Filepath of log output";
   };
 
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
 
       home.extraOptions = {
         home.shellAliases = {
@@ -89,7 +89,7 @@ in
       extraConfig =
         let
           sketchybar = hmCfg.programs.sketchybar.finalPackage;
-          inherit (pkgs.premunix) yabai-helper;
+          inherit (pkgs.premsnix) yabai-helper;
         in
         # bash
         ''

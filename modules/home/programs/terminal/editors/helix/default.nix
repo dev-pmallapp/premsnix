@@ -8,14 +8,14 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.terminal.editors.helix;
+  cfg = config.premsnix.programs.terminal.editors.helix;
 in
 {
   imports = [
     ./languages.nix
   ];
 
-  options.premunix.programs.terminal.editors.helix = {
+  options.premsnix.programs.terminal.editors.helix = {
     enable = mkEnableOption "Helix";
   };
 

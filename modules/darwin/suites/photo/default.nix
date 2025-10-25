@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.photo;
+  cfg = config.premsnix.suites.photo;
 in
 {
-  options.premunix.suites.photo = {
+  options.premsnix.suites.photo = {
     enable = lib.mkEnableOption "photo configuration";
   };
 

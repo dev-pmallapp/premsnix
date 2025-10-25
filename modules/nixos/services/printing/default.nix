@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.printing;
+  cfg = config.premsnix.services.printing;
 in
 {
-  options.premunix.services.printing = {
+  options.premsnix.services.printing = {
     enable = lib.mkEnableOption "printing support";
   };
 

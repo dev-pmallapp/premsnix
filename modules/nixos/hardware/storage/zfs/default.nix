@@ -6,13 +6,13 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf mkDefault;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
   inherit (lib.types) listOf str;
 
-  cfg = config.premunix.hardware.storage.zfs;
+  cfg = config.premsnix.hardware.storage.zfs;
 in
 {
-  options.premunix.hardware.storage.zfs = {
+  options.premsnix.hardware.storage.zfs = {
     enable = mkEnableOption "ZFS support";
     auto-snapshot = {
       enable = mkEnableOption "ZFS auto snapshotting";

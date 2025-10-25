@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf types;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.services.sops;
+  cfg = config.premsnix.services.sops;
 in
 {
-  options.premunix.services.sops = with types; {
+  options.premsnix.services.sops = with types; {
     enable = lib.mkEnableOption "sops";
     defaultSopsFile = mkOpt path null "Default sops file.";
     sshKeyPaths = mkOpt (listOf path) [ ] "SSH Key paths to use.";

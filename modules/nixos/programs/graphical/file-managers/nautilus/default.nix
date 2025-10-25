@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.file-managers.nautilus;
+  cfg = config.premsnix.programs.graphical.file-managers.nautilus;
 in
 {
-  options.premunix.programs.graphical.file-managers.nautilus = {
+  options.premsnix.programs.graphical.file-managers.nautilus = {
     enable = lib.mkEnableOption "the gnome file manager";
   };
 

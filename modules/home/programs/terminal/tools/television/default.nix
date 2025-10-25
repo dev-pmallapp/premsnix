@@ -6,10 +6,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.television;
+  cfg = config.premsnix.programs.terminal.tools.television;
 in
 {
-  options.premunix.programs.terminal.tools.television = {
+  options.premsnix.programs.terminal.tools.television = {
     enable = lib.mkEnableOption "television";
   };
 

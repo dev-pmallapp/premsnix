@@ -7,16 +7,16 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.music;
+  cfg = config.premsnix.suites.music;
 in
 {
-  options.premunix.suites.music = {
+  options.premsnix.suites.music = {
     enable = lib.mkEnableOption "music configuration";
   };
 
   config = mkIf cfg.enable {
     homebrew = {
-      masApps = mkIf config.premunix.tools.homebrew.masEnable { "GarageBand" = 682658836; };
+      masApps = mkIf config.premsnix.tools.homebrew.masEnable { "GarageBand" = 682658836; };
     };
   };
 }

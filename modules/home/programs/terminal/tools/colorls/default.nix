@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.colorls;
+  cfg = config.premsnix.programs.terminal.tools.colorls;
 in
 {
-  options.premunix.programs.terminal.tools.colorls = {
+  options.premsnix.programs.terminal.tools.colorls = {
     enable = lib.mkEnableOption "colorls";
   };
 

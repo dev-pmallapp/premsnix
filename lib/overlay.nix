@@ -1,21 +1,21 @@
 { inputs }:
 _final: _prev:
 let
-  premunixLib = import ./default.nix { inherit inputs; };
+  premsnixLib = import ./default.nix { inherit inputs; };
 in
 {
-  # Expose premunix module functions directly
-  premunix = premunixLib.flake.lib.module;
+  # Expose premsnix module functions directly
+  premsnix = premsnixLib.flake.lib.module;
 
-  # Expose all premunix lib namespaces
-  inherit (premunixLib.flake.lib)
+  # Expose all premsnix lib namespaces
+  inherit (premsnixLib.flake.lib)
     file
     system
     theme
     base64
     ;
 
-  inherit (premunixLib.flake.lib.file)
+  inherit (premsnixLib.flake.lib.file)
     getFile
     getNixFiles
     importFiles
@@ -24,7 +24,7 @@ in
     mergeAttrs
     ;
 
-  inherit (premunixLib.flake.lib.module)
+  inherit (premsnixLib.flake.lib.module)
     mkOpt
     mkOpt'
     mkBoolOpt

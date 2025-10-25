@@ -5,12 +5,12 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.graphical.browsers.firefox;
+  cfg = config.premsnix.programs.graphical.browsers.firefox;
 in
 {
-  options.premunix.programs.graphical.browsers.firefox = {
+  options.premsnix.programs.graphical.browsers.firefox = {
     search = mkOpt lib.types.attrs {
       default = "ddg";
       privateDefault = "ddg";
@@ -146,7 +146,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.firefox.profiles.${config.premunix.user.name} = {
+    programs.firefox.profiles.${config.premsnix.user.name} = {
       inherit (cfg) search;
     };
   };

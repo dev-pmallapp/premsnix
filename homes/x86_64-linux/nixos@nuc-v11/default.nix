@@ -7,10 +7,10 @@
 }:
 let
   inherit (lib) mkForce;
-  inherit (lib.premunix) enabled disabled;
+  inherit (lib.premsnix) enabled disabled;
 in
 {
-  premunix = {
+  premsnix = {
     user = {
       enable = true;
       name = "pmallapp";
@@ -95,11 +95,11 @@ in
     theme.catppuccin = enabled;
   };
 
-  sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+  sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
     kubernetes = {
       path = "${config.home.homeDirectory}/.kube/config";
     };
   };
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "25.11";
 }

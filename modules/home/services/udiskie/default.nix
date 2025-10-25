@@ -7,10 +7,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.udiskie;
+  cfg = config.premsnix.services.udiskie;
 in
 {
-  options.premunix.services.udiskie = {
+  options.premsnix.services.udiskie = {
     enable = mkEnableOption "udiskie";
   };
 

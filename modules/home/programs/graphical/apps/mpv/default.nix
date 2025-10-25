@@ -8,11 +8,11 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.apps.mpv;
+  cfg = config.premsnix.programs.graphical.apps.mpv;
 
 in
 {
-  options.premunix.programs.graphical.apps.mpv = {
+  options.premsnix.programs.graphical.apps.mpv = {
     enable = lib.mkEnableOption "support for mpv";
   };
 

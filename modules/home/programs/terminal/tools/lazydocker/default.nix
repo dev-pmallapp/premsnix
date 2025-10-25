@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.lazydocker;
+  cfg = config.premsnix.programs.terminal.tools.lazydocker;
 in
 {
-  options.premunix.programs.terminal.tools.lazydocker = {
+  options.premsnix.programs.terminal.tools.lazydocker = {
     enable = lib.mkEnableOption "lazydocker";
   };
 

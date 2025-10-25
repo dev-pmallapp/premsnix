@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.premunix.services.keyring;
+  cfg = config.premsnix.services.keyring;
 in
 {
-  options.premunix.services.keyring = {
+  options.premsnix.services.keyring = {
     enable = lib.mkEnableOption "gnome keyring";
   };
 

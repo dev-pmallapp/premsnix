@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.cava;
+  cfg = config.premsnix.programs.terminal.tools.cava;
 in
 {
-  options.premunix.programs.terminal.tools.cava = {
+  options.premsnix.programs.terminal.tools.cava = {
     enable = lib.mkEnableOption "cava";
   };
 

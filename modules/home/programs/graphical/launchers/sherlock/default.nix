@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.launchers.sherlock;
+  cfg = config.premsnix.programs.graphical.launchers.sherlock;
 in
 {
-  options.premunix.programs.graphical.launchers.sherlock = {
+  options.premsnix.programs.graphical.launchers.sherlock = {
     enable = lib.mkEnableOption "sherlock in the desktop environment";
   };
 

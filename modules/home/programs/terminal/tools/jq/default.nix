@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.jq;
+  cfg = config.premsnix.programs.terminal.tools.jq;
 in
 {
-  options.premunix.programs.terminal.tools.jq = {
+  options.premsnix.programs.terminal.tools.jq = {
     enable = lib.mkEnableOption "jq";
   };
 

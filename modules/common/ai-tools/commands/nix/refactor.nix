@@ -23,15 +23,15 @@
     ALWAYS START HERE - Determine project type and gather patterns
     ```
 
-    **For premunix repository detection:**
-    - Check if current directory contains `flake.nix` with premunix-specific content
+    **For premsnix repository detection:**
+    - Check if current directory contains `flake.nix` with premsnix-specific content
     - Look for `modules/` directory with `common/`, `nixos/`, `darwin/`, `home/` subdirs
-    - Check for `CLAUDE.md` file indicating premunix project
+    - Check for `CLAUDE.md` file indicating premsnix project
 
     **Actions based on detection:**
     ```
-    IF premunix detected:
-        Launch Task with Dotfiles Expert: "Provide comprehensive premunix patterns for Nix refactoring including library usage, module structure, option namespacing, and coding conventions"
+    IF premsnix detected:
+        Launch Task with Dotfiles Expert: "Provide comprehensive premsnix patterns for Nix refactoring including library usage, module structure, option namespacing, and coding conventions"
     ELSE:
         Read 3-5 representative .nix files to understand local patterns
         Look for lib usage patterns, module structures, naming conventions
@@ -141,7 +141,7 @@
 
     **--fix-options flag:**
     ```
-    □ Apply project option namespacing (e.g., premunix.*)
+    □ Apply project option namespacing (e.g., premsnix.*)
     □ Fix option type definitions and validation
     □ Improve option descriptions and examples
     □ Consistent default value patterns (mkDefault usage)

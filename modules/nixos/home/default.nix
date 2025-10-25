@@ -7,11 +7,11 @@
 }:
 let
   inherit (lib) types mkAliasDefinitions;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 in
 {
 
-  options.premunix.home = with types; {
+  options.premsnix.home = with types; {
     configFile =
       mkOpt attrs { }
         "A set of files to be managed by home-manager's <option>xdg.configFile</option>.";
@@ -20,10 +20,10 @@ in
   };
 
   config = {
-    premunix.home.extraOptions = {
-      home.file = mkAliasDefinitions options.premunix.home.file;
+    premsnix.home.extraOptions = {
+      home.file = mkAliasDefinitions options.premsnix.home.file;
       home.stateVersion = lib.mkOptionDefault config.system.stateVersion;
-      xdg.configFile = mkAliasDefinitions options.premunix.home.configFile;
+      xdg.configFile = mkAliasDefinitions options.premsnix.home.configFile;
       xdg.enable = lib.mkDefault true;
     };
 
@@ -34,7 +34,7 @@ in
       useGlobalPkgs = true;
       useUserPackages = true;
 
-      users.${config.premunix.user.name} = mkAliasDefinitions options.premunix.home.extraOptions;
+      users.${config.premsnix.user.name} = mkAliasDefinitions options.premsnix.home.extraOptions;
 
       verbose = true;
     };

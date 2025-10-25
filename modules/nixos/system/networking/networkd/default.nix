@@ -7,7 +7,7 @@
 let
   inherit (lib) mkIf mkForce;
 
-  cfg = config.premunix.system.networking;
+  cfg = config.premsnix.system.networking;
 in
 {
   config = mkIf (cfg.enable && cfg.manager == "systemd-networkd") {
@@ -37,7 +37,7 @@ in
         };
 
         # let me configure tailscale manually
-        "20-tailscale-ignore" = mkIf config.premunix.services.tailscale.enable {
+        "20-tailscale-ignore" = mkIf config.premsnix.services.tailscale.enable {
           matchConfig.Name = "tailscale*";
           linkConfig = {
             Unmanaged = "yes";

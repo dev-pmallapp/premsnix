@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.flatpak;
+  cfg = config.premsnix.services.flatpak;
 in
 {
-  options.premunix.services.flatpak = {
+  options.premsnix.services.flatpak = {
     enable = lib.mkEnableOption "flatpak support";
     extraRepos = lib.mkOption {
       default = [

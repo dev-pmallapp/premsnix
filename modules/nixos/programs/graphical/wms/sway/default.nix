@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt enabled;
+  inherit (lib.premsnix) mkOpt enabled;
 
-  cfg = config.premunix.programs.graphical.wms.sway;
+  cfg = config.premsnix.programs.graphical.wms.sway;
 in
 {
-  options.premunix.programs.graphical.wms.sway = with types; {
+  options.premsnix.programs.graphical.wms.sway = with types; {
     enable = lib.mkEnableOption "Sway";
     withUWSM = lib.mkEnableOption "Universal Wayland Session Manager integration";
     extraConfig = mkOpt str "" "Additional configuration for the Sway config file.";
@@ -20,7 +20,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    premunix.home = {
+    premsnix.home = {
       configFile = lib.optionalAttrs cfg.withUWSM {
         "uwsm/env-sway".text = ''
           export XDG_CURRENT_DESKTOP=sway
@@ -29,7 +29,7 @@ in
         '';
       };
     };
-    premunix = {
+    premsnix = {
       display-managers = {
         sddm = {
           enable = true;

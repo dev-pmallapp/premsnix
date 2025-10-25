@@ -11,8 +11,8 @@
     userPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqCiZgjOmhsBTAFD0LbuwpfeuCnwXwMl2wByxC1UiRt";
   };
 
-  premunix = {
-    hostname = "premunix.local";
+  premsnix = {
+    hostname = "premsnix.local";
     username = "pmallapp";
     system = "nixos";
     gpgAgent = true;
@@ -29,8 +29,8 @@
   };
 
   # Darwin hosts
-  khanelimac = {
-    hostname = "khanelimac.local";
+  mac = {
+    hostname = "mac.local";
     username = "pmallapp";
     system = "darwin";
     gpgAgent = true;
@@ -38,8 +38,8 @@
     userPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINBG8l3jQ2EPLU+BlgtaQZpr4xr97n2buTLAZTxKHSsD";
   };
 
-  "khanelimac-m1" = {
-    hostname = "khanelimac-m1.local";
+  "mac-m1" = {
+    hostname = "mac-m1.local";
     username = "pmallapp";
     system = "darwin";
     gpgAgent = true;

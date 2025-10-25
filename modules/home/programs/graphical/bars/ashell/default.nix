@@ -8,12 +8,12 @@
 }:
 let
   inherit (lib) mkIf types;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.graphical.bars.ashell;
+  cfg = config.premsnix.programs.graphical.bars.ashell;
 in
 {
-  options.premunix.programs.graphical.bars.ashell = {
+  options.premsnix.programs.graphical.bars.ashell = {
     enable = lib.mkEnableOption "ashell in the desktop environment";
 
     style = mkOpt types.str "Islands" "Style of the bar";
@@ -48,7 +48,7 @@ in
 
           # GitHub notifications helper
           githubHelper = pkgs.writeShellScriptBin "ashell-github-helper" ''
-            ${lib.optionalString (osConfig.premunix.security.sops.enable or false) ''
+            ${lib.optionalString (osConfig.premsnix.security.sops.enable or false) ''
               ${lib.getExe pkgs.gh} auth login --with-token < ${config.sops.secrets."github/access-token".path}
             ''}
 
@@ -316,7 +316,7 @@ in
         };
     };
 
-    sops.secrets = mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = mkIf (osConfig.premsnix.security.sops.enable or false) {
       weather_config = {
         sopsFile = lib.getFile "secrets/pmallapp/default.yaml";
         path = "${config.home.homeDirectory}/weather_config.json";

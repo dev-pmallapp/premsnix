@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.launchers.rofi;
+  cfg = config.premsnix.programs.graphical.launchers.rofi;
 in
 {
-  options.premunix.programs.graphical.launchers.rofi = {
+  options.premsnix.programs.graphical.launchers.rofi = {
     enable = lib.mkEnableOption "Rofi in the desktop environment";
   };
 

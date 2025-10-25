@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.user;
+  cfg = config.premsnix.user;
 in
 {
-  options.premunix.user = {
+  options.premsnix.user = {
     name = mkOpt types.str "pmallapp" "The user account.";
     email = mkOpt types.str "pmallapp12@gmail.com" "The email of the user.";
     fullName = mkOpt types.str "Austin Horstman" "The full name of the user.";

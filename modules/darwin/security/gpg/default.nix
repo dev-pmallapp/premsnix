@@ -12,9 +12,9 @@ let
     mkIf
     getExe'
     ;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.security.gpg;
+  cfg = config.premsnix.security.gpg;
 
   gpgAgentConf = ''
     enable-ssh-support
@@ -23,7 +23,7 @@ let
   '';
 in
 {
-  options.premunix.security.gpg = {
+  options.premsnix.security.gpg = {
     enable = mkEnableOption "GPG";
     agentTimeout = mkOpt types.int 5 "The amount of time to wait before continuing with shell init.";
   };
@@ -51,7 +51,7 @@ in
       enableSSHSupport = true;
     };
 
-    premunix.home.file = {
+    premsnix.home.file = {
       ".gnupg/.keep".text = "";
       ".gnupg/gpg-agent.conf".text = gpgAgentConf;
     };

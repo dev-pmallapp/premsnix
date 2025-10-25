@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  options.premunix.hardware.cpu = {
+  options.premsnix.hardware.cpu = {
     enable = lib.mkEnableOption "No-op used for setting up hierarchy";
   };
 }

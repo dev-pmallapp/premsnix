@@ -8,10 +8,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.cliphist;
+  cfg = config.premsnix.services.cliphist;
 in
 {
-  options.premunix.services.cliphist = {
+  options.premsnix.services.cliphist = {
     enable = mkEnableOption "cliphist";
 
     systemdTargets = lib.mkOption {

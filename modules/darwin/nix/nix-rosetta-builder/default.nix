@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.nix.nix-rosetta-builder;
+  cfg = config.premsnix.nix.nix-rosetta-builder;
 in
 {
-  options.premunix.nix.nix-rosetta-builder = {
+  options.premsnix.nix.nix-rosetta-builder = {
     enable = lib.mkEnableOption "nix-rosetta-builder";
     cores = lib.mkOption {
       type = lib.types.int;

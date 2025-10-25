@@ -1,6 +1,7 @@
 { lib, ... }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
+  defaultSopsFile = lib.getFile "secrets/premsnix/pmallapp/default.yaml";
 in
 {
   imports = [ ./hardware.nix ];
@@ -10,7 +11,7 @@ in
       WLR_NO_HARDWARE_CURSORS=1
     '';
 
-  premunix = {
+  premsnix = {
     nix = enabled;
 
     archetypes = {
@@ -47,6 +48,10 @@ in
     security = {
       doas = enabled;
       keyring = enabled;
+      sops = {
+        enable = true;
+        inherit defaultSopsFile;
+      };
     };
 
     system = {
@@ -65,5 +70,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }

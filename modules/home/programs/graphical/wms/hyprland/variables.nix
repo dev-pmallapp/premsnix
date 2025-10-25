@@ -18,7 +18,7 @@ let
       ''
   );
 
-  screenshot-path = "/home/${config.premunix.user.name}/Pictures/screenshots";
+  screenshot-path = "/home/${config.premsnix.user.name}/Pictures/screenshots";
 
   # Screenshot tool priority: hyprshot (if enabled) > grimblast
   screenshot_tool =
@@ -52,12 +52,12 @@ let
 
   # Annotation tool priority: satty (if enabled) > swappy
   annotation_tool =
-    if config.premunix.programs.graphical.addons.satty.enable then
+    if config.premsnix.programs.graphical.addons.satty.enable then
       "satty --filename -"
     else
       "swappy -f -";
 
-  cfg = config.premunix.programs.graphical.wms.hyprland;
+  cfg = config.premsnix.programs.graphical.wms.hyprland;
 in
 {
   config = mkIf cfg.enable {
@@ -230,7 +230,7 @@ in
 
         # screenshot commands
         "$notify-screenshot" = ''notify-send --icon "$file" "Screenshot Saved"'';
-        "$screenshot-path" = "/home/${config.premunix.user.name}/Pictures/screenshots";
+        "$screenshot-path" = "/home/${config.premsnix.user.name}/Pictures/screenshots";
         "$screenshot_area_file" = screenshot_tool.area_file;
         "$screenshot_active_file" = screenshot_tool.active_file;
         "$screenshot_screen_file" = screenshot_tool.screen_file;

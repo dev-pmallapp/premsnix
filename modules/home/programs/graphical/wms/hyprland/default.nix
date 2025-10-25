@@ -8,9 +8,9 @@
 }:
 let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.programs.graphical.wms.hyprland;
+  cfg = config.premsnix.programs.graphical.wms.hyprland;
 
   historicalLogAliases = builtins.listToAttrs (
     builtins.genList (x: {
@@ -27,7 +27,7 @@ let
   );
 in
 {
-  options.premunix.programs.graphical.wms.hyprland = {
+  options.premsnix.programs.graphical.wms.hyprland = {
     enable = mkEnableOption "Hyprland";
     enableDebug = mkEnableOption "debug config";
     appendConfig = lib.mkOption {
@@ -65,7 +65,7 @@ in
           hyprpicker
           hyprprop
           hyprsysteminfo
-          premunix.record_screen
+          premsnix.record_screen
           networkmanagerapplet
           slurp
         ]
@@ -115,7 +115,7 @@ in
       // historicalCrashAliases;
     };
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           launchers = {

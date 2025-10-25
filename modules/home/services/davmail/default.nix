@@ -7,10 +7,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.services.davmail;
+  cfg = config.premsnix.services.davmail;
 in
 {
-  options.premunix.services.davmail = {
+  options.premsnix.services.davmail = {
     enable = mkEnableOption "davmail";
   };
 

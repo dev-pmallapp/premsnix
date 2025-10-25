@@ -11,9 +11,9 @@ let
     mkIf
     types
     ;
-  inherit (lib.premunix) mkOpt enabled;
+  inherit (lib.premsnix) mkOpt enabled;
 
-  cfg = config.premunix.programs.graphical.wms.hyprland;
+  cfg = config.premsnix.programs.graphical.wms.hyprland;
 
   programs = makeBinPath (
     with pkgs;
@@ -27,7 +27,7 @@ let
   );
 in
 {
-  options.premunix.programs.graphical.wms.hyprland = with types; {
+  options.premsnix.programs.graphical.wms.hyprland = with types; {
     enable = lib.mkEnableOption "Hyprland";
     enableDebug = lib.mkEnableOption "debug mode";
     customConfigFiles =
@@ -40,8 +40,8 @@ in
   config = mkIf cfg.enable {
     environment = {
       sessionVariables = lib.mkIf (!config.programs.uwsm.enable) {
-        HYPRCURSOR_THEME = config.premunix.theme.cursor.name;
-        HYPRCURSOR_SIZE = "${toString config.premunix.theme.cursor.size}";
+        HYPRCURSOR_THEME = config.premsnix.theme.cursor.name;
+        HYPRCURSOR_SIZE = "${toString config.premsnix.theme.cursor.size}";
       };
     };
 
@@ -54,7 +54,7 @@ in
       };
     };
 
-    premunix = {
+    premsnix = {
       display-managers = {
         sddm = {
           enable = true;
@@ -71,8 +71,8 @@ in
             export XDG_CURRENT_DESKTOP=Hyprland
             export XDG_SESSION_TYPE=wayland
             export XDG_SESSION_DESKTOP=Hyprland
-            export HYPRCURSOR_THEME=${config.premunix.theme.cursor.name};
-            export HYPRCURSOR_SIZE=${toString config.premunix.theme.cursor.size};
+            export HYPRCURSOR_THEME=${config.premsnix.theme.cursor.name};
+            export HYPRCURSOR_SIZE=${toString config.premsnix.theme.cursor.size};
           ''
           + lib.optionalString cfg.enableDebug ''
             export AQ_TRACE=1;

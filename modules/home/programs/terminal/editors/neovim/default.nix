@@ -14,12 +14,12 @@ let
 
   cfg = config.premsnix.programs.terminal.editors.neovim;
 
-  # Simplified: remove external khanelivim dependency; rely on a minimal built-in configuration layer.
+  # Simplified: removed external branded Neovim dependency; rely on a minimal built-in configuration layer.
   baseConfiguration = import (inputs.nixvim or inputs.self.inputs.nixvim) {
     inherit pkgs system;
     modules = [ ];
   };
-  khanelivimConfigurationExtended = baseConfiguration.extendModules {
+  extendedConfiguration = baseConfiguration.extendModules {
     modules = [
       {
         config = {
@@ -32,7 +32,7 @@ let
           #   in
           #   {
           #     options = rec {
-          #       nix-darwin.expr = ''${flake}.darwinConfigurations.khanelimac.options'';
+          #       nix-darwin.expr = ''${flake}.darwinConfigurations.mac.options'';
           #       nixos.expr = ''${flake}.nixosConfigurations.premsnix.options'';
           #       home-manager.expr = ''${nixos.expr}.home-manager.users.type.getSubOptions [ ]'';
           #     };
@@ -69,7 +69,7 @@ let
     ]
     ++ cfg.extraModules;
   };
-  khanelivim = khanelivimConfigurationExtended.config.build.package;
+  neovimPackage = extendedConfiguration.config.build.package;
 in
 {
   options.premsnix.programs.terminal.editors.neovim = {
@@ -89,7 +89,7 @@ in
         MANPAGER = "nvim -c 'set ft=man bt=nowrite noswapfile nobk shada=\\\"NONE\\\" ro noma' +Man! -o -";
       };
       packages = [
-        khanelivim
+        neovimPackage
         pkgs.nvrh
       ];
     };

@@ -6,10 +6,10 @@
 let
   inherit (lib) mkEnableOption mkIf;
 
-  cfg = config.premunix.programs.terminal.shell.nushell;
+  cfg = config.premsnix.programs.terminal.shell.nushell;
 in
 {
-  options.premunix.programs.terminal.shell.nushell = {
+  options.premsnix.programs.terminal.shell.nushell = {
     enable = mkEnableOption "nushell";
   };
 

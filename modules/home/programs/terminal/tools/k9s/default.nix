@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.k9s;
+  cfg = config.premsnix.programs.terminal.tools.k9s;
 in
 {
-  options.premunix.programs.terminal.tools.k9s = {
+  options.premsnix.programs.terminal.tools.k9s = {
     enable = lib.mkEnableOption "k9s";
   };
 

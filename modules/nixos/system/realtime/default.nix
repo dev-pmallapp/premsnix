@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.system.realtime;
+  cfg = config.premsnix.system.realtime;
 in
 {
-  options.premunix.system.realtime = {
+  options.premsnix.system.realtime = {
     enable = lib.mkEnableOption "realtime";
   };
 
@@ -20,7 +20,7 @@ in
     # tldr: realtime processes have higher priority than normal processes
     # and that's a good thing
     users = {
-      users."${config.premunix.user.name}".extraGroups = [ "realtime" ];
+      users."${config.premsnix.user.name}".extraGroups = [ "realtime" ];
       groups.realtime = { };
     };
 

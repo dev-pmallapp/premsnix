@@ -10,10 +10,10 @@ let
 
   catppuccin = import (lib.getFile "modules/home/theme/catppuccin/colors.nix");
 
-  cfg = config.premunix.programs.graphical.screenlockers.hyprlock;
+  cfg = config.premsnix.programs.graphical.screenlockers.hyprlock;
 in
 {
-  options.premunix.programs.graphical.screenlockers.hyprlock = {
+  options.premsnix.programs.graphical.screenlockers.hyprlock = {
     enable = lib.mkEnableOption "hyprlock in the desktop environment";
   };
 
@@ -84,7 +84,7 @@ in
             monitor = "";
             size = 120;
             position = "0, 45";
-            path = "${config.premunix.user.home}/.face";
+            path = "${config.premsnix.user.home}/.face";
             border_color = lib.mkDefault catppuccin.colors.text.rgb;
             border_size = 5;
             halign = "center";
@@ -114,7 +114,7 @@ in
             text = "<span font_weight=\"ultrabold\">󰌾 </span>";
             color = lib.mkDefault catppuccin.colors.text.rgb;
             font_size = 50;
-            font_family = lib.mkDefault (osConfig.premunix.system.fonts.default or "MonaspaceNeon");
+            font_family = lib.mkDefault (osConfig.premsnix.system.fonts.default or "MonaspaceNeon");
             valign = "center";
             halign = "center";
             position = "15, -350";
@@ -129,7 +129,7 @@ in
             text = "<span font_weight=\"ultrabold\"> </span>";
             color = lib.mkDefault catppuccin.colors.text.rgb;
             font_size = 25;
-            font_family = lib.mkDefault (osConfig.premunix.system.fonts.default or "MonaspaceNeon");
+            font_family = lib.mkDefault (osConfig.premsnix.system.fonts.default or "MonaspaceNeon");
             valign = "bottom";
             halign = "right";
             position = "5, 8";

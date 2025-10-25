@@ -9,10 +9,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.addons.wlogout;
+  cfg = config.premsnix.programs.graphical.addons.wlogout;
 in
 {
-  options.premunix.programs.graphical.addons.wlogout = {
+  options.premsnix.programs.graphical.addons.wlogout = {
     enable = lib.mkEnableOption "wlogout in the desktop environment";
   };
 

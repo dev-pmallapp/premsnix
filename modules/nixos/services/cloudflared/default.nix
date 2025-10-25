@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.cloudflared;
+  cfg = config.premsnix.services.cloudflared;
 in
 {
-  options.premunix.services.cloudflared = {
+  options.premsnix.services.cloudflared = {
     enable = lib.mkEnableOption "cloudflared";
   };
 
@@ -20,7 +20,7 @@ in
     # assertions = [
     #   {
     #     assertion = cfg.autoconnect.enable -> cfg.autoconnect.key != "";
-    #     message = "premunix.services.cloudflared.autoconnect.key must be set";
+    #     message = "premsnix.services.cloudflared.autoconnect.key must be set";
     #   }
     # ];
 

@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.file-managers.dolphin;
+  cfg = config.premsnix.programs.graphical.file-managers.dolphin;
 in
 {
-  options.premunix.programs.graphical.file-managers.dolphin = {
+  options.premsnix.programs.graphical.file-managers.dolphin = {
     enable = lib.mkEnableOption "Dolphin";
   };
 

@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.services.oomd;
+  cfg = config.premsnix.services.oomd;
 in
 {
-  options.premunix.services.oomd = {
+  options.premsnix.services.oomd = {
     enable = lib.mkEnableOption "oomd";
   };
 

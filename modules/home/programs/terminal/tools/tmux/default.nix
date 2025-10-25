@@ -9,7 +9,7 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.tmux;
+  cfg = config.premsnix.programs.terminal.tools.tmux;
 
   plugins = with pkgs.tmuxPlugins; [
     {
@@ -33,7 +33,7 @@ let
   ];
 in
 {
-  options.premunix.programs.terminal.tools.tmux = {
+  options.premsnix.programs.terminal.tools.tmux = {
     enable = lib.mkEnableOption "tmux";
   };
 
@@ -71,7 +71,7 @@ in
 
         ${lib.optionalString (
           config.programs.tmux.sensibleOnTop && (osConfig != { })
-        ) "set -g default-command ${osConfig.users.users.${config.premunix.user.name}.shell}"}
+        ) "set -g default-command ${osConfig.users.users.${config.premsnix.user.name}.shell}"}
       '';
 
       inherit plugins;

@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.theme.qt;
+  cfg = config.premsnix.theme.qt;
 in
 {
-  options.premunix.theme.qt = with types; {
+  options.premsnix.theme.qt = with types; {
     enable = lib.mkEnableOption "customizing qt and apply themes";
 
     theme = {
@@ -28,7 +28,7 @@ in
     environment = {
       systemPackages =
         with pkgs;
-        [ cfg.theme.package ] ++ lib.optional config.premunix.suites.wlroots.enable kdePackages.qtwayland;
+        [ cfg.theme.package ] ++ lib.optional config.premsnix.suites.wlroots.enable kdePackages.qtwayland;
     };
 
     qt = {

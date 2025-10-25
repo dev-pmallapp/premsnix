@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.art;
+  cfg = config.premsnix.suites.art;
 in
 {
-  options.premunix.suites.art = {
+  options.premsnix.suites.art = {
     enable = lib.mkEnableOption "art configuration";
   };
 

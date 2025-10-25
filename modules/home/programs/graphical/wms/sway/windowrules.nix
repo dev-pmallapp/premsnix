@@ -6,7 +6,7 @@
 }:
 let
   inherit (lib) mkIf;
-  cfg = config.premunix.programs.graphical.wms.sway;
+  cfg = config.premsnix.programs.graphical.wms.sway;
 in
 {
   config = mkIf cfg.enable {

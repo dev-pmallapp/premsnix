@@ -24,7 +24,7 @@
     ```
 
     **Project type detection:**
-    - Check if we're in premunix repository (look for specific directory structure)
+    - Check if we're in premsnix repository (look for specific directory structure)
     - Identify if it's a flake-based project (flake.nix present)
     - Determine if it's NixOS, Home Manager, or Darwin focused
 
@@ -68,8 +68,8 @@
 
     ### **Step 1.3: Project-Specific Convention Analysis**
     ```
-    IF premunix project detected:
-        Launch Task with Dotfiles Expert: "Provide premunix module scaffolding patterns including namespace conventions, option organization, library usage, and template structures for [MODULE_TYPE] modules"
+    IF premsnix project detected:
+        Launch Task with Dotfiles Expert: "Provide premsnix module scaffolding patterns including namespace conventions, option organization, library usage, and template structures for [MODULE_TYPE] modules"
     ELSE:
         Use discovered patterns from existing module analysis
         Check for project-specific configuration files or documentation

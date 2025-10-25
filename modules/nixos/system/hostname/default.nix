@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) mkBoolOpt;
+  inherit (lib.premsnix) mkBoolOpt;
 
-  cfg = config.premunix.system.hostname;
+  cfg = config.premsnix.system.hostname;
 in
 {
-  options.premunix.system.hostname = {
+  options.premsnix.system.hostname = {
     enable = mkBoolOpt true "Whether to configure the system hostname.";
   };
 

@@ -7,12 +7,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.programs.graphical.apps._1password;
+  cfg = config.premsnix.programs.graphical.apps._1password;
 in
 {
-  options.premunix.programs.graphical.apps._1password = {
+  options.premsnix.programs.graphical.apps._1password = {
     enable = lib.mkEnableOption "1password";
     enableSshSocket = lib.mkEnableOption "ssh-agent socket";
   };
@@ -24,7 +24,7 @@ in
         enable = true;
         package = pkgs._1password-gui;
 
-        polkitPolicyOwners = [ config.premunix.user.name ];
+        polkitPolicyOwners = [ config.premsnix.user.name ];
       };
 
       ssh.extraConfig = lib.optionalString cfg.enableSshSocket ''

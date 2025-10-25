@@ -129,8 +129,8 @@
 
     **Project-specific patterns:**
     ```
-    IF premunix project detected:
-        Launch Task with Nix Expert: "Analyze this Nix code for premunix compliance and optimization opportunities"
+    IF premsnix project detected:
+        Launch Task with Nix Expert: "Analyze this Nix code for premsnix compliance and optimization opportunities"
     ELSE:
         Apply general Nix best practices analysis
     ```

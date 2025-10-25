@@ -5,10 +5,10 @@
   ...
 }:
 let
-  cfg = config.premunix.security.clamav;
+  cfg = config.premsnix.security.clamav;
 in
 {
-  options.premunix.security.clamav = {
+  options.premsnix.security.clamav = {
     enable = lib.mkEnableOption "default clamav configuration";
   };
 

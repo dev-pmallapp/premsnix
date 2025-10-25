@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.glxinfo;
+  cfg = config.premsnix.programs.terminal.tools.glxinfo;
 in
 {
-  options.premunix.programs.terminal.tools.glxinfo = {
+  options.premsnix.programs.terminal.tools.glxinfo = {
     enable = lib.mkEnableOption "glxinfo";
   };
 

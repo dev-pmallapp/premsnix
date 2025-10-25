@@ -12,12 +12,12 @@ let
     types
     ;
 
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.theme.stylix;
+  cfg = config.premsnix.theme.stylix;
 in
 {
-  options.premunix.theme.stylix = {
+  options.premsnix.theme.stylix = {
     enable = mkEnableOption "stylix theme for applications";
     theme = mkOpt types.str "catppuccin-macchiato" "base16 theme file name";
 
@@ -47,8 +47,8 @@ in
       base16Scheme = "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
 
       targets = {
-        gtk.enable = !config.premunix.theme.gtk.enable;
-        qt.enable = !config.premunix.theme.qt.enable;
+        gtk.enable = !config.premsnix.theme.gtk.enable;
+        qt.enable = !config.premsnix.theme.qt.enable;
       };
     };
   };

@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.graphical.apps.retroarch;
+  cfg = config.premsnix.programs.graphical.apps.retroarch;
 in
 {
-  options.premunix.programs.graphical.apps.retroarch = {
+  options.premsnix.programs.graphical.apps.retroarch = {
     enable = lib.mkEnableOption "retroarch";
   };
 

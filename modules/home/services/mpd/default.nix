@@ -13,10 +13,10 @@ let
     types
     ;
 
-  cfg = config.premunix.services.mpd;
+  cfg = config.premsnix.services.mpd;
 in
 {
-  options.premunix.services.mpd = {
+  options.premsnix.services.mpd = {
     enable = mkEnableOption "mpd";
     musicDirectory = mkOption {
       type = with types; either path str;

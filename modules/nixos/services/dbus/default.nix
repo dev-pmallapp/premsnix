@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) mkBoolOpt;
+  inherit (lib.premsnix) mkBoolOpt;
 
-  cfg = config.premunix.services.dbus;
+  cfg = config.premsnix.services.dbus;
 in
 {
-  options.premunix.services.dbus = {
+  options.premsnix.services.dbus = {
     enable = mkBoolOpt true "Whether or not to enable dbus service.";
   };
 

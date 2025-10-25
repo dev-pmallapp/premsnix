@@ -7,10 +7,10 @@
 }:
 let
 
-  cfg = config.premunix.security.sudo-rs;
+  cfg = config.premsnix.security.sudo-rs;
 in
 {
-  options.premunix.security.sudo-rs = {
+  options.premsnix.security.sudo-rs = {
     enable = lib.mkEnableOption "replacing sudo with sudo-rs";
   };
 
@@ -24,7 +24,7 @@ in
       # extraRules = [
       #   {
       #     noPass = true;
-      #     users = [ config.premunix.user.name ];
+      #     users = [ config.premsnix.user.name ];
       #   }
       # ];
     };

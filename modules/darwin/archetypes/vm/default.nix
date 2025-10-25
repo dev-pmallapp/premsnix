@@ -5,17 +5,17 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.archetypes.vm;
+  cfg = config.premsnix.archetypes.vm;
 in
 {
-  options.premunix.archetypes.vm = {
+  options.premsnix.archetypes.vm = {
     enable = lib.mkEnableOption "the vm archetype";
   };
 
   config = lib.mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       suites = {
         common = enabled;
         desktop = enabled;

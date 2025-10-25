@@ -8,10 +8,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.programs.terminal.tools.act;
+  cfg = config.premsnix.programs.terminal.tools.act;
 in
 {
-  options.premunix.programs.terminal.tools.act = {
+  options.premsnix.programs.terminal.tools.act = {
     enable = lib.mkEnableOption "act";
   };
 

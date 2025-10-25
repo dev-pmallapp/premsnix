@@ -87,8 +87,8 @@ in
                 speedFactor = 1;
                 inherit protocol supportedFeatures;
               }
-              // lib.optionalAttrs (host == "khanelimac") {
-                sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "mac") {
+                sshKey = config.sops.secrets.mac_pmallapp_ssh_key.path;
               }
             )
             (
@@ -102,8 +102,8 @@ in
                 speedFactor = 2;
                 supportedFeatures = supportedFeatures ++ [ "kvm" ];
               }
-              // lib.optionalAttrs (host == "khanelimac") {
-                sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "mac") {
+                sshKey = config.sops.secrets.mac_pmallapp_ssh_key.path;
               }
               // lib.optionalAttrs (host == "premsnix") {
                 sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
@@ -123,8 +123,8 @@ in
                   "nixos-test"
                 ];
               }
-              // lib.optionalAttrs (host == "khanelimac") {
-                sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "mac") {
+                sshKey = config.sops.secrets.mac_pmallapp_ssh_key.path;
               }
               // lib.optionalAttrs (host == "premsnix") {
                 sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
@@ -138,7 +138,7 @@ in
                   "aarch64-darwin"
                   "x86_64-darwin"
                 ];
-                hostName = "khanelimac.local";
+                hostName = "mac.local";
                 maxJobs = 4;
                 speedFactor = 10;
                 supportedFeatures = supportedFeatures ++ [ "apple-virt" ];
@@ -146,8 +146,8 @@ in
               // lib.optionalAttrs (host == "premsnix") {
                 sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
-              // lib.optionalAttrs (host == "khanelimac") {
-                sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "mac") {
+                sshKey = config.sops.secrets.mac_pmallapp_ssh_key.path;
                 maxJobs = 0;
               }
             )
@@ -158,7 +158,7 @@ in
                   "aarch64-darwin"
                   "x86_64-darwin"
                 ];
-                hostName = "khanelimac-m1.local";
+                hostName = "mac-m1.local";
                 maxJobs = 2;
                 speedFactor = 3;
                 supportedFeatures = supportedFeatures ++ [ "apple-virt" ];
@@ -166,8 +166,10 @@ in
               // lib.optionalAttrs (host == "premsnix") {
                 sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
-              // lib.optionalAttrs (host == "khanelimac") {
-                sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "mac") {
+                sshKey =
+                  config.sops.secrets.mac_pmallapp_ssh_key.path
+                    or config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
                 # Prefer local builds for personal usage
                 systems = [
                   "x86_64-darwin"

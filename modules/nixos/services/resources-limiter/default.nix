@@ -7,10 +7,10 @@
 let
   inherit (lib) mkIf mkEnableOption;
 
-  cfg = config.premunix.services.resources-limiter;
+  cfg = config.premsnix.services.resources-limiter;
 in
 {
-  options.premunix.services.resources-limiter = {
+  options.premsnix.services.resources-limiter = {
     enable = mkEnableOption "resources limiter slice";
   };
 

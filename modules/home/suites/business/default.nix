@@ -8,13 +8,13 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.business;
-  isWSL = osConfig.premunix.archetypes.wsl.enable or false;
+  cfg = config.premsnix.suites.business;
+  isWSL = osConfig.premsnix.archetypes.wsl.enable or false;
 in
 {
-  options.premunix.suites.business = {
+  options.premsnix.suites.business = {
     enable = lib.mkEnableOption "business configuration";
   };
 
@@ -35,7 +35,7 @@ in
         p3x-onenote
       ];
 
-    premunix = {
+    premsnix = {
       programs = {
         graphical = {
           apps = {

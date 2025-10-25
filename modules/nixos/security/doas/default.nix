@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.premunix.security.doas;
+  cfg = config.premsnix.security.doas;
 in
 {
-  options.premunix.security.doas = {
+  options.premsnix.security.doas = {
     enable = lib.mkEnableOption "replacing sudo with doas";
   };
 
@@ -30,7 +30,7 @@ in
         {
           keepEnv = true;
           noPass = true;
-          users = [ config.premunix.user.name ];
+          users = [ config.premsnix.user.name ];
         }
       ];
     };

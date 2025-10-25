@@ -9,10 +9,10 @@
 let
   inherit (lib) mkIf;
 
-  cfg = config.premunix.suites.networking;
+  cfg = config.premsnix.suites.networking;
 in
 {
-  options.premunix.suites.networking = {
+  options.premsnix.suites.networking = {
     enable = lib.mkEnableOption "networking configuration";
   };
 
@@ -28,6 +28,6 @@ in
       ]
       ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ iproute2 ];
 
-    premunix.services.tailscale.enable = osConfig.services.tailscale.enable or false;
+    premsnix.services.tailscale.enable = osConfig.services.tailscale.enable or false;
   };
 }

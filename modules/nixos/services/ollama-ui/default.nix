@@ -6,10 +6,10 @@
 }:
 let
 
-  cfg = config.premunix.services.ollama-ui;
+  cfg = config.premsnix.services.ollama-ui;
 in
 {
-  options.premunix.services.ollama-ui = {
+  options.premsnix.services.ollama-ui = {
     enable = lib.mkEnableOption "ollama ui";
   };
 
