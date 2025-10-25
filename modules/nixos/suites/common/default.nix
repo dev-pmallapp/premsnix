@@ -35,6 +35,7 @@ in
     };
 
     premsnix = {
+      # Keep only truly baseline toggles here; richer features moved into archetypes
       hardware = {
         power = mkDefault enabled;
         fans = mkDefault enabled;
@@ -42,38 +43,21 @@ in
 
       nix = mkDefault enabled;
 
-      programs = {
-        terminal = {
-          tools = {
-            bandwhich = mkDefault enabled;
-            nix-ld = mkDefault enabled;
-            ssh = mkDefault enabled;
-          };
-        };
+      programs.terminal.tools = {
+        nix-ld = mkDefault enabled;
+        ssh = mkDefault enabled;
       };
 
       security = {
-        # auditd = mkDefault enabled;
-        clamav = mkDefault enabled;
-        gpg = mkDefault enabled;
         pam = mkDefault enabled;
-        usbguard = mkDefault enabled;
+        gpg = mkDefault enabled;
       };
 
       services = {
-        ddccontrol = mkDefault enabled;
-        earlyoom = mkDefault enabled;
-        lact = mkDefault enabled;
         logind = mkDefault enabled;
-        logrotate = mkDefault enabled;
-        oomd = mkDefault enabled;
-        openssh = mkDefault enabled;
-        printing = mkDefault enabled;
-        # resources-limiter = mkDefault enabled;
       };
 
       system = {
-        fonts = mkDefault enabled;
         hostname = mkDefault enabled;
         locale = mkDefault enabled;
         time = mkDefault enabled;

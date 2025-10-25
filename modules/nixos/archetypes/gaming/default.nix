@@ -6,20 +6,32 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.archetypes.gaming;
+  cfg = config.premsnix.archetypes.gaming;
 in
 {
-  options.premunix.archetypes.gaming = {
+  options.premsnix.archetypes.gaming = {
     enable = lib.mkEnableOption "the gaming archetype";
   };
 
   config = mkIf cfg.enable {
-    premunix.suites = {
-      common = enabled;
-      desktop = enabled;
-      games = enabled;
+    premsnix = {
+      suites = {
+        common = enabled;
+        desktop = enabled;
+        games = enabled;
+      };
+
+      services = {
+        openssh = enabled;
+        earlyoom = enabled;
+        logrotate = enabled;
+        oomd = enabled;
+        printing = enabled;
+        ddccontrol = enabled;
+        lact = enabled;
+      };
     };
   };
 }

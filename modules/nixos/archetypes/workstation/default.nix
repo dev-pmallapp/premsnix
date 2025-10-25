@@ -7,25 +7,38 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.archetypes.workstation;
+  cfg = config.premsnix.archetypes.workstation;
 in
 {
-  options.premunix.archetypes.workstation = {
+  options.premsnix.archetypes.workstation = {
     enable = lib.mkEnableOption "the workstation archetype";
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [
-      pkgs.deskflow
+    environment.systemPackages = with pkgs; [
+      deskflow
+      lshw
+      pciutils
+      rsync
     ];
 
-    premunix = {
+    premsnix = {
       suites = {
         common = enabled;
         desktop = enabled;
         development = enabled;
+      };
+
+      services = {
+        openssh = enabled;
+        earlyoom = enabled;
+        logrotate = enabled;
+        oomd = enabled;
+        printing = enabled;
+        ddccontrol = enabled;
+        lact = enabled;
       };
     };
   };
