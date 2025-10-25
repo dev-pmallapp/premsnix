@@ -112,7 +112,7 @@ in
       traceroute
     ];
 
-    premunix.user.extraGroups = [
+    premsnix.user.extraGroups = [
       "network"
       "wireshark"
     ];

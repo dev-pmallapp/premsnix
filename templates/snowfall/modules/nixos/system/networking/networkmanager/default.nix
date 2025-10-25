@@ -12,7 +12,7 @@ let
 in
 {
   config = mkIf cfg.enable {
-    premunix.user.extraGroups = [ "networkmanager" ];
+    premsnix.user.extraGroups = [ "networkmanager" ];
 
     networking.networkmanager = {
       enable = true;

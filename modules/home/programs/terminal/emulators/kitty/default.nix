@@ -7,9 +7,9 @@
 }:
 let
   inherit (lib) types mkIf;
-  inherit (lib.premunix) mkOpt;
+  inherit (lib.premsnix) mkOpt;
 
-  cfg = config.premunix.programs.terminal.emulators.kitty;
+  cfg = config.premsnix.programs.terminal.emulators.kitty;
 
   monaspaceArgon =
     if pkgs.stdenv.hostPlatform.isDarwin then "Monaspace Argon Var" else "MonaspaceArgon";
@@ -24,7 +24,7 @@ let
   removeSpaces = builtins.replaceStrings [ " " ] [ "" ];
 in
 {
-  options.premunix.programs.terminal.emulators.kitty = with types; {
+  options.premsnix.programs.terminal.emulators.kitty = with types; {
     enable = lib.mkEnableOption "kitty";
     font = {
       normal = mkOpt str monaspaceNeon "Font to use for alacritty.";
@@ -47,23 +47,24 @@ in
     };
 
     xdg.configFile."kitty/nix.conf".text = ''
-      launch zellij
+          launch zellij
 
-      new_tab khanelivim
-      cd $HOME/github/khanelivim
-      launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
+      # Removed khanelivim reference; open a plain new tab in dotfiles repo instead
+      new_tab dotfiles
+      cd $HOME/github/premunix
+          launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
 
-      new_tab nixvim
-      cd $HOME/github/nixvim
-      launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
+          new_tab nixvim
+          cd $HOME/github/nixvim
+          launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
 
-      new_tab home-manager
-      cd $HOME/github/home-manager
-      launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
+          new_tab home-manager
+          cd $HOME/github/home-manager
+          launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
 
-      new_tab nixpkgs
-      cd $HOME/github/nixpkgs
-      launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
+          new_tab nixpkgs
+          cd $HOME/github/nixpkgs
+          launch zellij --layout dev  attach --create "$(basename "$(pwd)")" options --default-cwd "$(pwd)"
     '';
 
     programs = {

@@ -6,13 +6,12 @@
 }:
 let
 
-  cfg = config.premunix.suites.development;
+  cfg = config.premsnix.suites.development;
 in
 {
-  options.premunix.suites.development = {
+  options.premsnix.suites.development = {
     enable = lib.mkEnableOption "common development configuration";
     aiEnable = lib.mkEnableOption "ai development configuration";
-    dockerEnable = lib.mkEnableOption "docker development configuration";
     sqlEnable = lib.mkEnableOption "sql development configuration";
   };
 
@@ -25,7 +24,7 @@ in
       8081
     ];
 
-    premunix = {
+    premsnix = {
       user = {
         extraGroups = [ "git" ] ++ lib.optionals cfg.sqlEnable [ "mysql" ];
       };
@@ -38,9 +37,7 @@ in
         # open-webui.enable = lib.mkDefault cfg.aiEnable;
       };
 
-      virtualisation = {
-        podman.enable = cfg.dockerEnable;
-      };
+      # Container/virtualisation selection is now handled by the virtualisation suite.
     };
   };
 }

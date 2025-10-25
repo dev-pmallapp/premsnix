@@ -6,14 +6,14 @@
 </h3>
 
 <p align="center">
- <a href="https://github.com/pmallapp/premunix/stargazers"><img src="https://img.shields.io/github/stars/pmallapp/premunix?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>
- <a href="https://github.com/pmallapp/premunix/commits"><img src="https://img.shields.io/github/last-commit/pmallapp/premunix?colorA=363a4f&colorB=f5a97f&style=for-the-badge"></a>
+ <a href="https://github.com/pmallapp/premsnix/stargazers"><img src="https://img.shields.io/github/stars/pmallapp/premsnix?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>
+ <a href="https://github.com/pmallapp/premsnix/commits"><img src="https://img.shields.io/github/last-commit/pmallapp/premsnix?colorA=363a4f&colorB=f5a97f&style=for-the-badge"></a>
   <a href="https://wiki.nixos.org/wiki/Flakes" target="_blank">
  <img alt="Nix Flakes Ready" src="https://img.shields.io/static/v1?logo=nixos&logoColor=d8dee9&label=Nix%20Flakes&labelColor=5e81ac&message=Ready&color=d8dee9&style=for-the-badge">
 </a>
 </p>
 
-Welcome to premunix, a personal Nix configuration repository. This repository
+Welcome to premsnix, a personal Nix configuration repository. This repository
 contains my NixOS and Nixpkgs configurations, along with various tools and
 customizations to enhance the Nix experience.
 
@@ -43,15 +43,15 @@ follow the installation instruction on
 nix-shell -p git
 
 # Clone
-git clone https://github.com/pmallapp/premunix.git
-cd premunix
+git clone https://github.com/pmallapp/premsnix.git
+cd premsnix
 
 # Linux
 sudo nixos-rebuild switch --flake .
 
 # MacOS
 # First run without nix-darwin:
-nix run github:lnl7/nix-darwin#darwin-rebuild -- switch --flake github:pmallapp/premunix
+nix run github:lnl7/nix-darwin#darwin-rebuild -- switch --flake github:pmallapp/premsnix
 
 darwin-rebuild switch --flake .
 
@@ -66,9 +66,7 @@ flake switch
 
 Here's an overview of what my Nix configuration offers:
 
-- **External Dependency Integrations**:
-  - [Khanelivim](https://github.com/pmallapp/khanelivim) custom neovim
-    configuration built with nixvim.
+- **External Dependency Integrations**: configuration built with nixvim.
   - Access NUR expressions for Firefox addons and other enhancements.
   - Integration with Hyprland and other Wayland compositors.
 
@@ -139,7 +137,7 @@ organized.
 Run packages directly with:
 
 ```console
-nix run --extra-experimental-features 'nix-command flakes' github:pmallapp/premunix#packageName
+nix run --extra-experimental-features 'nix-command flakes' github:pmallapp/premsnix#packageName
 ```
 
 Or install from the `packages` output. For example:
@@ -147,8 +145,8 @@ Or install from the `packages` output. For example:
 ```nix
 # flake.nix
 {
-  inputs.premunix = {
-    url = "github:pmallapp/premunix";
+  inputs.premsnix = {
+    url = "github:pmallapp/premsnix";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 }
@@ -156,7 +154,7 @@ Or install from the `packages` output. For example:
 # configuration.nix
 {pkgs, inputs, system, ...}: {
   environment.systemPackages = [
-    inputs.premunix.packages."${system}".packageName
+    inputs.premsnix.packages."${system}".packageName
   ];
 }
 ```
@@ -165,11 +163,11 @@ Or install from the `packages` output. For example:
 
 ## MacOS
 
-<img width="1512" alt="image" src="https://github.com/pmallapp/premunix/assets/1778670/abbd501e-60c4-46c3-927d-12890dadd811">
+<img width="1512" alt="image" src="https://github.com/pmallapp/premsnix/assets/1778670/abbd501e-60c4-46c3-927d-12890dadd811">
 
 ## NixOS
 
-![image](https://github.com/pmallapp/premunix/assets/1778670/34aebc9c-b053-4ccf-9540-6da5e93a77d5)
+![image](https://github.com/pmallapp/premsnix/assets/1778670/34aebc9c-b053-4ccf-9540-6da5e93a77d5)
 
 # Resources
 

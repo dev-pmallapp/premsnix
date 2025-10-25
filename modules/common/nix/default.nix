@@ -9,12 +9,12 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkBoolOpt mkOpt;
+  inherit (lib.premsnix) mkBoolOpt mkOpt;
 
-  cfg = config.premunix.nix;
+  cfg = config.premsnix.nix;
 in
 {
-  options.premunix.nix = {
+  options.premsnix.nix = {
     enable = mkBoolOpt true "Whether or not to manage nix configuration.";
     package = mkOpt lib.types.package pkgs.nixVersions.latest "Which nix package to use.";
   };
@@ -56,7 +56,7 @@ in
           "root"
           "@wheel"
           "nix-builder"
-          config.premunix.user.name
+          config.premsnix.user.name
         ];
       in
       {
@@ -75,9 +75,9 @@ in
             ];
           in
           # Linux builders
-          lib.optionals config.premunix.security.sops.enable [
+          lib.optionals config.premsnix.security.sops.enable [
             (
-              lib.mkIf (host != "thinkpad-p16s" && host != "premunix") {
+              lib.mkIf (host != "thinkpad-p16s" && host != "premsnix") {
                 inherit sshUser;
                 hostName = "thinkpad-p16s.local";
                 systems = [
@@ -94,7 +94,7 @@ in
             (
               {
                 inherit protocol sshUser;
-                hostName = "premunix.local";
+                hostName = "premsnix.local";
                 systems = [
                   "x86_64-linux"
                 ];
@@ -105,8 +105,8 @@ in
               // lib.optionalAttrs (host == "khanelimac") {
                 sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
               }
-              // lib.optionalAttrs (host == "premunix") {
-                sshKey = config.sops.secrets.premunix_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "premsnix") {
+                sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
                 maxJobs = 0;
               }
             )
@@ -126,8 +126,8 @@ in
               // lib.optionalAttrs (host == "khanelimac") {
                 sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
               }
-              // lib.optionalAttrs (host == "premunix") {
-                sshKey = config.sops.secrets.premunix_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "premsnix") {
+                sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
             )
             # Darwin builders
@@ -143,8 +143,8 @@ in
                 speedFactor = 10;
                 supportedFeatures = supportedFeatures ++ [ "apple-virt" ];
               }
-              // lib.optionalAttrs (host == "premunix") {
-                sshKey = config.sops.secrets.premunix_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "premsnix") {
+                sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
               // lib.optionalAttrs (host == "khanelimac") {
                 sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
@@ -163,8 +163,8 @@ in
                 speedFactor = 3;
                 supportedFeatures = supportedFeatures ++ [ "apple-virt" ];
               }
-              // lib.optionalAttrs (host == "premunix") {
-                sshKey = config.sops.secrets.premunix_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "premsnix") {
+                sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
               // lib.optionalAttrs (host == "khanelimac") {
                 sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
@@ -187,8 +187,8 @@ in
                 supportedFeatures = [ "big-parallel" ];
                 publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUtNSGhsY243ZlVwVXVpT0ZlSWhEcUJ6Qk5Gc2JOcXErTnB6dUdYM2U2enYgCg";
               }
-              // lib.optionalAttrs (host == "premunix") {
-                sshKey = config.sops.secrets.premunix_pmallapp_ssh_key.path;
+              // lib.optionalAttrs (host == "premsnix") {
+                sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
               # TODO: figure out preferring local over remote
               // lib.optionalAttrs (host == "khanelimac") {
@@ -265,8 +265,7 @@ in
 
           substituters = [
             "https://cache.nixos.org"
-            "https://premunix.cachix.org"
-            "https://khanelivim.cachix.org"
+            "https://premsnix.cachix.org"
             "https://nix-community.cachix.org"
             "https://nixpkgs-unfree.cachix.org"
             "https://numtide.cachix.org"
@@ -274,8 +273,7 @@ in
 
           trusted-public-keys = [
             "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-            "premunix.cachix.org-1:FTmbv7OqlMsmJEOFvAlz7PVkoGtstbwLC2OldAiJZ10="
-            "khanelivim.cachix.org-1:Tb0jsMlhXSJDtI2ISiGPBrvL1XIzQrWap80AiJuBGI0="
+            "premsnix.cachix.org-1:FTmbv7OqlMsmJEOFvAlz7PVkoGtstbwLC2OldAiJZ10="
             "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
             "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
             "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="

@@ -9,13 +9,17 @@
   ...
 }:
 let
-  inherit (lib.premunix) mkBoolOpt;
+  inherit (lib.premsnix) mkBoolOpt;
   inherit (lib) mkOption types;
 
-  cfg = config.premunix.programs.terminal.editors.neovim;
+  cfg = config.premsnix.programs.terminal.editors.neovim;
 
-  khanelivimConfiguration = inputs.khanelivim.nixvimConfigurations.${system}.khanelivim;
-  khanelivimConfigurationExtended = khanelivimConfiguration.extendModules {
+  # Simplified: remove external khanelivim dependency; rely on a minimal built-in configuration layer.
+  baseConfiguration = import (inputs.nixvim or inputs.self.inputs.nixvim) {
+    inherit pkgs system;
+    modules = [ ];
+  };
+  khanelivimConfigurationExtended = baseConfiguration.extendModules {
     modules = [
       {
         config = {
@@ -29,13 +33,13 @@ let
           #   {
           #     options = rec {
           #       nix-darwin.expr = ''${flake}.darwinConfigurations.khanelimac.options'';
-          #       nixos.expr = ''${flake}.nixosConfigurations.premunix.options'';
+          #       nixos.expr = ''${flake}.nixosConfigurations.premsnix.options'';
           #       home-manager.expr = ''${nixos.expr}.home-manager.users.type.getSubOptions [ ]'';
           #     };
           #   };
         };
       }
-      (lib.mkIf (osConfig.premunix.archetypes.wsl.enable or false) {
+      (lib.mkIf (osConfig.premsnix.archetypes.wsl.enable or false) {
         # FIXME: upstream dependency has LONG build time and transient failures
         # Usually crashes WSL
         lsp.servers.roslyn_ls = {
@@ -68,13 +72,13 @@ let
   khanelivim = khanelivimConfigurationExtended.config.build.package;
 in
 {
-  options.premunix.programs.terminal.editors.neovim = {
+  options.premsnix.programs.terminal.editors.neovim = {
     enable = lib.mkEnableOption "neovim";
     default = mkBoolOpt true "Whether to set Neovim as the session EDITOR";
     extraModules = mkOption {
       type = types.listOf types.attrs;
       default = [ ];
-      description = "Additional nixvim modules to extend the khanelivim configuration";
+      description = "Additional nixvim modules to extend the base neovim configuration";
     };
   };
 
@@ -90,7 +94,7 @@ in
       ];
     };
 
-    sops.secrets = lib.mkIf (osConfig.premunix.security.sops.enable or false) {
+    sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       wakatime = {
         sopsFile = lib.getFile "secrets/pmallapp/default.yaml";
         path = "${config.home.homeDirectory}/.wakatime.cfg";
