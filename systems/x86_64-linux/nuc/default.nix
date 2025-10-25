@@ -48,7 +48,7 @@ in
         enable = true;
         shares = {
           games = {
-            browsable = true;
+            browseable = true; # spelling per Samba option; allowed via typos.toml
             comment = "Games folder";
             only-owner-editable = true;
             path = "/mnt/games/";
@@ -56,7 +56,7 @@ in
             read-only = false;
           };
           appData = {
-            browsable = true;
+            browseable = true; # Samba option name
             comment = "Application Data folder";
             only-owner-editable = true;
             path = "/home/${config.premsnix.user.name}/.config/";
@@ -64,7 +64,7 @@ in
             read-only = false;
           };
           data = {
-            browsable = true;
+            browseable = true; # Samba option name
             comment = "Data folder";
             only-owner-editable = true;
             path = "/home/${config.premsnix.user.name}/.local/share/";
@@ -72,7 +72,7 @@ in
             read-only = false;
           };
           vms = {
-            browsable = true;
+            browseable = true; # Samba option name
             comment = "Virtual Machines folder";
             only-owner-editable = true;
             path = "/home/${config.premsnix.user.name}/vms/";
@@ -80,7 +80,7 @@ in
             read-only = false;
           };
           isos = {
-            browsable = true;
+            browseable = true; # Samba option name
             comment = "ISO Images folder";
             only-owner-editable = true;
             path = "/home/${config.premsnix.user.name}/isos/";
@@ -88,7 +88,7 @@ in
             read-only = false;
           };
           timeMachine = {
-            browsable = true;
+            browseable = true; # Samba option name
             comment = "Time Machine backups folder";
             only-owner-editable = true;
             path = "/home/${config.premsnix.user.name}/.timemachine/";

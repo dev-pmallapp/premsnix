@@ -1,0 +1,3 @@
+# Allow Samba's browseable spelling (typos tool prefers 'browsable')
+[default.extend-words]
+browseable = "browseable"
