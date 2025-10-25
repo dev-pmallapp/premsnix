@@ -6,17 +6,17 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.archetypes.personal;
+  cfg = config.premsnix.archetypes.personal;
 in
 {
-  options.premunix.archetypes.personal = {
+  options.premsnix.archetypes.personal = {
     enable = lib.mkEnableOption "the personal archetype";
   };
 
   config = mkIf cfg.enable {
-    premunix = {
+    premsnix = {
       services = {
         tailscale = enabled;
       };
@@ -25,5 +25,11 @@ in
         common = enabled;
       };
     };
+
+    # Personal archetype adds fun/toy packages removed from the slim common suite
+    environment.systemPackages = with config.pkgs; [
+      fortune
+      lolcat
+    ];
   };
 }

@@ -7,9 +7,9 @@
 }:
 let
   inherit (lib) mkIf mkDefault;
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 
-  cfg = config.premunix.suites.common;
+  cfg = config.premsnix.suites.common;
 in
 {
   imports = [ (lib.getFile "modules/common/suites/common/default.nix") ];
@@ -18,22 +18,23 @@ in
     environment = {
       defaultPackages = lib.mkForce [ ];
 
-      systemPackages = with pkgs; [
-        dnsutils
-        fortune
-        isd
-        lazyjournal
-        lolcat
-        lshw
-        pciutils
-        rsync
-        usbimager
-        util-linux
-        wget
-      ];
+      systemPackages =
+        let
+          base = with pkgs; [
+            dnsutils
+            isd
+            lazyjournal
+            lshw
+            pciutils
+            rsync
+            util-linux
+            wget
+          ];
+        in
+        base ++ lib.optionals (!pkgs.stdenv.hostPlatform.isAarch64) [ pkgs.usbimager ];
     };
 
-    premunix = {
+    premsnix = {
       hardware = {
         power = mkDefault enabled;
         fans = mkDefault enabled;

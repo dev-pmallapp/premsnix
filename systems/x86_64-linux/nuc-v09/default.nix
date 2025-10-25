@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib.premunix) enabled;
+  inherit (lib.premsnix) enabled;
 in
 {
   imports = [
@@ -14,8 +14,12 @@ in
     ./hardware.nix
   ];
 
-  premunix = {
+  premsnix = {
     nix = enabled;
+
+    archetypes = {
+      server = enabled;
+    };
 
     hardware = {
       audio = enabled;
@@ -42,7 +46,7 @@ in
 
         shares = {
           games = {
-            browseable = true;
+            browsable = true;
             comment = "Games folder";
             only-owner-editable = true;
             path = "/mnt/games/";
@@ -52,50 +56,50 @@ in
 
           # Application data folder
           appData = {
-            browseable = true;
+            browsable = true;
             comment = "Application Data folder";
             only-owner-editable = true;
-            path = "/home/${config.premunix.user.name}/.config/";
+            path = "/home/${config.premsnix.user.name}/.config/";
             public = false;
             read-only = false;
           };
 
           # Data folder
           data = {
-            browseable = true;
+            browsable = true;
             comment = "Data folder";
             only-owner-editable = true;
-            path = "/home/${config.premunix.user.name}/.local/share/";
+            path = "/home/${config.premsnix.user.name}/.local/share/";
             public = false;
             read-only = false;
           };
 
           # Virtual Machines folder
           vms = {
-            browseable = true;
+            browsable = true;
             comment = "Virtual Machines folder";
             only-owner-editable = true;
-            path = "/home/${config.premunix.user.name}/vms/";
+            path = "/home/${config.premsnix.user.name}/vms/";
             public = false;
             read-only = false;
           };
 
           # ISO images folder
           isos = {
-            browseable = true;
+            browsable = true;
             comment = "ISO Images folder";
             only-owner-editable = true;
-            path = "/home/${config.premunix.user.name}/isos/";
+            path = "/home/${config.premsnix.user.name}/isos/";
             public = false;
             read-only = false;
           };
 
           # Time Machine backups folder
           timeMachine = {
-            browseable = true;
+            browsable = true;
             comment = "Time Machine backups folder";
             only-owner-editable = true;
-            path = "/home/${config.premunix.user.name}/.timemachine/";
+            path = "/home/${config.premsnix.user.name}/.timemachine/";
             public = false;
             read-only = true;
           };
@@ -129,6 +133,13 @@ in
     };
   };
 
+  # Define system user for parity with image build expectations (avoids assertion)
+  users.users.nixos = {
+    isSystemUser = true;
+    group = "nixos";
+  };
+  users.groups.nixos = { };
+
   networking = {
     defaultGateway = {
       address = "192.168.1.1";
@@ -143,5 +154,5 @@ in
     ];
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }
