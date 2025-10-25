@@ -151,7 +151,9 @@ in
               # Split "username@hostname" into parts
               parts = builtins.split "@" userAtHost;
               username = builtins.head parts;
-              hostname = builtins.elemAt parts 2; # After split: [username, "@", hostname]
+              # builtins.split returns a list without the separator characters,
+              # so for "user@host" the result is [ "user" "host" ].
+              hostname = builtins.elemAt parts 1;
             in
             {
               inherit
