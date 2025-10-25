@@ -42,7 +42,7 @@ in
         defaultSopsFile =
           if hasHostSecrets then secretsCandidate else lib.getFile "secrets/premsnix/pmallapp/default.yaml";
       };
-      # TODO: Re-enable managed SSH keys once module avoids referencing /run paths during pure evaluation
+      # Disabled for now: pure evaluation issues when enabling managed keys on minimal image build
       openssh.managedKeys.enable = false;
       gpg = enabled;
       keyring.enable = mkForce false;

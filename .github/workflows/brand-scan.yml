@@ -1,0 +1,21 @@
+name: Brand Scan
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Scan for legacy branding
+        run: |
+          set -euo pipefail
+          echo 'Scanning for legacy tokens: khaneli khanelivim khanelisnow khanelimac'
+          MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . || true)
+          if [ -n "${MATCHES}" ]; then
+            echo "Forbidden legacy branding detected:" >&2
+            echo "${MATCHES}" >&2
+            exit 1
+          fi
+          echo 'No legacy branding strings found.'

@@ -6,5 +6,5 @@
     # Intentionally stripped
   };
 
-  outputs = inputs: { };
+  outputs = _inputs: { };
 }

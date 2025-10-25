@@ -28,6 +28,7 @@ customizations to enhance the Nix experience.
 5. [Screenshots](#screenshots)
 6. [Resources](#resources)
 7. [CI & Reproducibility](#ci--reproducibility)
+8. [Raspberry Pi 4 SD Image](#raspberry-pi-4-sd-image)
 
 ## Getting Started
 
@@ -94,6 +95,9 @@ Here's an overview of what my Nix configuration offers:
   [sops-nix](https://github.com/Mic92/sops-nix) for secure and encrypted
   handling of sensitive information.
 
+- **Headless Raspberry Pi Image**: Slimmed `rpi4` sdImage configuration with
+  reduced service footprint and optional secret-provided Wi‑Fi provisioning.
+
 ## Customization
 
 My Nix configuration is built using
@@ -134,6 +138,41 @@ and modular approach to managing your Nix environment. Here's how it works:
 This flake-parts based approach provides excellent modularity and makes it easy
 to maintain and extend the configuration while keeping related functionality
 organized.
+
+## Raspberry Pi 4 SD Image
+
+Build the headless Raspberry Pi 4 image (aarch64):
+
+```bash
+nix build .#nixosConfigurations.rpi4.config.system.build.sdImage
+```
+
+The resulting compressed image will be under `result/` (commonly
+`result/sd-image/nixos-sd-image-*.img.zst`). Decompress and write it to an SD
+card (double‑check your device node):
+
+```bash
+img=$(readlink -f result/sd-image/*.img.zst)
+zstd -d "$img" -c | sudo dd of=/dev/sdX bs=4M status=progress conv=fsync
+```
+
+Optional: Provide Wi‑Fi credentials or host/user SSH keys via sops secrets
+before building. The `rpi4` host will consume (if present):
+
+```
+secrets/premsnix/rpi4/default.yaml                # General host secrets (referenced as defaultSopsFile)
+secrets/hosts/rpi4/ssh_host_ed25519_key           # Host SSH key (managed-keys module)
+secrets/users/pmallapp/authorized_keys            # User authorized_keys (enable manageUserAuthorizedKeys once added)
+secrets/known_hosts                               # Global known_hosts (optional)
+```
+
+If a Wi‑Fi NetworkManager connection secret named
+`networkmanager/home.nmconnection` exists in the host sops file, it will be
+installed automatically at
+`/etc/NetworkManager/system-connections/premsnix-home.nmconnection`.
+
+To keep pure evaluation working, only enable managed user authorized_keys on
+`rpi4` after the corresponding secret file has been added.
 
 # Exported packages
 
