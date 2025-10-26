@@ -42,8 +42,14 @@ in
         defaultSopsFile =
           if hasHostSecrets then secretsCandidate else lib.getFile "secrets/premsnix/pmallapp/default.yaml";
       };
-      # Disabled for now: pure evaluation issues when enabling managed keys on minimal image build
-      openssh.managedKeys.enable = false;
+      openssh.managedKeys = {
+        enable = true;
+        manageHostKey = true;
+        manageKnownHosts = true;
+        manageUserAuthorizedKeys = true; # enabled, warnings suppressed until secret added
+        warnMissing = false; # suppress warnings for minimal image
+        strict = false; # remain non-strict during transition
+      };
       gpg = enabled;
       keyring.enable = mkForce false;
       clamav.enable = mkForce false;
@@ -94,11 +100,7 @@ in
   };
 
   # NixOS root user definition required by sd-image build
-  users.users.nixos = {
-    isSystemUser = true;
-    group = "nixos";
-  };
-  users.groups.nixos = { };
+  # 'nixos' normal user supplied by dual-users module (was system user for sd-image parity)
 
   nixpkgs.hostPlatform = mkDefault "aarch64-linux";
 

@@ -131,6 +131,13 @@ in
         sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         defaultSopsFile = lib.getFile "secrets/premsnix/default.yaml";
       };
+      openssh.managedKeys = {
+        enable = true;
+        manageHostKey = true;
+        manageKnownHosts = true;
+        manageUserAuthorizedKeys = true;
+        warnMissing = false;
+      };
     };
 
     suites.development = {
@@ -179,8 +186,5 @@ in
 
   system.stateVersion = "25.11";
   # Provide system 'nixos' user for image parity / module expectations
-  users.users.nixos = {
-    isSystemUser = true;
-    group = "users";
-  };
+  # 'nixos' user now provided as normal user via dual-users module.
 }

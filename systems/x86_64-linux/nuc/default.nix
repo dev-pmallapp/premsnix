@@ -107,6 +107,13 @@ in
         sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         inherit defaultSopsFile;
       };
+      openssh.managedKeys = {
+        enable = true;
+        manageHostKey = true;
+        manageKnownHosts = true;
+        manageUserAuthorizedKeys = true;
+        warnMissing = false;
+      };
     };
 
     system = {
@@ -135,10 +142,7 @@ in
   };
 
   # Provide system user (image parity)
-  users.users.nixos = lib.mkForce {
-    isSystemUser = true;
-    group = "users"; # align with primary user group to avoid conflict
-  };
+  # 'nixos' user defined centrally as normal user via dual-users module.
 
   # Network config merged from nuc-v09 (static). Adjust or override via deployment host.
   networking = {

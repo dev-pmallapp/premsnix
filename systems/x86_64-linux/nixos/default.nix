@@ -43,6 +43,13 @@ in
         enable = true;
         inherit defaultSopsFile;
       };
+      openssh.managedKeys = {
+        enable = true;
+        manageHostKey = true;
+        manageKnownHosts = true;
+        manageUserAuthorizedKeys = true;
+        warnMissing = false;
+      };
     };
 
     system = {
@@ -57,10 +64,7 @@ in
 
   services.displayManager.defaultSession = "hyprland-uwsm";
   # Ensure implicit 'nixos' user satisfies assertion (mark as system user for VM image parity)
-  users.users.nixos = {
-    isSystemUser = true;
-    group = "users";
-  };
+  # 'nixos' user is now provided as a normal user with an initial password by the dual-users module.
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

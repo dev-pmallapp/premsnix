@@ -1,15 +1,20 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  inputs,
+  ...
+}:
 let
   inherit (lib) mkIf mkEnableOption optionalAttrs;
   cfg = config.premsnix.security.openssh.managedKeys;
   username = config.premsnix.user.name or "pmallapp";
   host = config.networking.hostName;
 
-  # Resolve a repository-relative path (if it exists) returning a path value or null.
+  # Resolve a repository-relative path (flake root) returning a path or null.
   safeGet =
     rel:
     let
-      p = ./. + "/" + rel;
+      p = inputs.self + "/" + rel;
     in
     if builtins.pathExists p then p else null;
 
@@ -44,6 +49,8 @@ in
     manageHostKey = mkEnableOption "Provide host ed25519 key from sops";
     manageUserAuthorizedKeys = mkEnableOption "Provide user authorized_keys from sops";
     manageKnownHosts = mkEnableOption "Provide global known_hosts file from sops";
+    strict = mkEnableOption "Fail evaluation (assert) instead of warn when required managed secrets are missing";
+    warnMissing = mkEnableOption "Emit evaluation warnings when managed secrets are missing (ignored if strict=true)";
   };
 
   config = mkIf (cfg.enable && config.premsnix.security.sops.enable) {
@@ -90,6 +97,34 @@ in
     # Add known hosts via static /etc path to stay pure-eval safe.
     programs.ssh.knownHostsFiles = mkIf (cfg.manageKnownHosts && knownHostsPath != null) [
       "/etc/ssh/ssh_known_hosts"
+    ];
+
+    # Soft warnings (when strict=false and warnMissing=true)
+    warnings = mkIf (!cfg.strict && cfg.warnMissing) (
+      (lib.optional (cfg.manageUserAuthorizedKeys && userAuthKeysPath == null)
+        "premsnix.openssh.managedKeys: manageUserAuthorizedKeys enabled but no secret file found at secrets/users/${username}/authorized_keys or secrets/${username}/authorized_keys"
+      )
+      ++ (lib.optional (cfg.manageHostKey && hostSecretPath == null)
+        "premsnix.openssh.managedKeys: manageHostKey enabled but no secret file found for host ${host} (expected secrets/hosts/${host}/ssh_host_ed25519_key or secrets/${host}/ssh_host_ed25519_key)"
+      )
+      ++ (lib.optional (cfg.manageKnownHosts && knownHostsPath == null)
+        "premsnix.openssh.managedKeys: manageKnownHosts enabled but secrets/known_hosts (or secrets/ssh_known_hosts) not found"
+      )
+    );
+
+    assertions = lib.optionals cfg.strict [
+      {
+        assertion = !(cfg.manageUserAuthorizedKeys && userAuthKeysPath == null);
+        message = "premsnix.openssh.managedKeys(strict): manageUserAuthorizedKeys enabled but required secret missing for ${username}";
+      }
+      {
+        assertion = !(cfg.manageHostKey && hostSecretPath == null);
+        message = "premsnix.openssh.managedKeys(strict): manageHostKey enabled but required host key secret missing for ${host}";
+      }
+      {
+        assertion = !(cfg.manageKnownHosts && knownHostsPath == null);
+        message = "premsnix.openssh.managedKeys(strict): manageKnownHosts enabled but no known_hosts secret present";
+      }
     ];
   };
 }

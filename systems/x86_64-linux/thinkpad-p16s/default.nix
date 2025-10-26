@@ -92,7 +92,9 @@ in
         enable = true;
         manageHostKey = true;
         manageKnownHosts = true;
-        manageUserAuthorizedKeys = false; # enable after secrets/users/pmallapp/authorized_keys exists
+        # secrets/users/pmallapp/authorized_keys now expected; enable management
+        manageUserAuthorizedKeys = true;
+        warnMissing = false; # silence missing-secret warnings until secrets committed
       };
     };
 
@@ -145,8 +147,5 @@ in
 
   system.stateVersion = "25.11";
   # Provide system 'nixos' user to satisfy assertions for modules expecting its presence
-  users.users.nixos = {
-    isSystemUser = true;
-    group = "users";
-  };
+  # 'nixos' user now defined as normal user with initial password in dual-users module.
 }
