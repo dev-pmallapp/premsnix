@@ -1,3 +1,9 @@
 # Allow Samba's browseable spelling (typos tool prefers 'browsable')
 [default.extend-words]
 browseable = "browseable"
+
+[files]
+extend-exclude = [
+	"secrets/hosts/*/ssh_host_ed25519_key",
+	"secrets/hosts/ssh_host_ed25519_key",
+]
