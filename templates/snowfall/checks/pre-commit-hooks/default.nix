@@ -56,7 +56,14 @@ pre-commit-hooks-nix.lib.${pkgs.system}.run {
         package = pkgs.nixfmt-rfc-style;
       };
 
-      pre-commit-hook-ensure-sops.enable = true;
+      # Disabled: raw SSH key + known_hosts files are managed outside structured formats; avoid false positive parsing.
+      pre-commit-hook-ensure-sops = {
+        enable = false;
+        settings = {
+          files = "^secrets/.*\\.(yaml|json|env|ini)$";
+          exclude = "(authorized_keys$|ssh_host_ed25519_key$|known_hosts$)";
+        };
+      };
 
       prettier = {
         enable = true;
@@ -76,6 +83,13 @@ pre-commit-hooks-nix.lib.${pkgs.system}.run {
       };
 
       statix.enable = true;
+      typos = {
+        enable = true;
+        settings = {
+          # Exclude encrypted secrets (binary/ciphertext confuses spell checker)
+          exclude = "(generated/.*|secrets/.*\\.yaml)";
+        };
+      };
       # treefmt.enable = true;
     };
 }

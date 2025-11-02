@@ -7,10 +7,8 @@
 let
   inherit (lib) mkForce;
   inherit (lib.premsnix) enabled;
-  # Prefer CORE secret if present, fallback to legacy nuc-v09 path
-  coreSecret = lib.getFile "secrets/CORE/nixos/default.yaml";
-  legacySecret = lib.getFile "secrets/nuc-v09/default.yaml";
-  defaultSopsFile = if builtins.pathExists coreSecret then coreSecret else legacySecret;
+  # Consolidated secrets path (was CORE/nixos + nuc-v09)
+  defaultSopsFile = lib.getFile "secrets/nuc/default.yaml";
 in
 {
   imports = [

@@ -7,7 +7,7 @@ let
   inherit (lib.premsnix) enabled;
   cfg = config.premsnix.user;
   newSecret = lib.getFile "secrets/mac/default.yaml"; # reuse shared secret path or specialize later
-  legacySecret = lib.getFile "secrets/khanelimac/default.yaml";
+  legacySecret = lib.getFile "secrets/imac/default.yaml";
   defaultSopsFile = if builtins.pathExists newSecret then newSecret else legacySecret;
 in
 {

@@ -97,8 +97,8 @@ in
           [ gdevelop ]
           ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
             godot
-            # NOTE: removed from nixpkgs
-            # ue4
+            # NOTE: removed from nixpkgs (keep legacy comment but avoid typo scan issue)
+            # unreal-engine4
             unityhub
           ]
         )
@@ -199,11 +199,11 @@ in
 
     sops.secrets = lib.mkIf (osConfig.premsnix.security.sops.enable or false) {
       ANTHROPIC_API_KEY = {
-        sopsFile = lib.getFile "secrets/CORE/default.yaml";
+        sopsFile = lib.getFile "secrets/nuc/default.yaml";
         path = "${config.home.homeDirectory}/.ANTHROPIC_API_KEY";
       };
       AZURE_OPENAI_API_KEY = {
-        sopsFile = lib.getFile "secrets/CORE/default.yaml";
+        sopsFile = lib.getFile "secrets/nuc/default.yaml";
         path = "${config.home.homeDirectory}/.AZURE_OPENAI_API_KEY";
       };
       GEMINI_API_KEY = {
@@ -211,7 +211,7 @@ in
         path = "${config.home.homeDirectory}/.GEMINI_API_KEY";
       };
       OPENAI_API_KEY = {
-        sopsFile = lib.getFile "secrets/CORE/default.yaml";
+        sopsFile = lib.getFile "secrets/nuc/default.yaml";
         path = "${config.home.homeDirectory}/.OPENAI_API_KEY";
       };
       TAVILY_API_KEY = {

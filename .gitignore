@@ -40,7 +40,8 @@ node_modules
 .direnv/*
 result
 .ccls-cache
-.pre-commit-config.yaml
+# Allow committing pre-commit config (needed for CI + shared hooks)
+# .pre-commit-config.yaml
 .venv
 
 **/.claude/settings.local.json

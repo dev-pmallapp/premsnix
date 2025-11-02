@@ -8,7 +8,7 @@ let
   cfg = config.premsnix.user;
   # Fallback to legacy secret path if new path not yet migrated
   newSecret = lib.getFile "secrets/mac/default.yaml";
-  legacySecret = lib.getFile "secrets/khanelimac/default.yaml";
+  legacySecret = lib.getFile "secrets/imac/default.yaml";
   defaultSopsFile = if builtins.pathExists newSecret then newSecret else legacySecret;
 in
 {

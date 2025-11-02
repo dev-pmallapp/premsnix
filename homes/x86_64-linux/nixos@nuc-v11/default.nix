@@ -73,7 +73,8 @@ in
     services = {
       sops = {
         enable = true;
-        defaultSopsFile = lib.getFile "secrets/CORE/nixos/default.yaml";
+        # Consolidated nuc secrets path (replaces CORE/nixos)
+        defaultSopsFile = lib.getFile "secrets/nuc/default.yaml";
         sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
       };
     };
