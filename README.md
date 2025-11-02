@@ -19,6 +19,9 @@ Welcome to premsnix, a personal Nix configuration repository. This repository
 contains my NixOS and Nixpkgs configurations, along with various tools and
 customizations to enhance the Nix experience.
 
+> Tip: When making Nix changes (formatting, checks, secrets management), enter the dev shell first:
+> `nix develop .#default` (or use `direnv` to auto-load). This ensures tools like `jq`, `sops`, `deadnix`, and `statix` are available.
+
 ## Table of Contents
 
 1. [Getting Started](#getting-started)

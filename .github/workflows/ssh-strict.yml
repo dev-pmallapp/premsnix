@@ -23,15 +23,15 @@ jobs:
         uses: cachix/install-nix-action@v23
         with:
           nix_path: nixpkgs=channel:nixos-unstable
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Enter dev shell (print tool versions)
+        run: nix develop .#default -c bash -lc 'echo Using dev shell; command -v jq || echo jq missing; command -v sops || echo sops missing'
       - name: Show flake
         run: nix flake show || true
       - name: Run SSH strict check
-        run: nix build .#checks.${{ matrix.arch }}.ssh-strict || echo "strict check failed"
+        run: nix develop .#default -c bash -lc 'nix build .#checks.${{ matrix.arch }}.ssh-strict' || echo "strict check failed"
       - name: Build JSON summary (x86 only)
         if: matrix.arch == 'x86_64-linux'
-        run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json || echo "summary build failed"
+        run: nix develop .#default -c bash -lc 'nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json' || echo "summary build failed"
       - name: Summarize
         if: always()
         run: |
@@ -64,7 +64,9 @@ jobs:
         run: |
           if [ -f ssh-strict-summary.json ]; then
             SUMMARY=$(jq -r '. | "Failures: " + (.failures|tostring) + ", Hosts: " + (.totalHosts|tostring)')
-            echo "Posting PR comment: $SUMMARY"
-            gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="SSH Strict Summary: $SUMMARY"
+            HOST_TABLE=$(jq -r '.perHost | to_entries | map("| " + .key + " | " + .value.status + " | " + (.value.strict|tostring) + " | " + (.value.hostKeyPresent|tostring) + " |") | ("| Host | Status | Strict | HostKey |"), ("|------|--------|--------|---------|"), .[]' ssh-strict-summary.json)
+            BODY=$'SSH Strict Summary:\n'"$SUMMARY"$'\n\n'"$HOST_TABLE"$'\n'
+            echo "Posting PR comment:\n$BODY"
+            gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           else
             echo "No summary JSON to comment"
