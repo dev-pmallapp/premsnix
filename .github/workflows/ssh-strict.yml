@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
 
 jobs:
   strict:
@@ -20,17 +22,30 @@ jobs:
       - name: Show flake
         run: nix flake show || true
       - name: Run SSH strict check (x86_64-linux)
-        run: nix build .#checks.x86_64-linux.ssh-strict
+        run: nix build .#checks.x86_64-linux.ssh-strict || echo "strict check failed"
       - name: Build JSON summary (x86_64-linux)
-        run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json
+        run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json || echo "summary build failed"
       - name: Run SSH strict check (aarch64-linux)
-        run: nix build .#checks.aarch64-linux.ssh-strict || echo "Skipped: aarch64-linux build on x86_64 runner"
+        run: nix build .#checks.aarch64-linux.ssh-strict || echo "Skipped or failed: aarch64-linux build on x86_64 runner"
       - name: Summarize
         if: always()
         run: |
           echo "SSH Strict Check completed"
           if [ -f ssh-strict-summary.json ]; then
             echo "Summary JSON:"; cat ssh-strict-summary.json; fi
+      - name: Enforce failure threshold
+        if: always()
+        run: |
+          if [ ! -f ssh-strict-summary.json ]; then
+            echo "No summary JSON produced; failing" >&2
+            exit 1
+          fi
+          FAILURES=$(grep -o '"failures":[0-9]*' ssh-strict-summary.json | sed 's/.*:\([0-9]\+\)/\1/')
+          echo "Detected failures=$FAILURES"
+          if [ "$FAILURES" -gt 0 ]; then
+            echo "Failing workflow: ssh strict check reported $FAILURES failures" >&2
+            exit 1
+          fi
       - name: Upload strict summary artifact
         if: always()
         uses: actions/upload-artifact@v4
