@@ -47,8 +47,7 @@ in
         manageHostKey = true;
         manageKnownHosts = true;
         manageUserAuthorizedKeys = true; # enabled, warnings suppressed until secret added
-        warnMissing = false; # suppress warnings for minimal image
-        strict = false; # remain non-strict during transition
+        strict = true; # transition complete: enforce secrets
       };
       gpg = enabled;
       keyring.enable = mkForce false;

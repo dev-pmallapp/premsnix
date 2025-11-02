@@ -110,7 +110,7 @@ in
         manageHostKey = true;
         manageKnownHosts = true;
         manageUserAuthorizedKeys = true;
-        warnMissing = false;
+        strict = true;
       };
     };
 

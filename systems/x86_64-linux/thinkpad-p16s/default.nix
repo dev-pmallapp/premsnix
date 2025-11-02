@@ -95,7 +95,6 @@ in
         # secrets/users/pmallapp/authorized_keys now expected; enable management
         manageUserAuthorizedKeys = true;
         strict = true; # enforce presence of all managed secrets during evaluation
-        # warnMissing redundant under strict; remove or leave false
       };
     };
 

@@ -136,7 +136,7 @@ in
         manageHostKey = true;
         manageKnownHosts = true;
         manageUserAuthorizedKeys = true;
-        warnMissing = false;
+        strict = true; # enforce presence of all managed secrets
       };
     };
 
