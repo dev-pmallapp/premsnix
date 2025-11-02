@@ -94,7 +94,8 @@ in
         manageKnownHosts = true;
         # secrets/users/pmallapp/authorized_keys now expected; enable management
         manageUserAuthorizedKeys = true;
-        warnMissing = false; # silence missing-secret warnings until secrets committed
+        strict = true; # enforce presence of all managed secrets during evaluation
+        # warnMissing redundant under strict; remove or leave false
       };
     };
 
