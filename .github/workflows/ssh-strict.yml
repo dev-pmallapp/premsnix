@@ -11,6 +11,10 @@ on:
 
 jobs:
   strict:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86_64-linux, aarch64-linux]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,36 +23,48 @@ jobs:
         uses: cachix/install-nix-action@v23
         with:
           nix_path: nixpkgs=channel:nixos-unstable
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
       - name: Show flake
         run: nix flake show || true
-      - name: Run SSH strict check (x86_64-linux)
-        run: nix build .#checks.x86_64-linux.ssh-strict || echo "strict check failed"
-      - name: Build JSON summary (x86_64-linux)
+      - name: Run SSH strict check
+        run: nix build .#checks.${{ matrix.arch }}.ssh-strict || echo "strict check failed"
+      - name: Build JSON summary (x86 only)
+        if: matrix.arch == 'x86_64-linux'
         run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json || echo "summary build failed"
-      - name: Run SSH strict check (aarch64-linux)
-        run: nix build .#checks.aarch64-linux.ssh-strict || echo "Skipped or failed: aarch64-linux build on x86_64 runner"
       - name: Summarize
         if: always()
         run: |
-          echo "SSH Strict Check completed"
+          echo "SSH Strict Check completed for ${{ matrix.arch }}"
           if [ -f ssh-strict-summary.json ]; then
             echo "Summary JSON:"; cat ssh-strict-summary.json; fi
       - name: Enforce failure threshold
-        if: always()
+        if: always() && matrix.arch == 'x86_64-linux'
         run: |
           if [ ! -f ssh-strict-summary.json ]; then
-            echo "No summary JSON produced; failing" >&2
+            echo "No summary JSON produced on x86_64-linux; failing" >&2
             exit 1
           fi
-          FAILURES=$(grep -o '"failures":[0-9]*' ssh-strict-summary.json | sed 's/.*:\([0-9]\+\)/\1/')
+          FAILURES=$(jq -r '.failures' ssh-strict-summary.json)
           echo "Detected failures=$FAILURES"
           if [ "$FAILURES" -gt 0 ]; then
             echo "Failing workflow: ssh strict check reported $FAILURES failures" >&2
             exit 1
           fi
       - name: Upload strict summary artifact
-        if: always()
+        if: always() && matrix.arch == 'x86_64-linux'
         uses: actions/upload-artifact@v4
         with:
           name: ssh-strict-summary
           path: ssh-strict-summary.json
+      - name: Comment on PR with summary
+        if: github.event_name == 'pull_request' && matrix.arch == 'x86_64-linux'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f ssh-strict-summary.json ]; then
+            SUMMARY=$(jq -r '. | "Failures: " + (.failures|tostring) + ", Hosts: " + (.totalHosts|tostring)')
+            echo "Posting PR comment: $SUMMARY"
+            gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="SSH Strict Summary: $SUMMARY"
+          else
+            echo "No summary JSON to comment"

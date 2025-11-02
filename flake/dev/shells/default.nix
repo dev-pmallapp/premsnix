@@ -13,6 +13,7 @@ let
     nh
     statix
     sops
+    jq
     self'.formatter
   ];
 in

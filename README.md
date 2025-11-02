@@ -71,6 +71,10 @@ This repository contains configuration and packages for the premunix systems usi
 
 ### SSH Host Key Management
 
+<a href="https://github.com/pmallapp/premsnix/actions/workflows/ssh-strict.yml">
+ <img src="https://img.shields.io/github/actions/workflow/status/pmallapp/premsnix/ssh-strict.yml?branch=main&label=ssh%20strict&colorA=363a4f&colorB=f5bde6&style=for-the-badge" alt="SSH Strict Status" />
+</a>
+
 Here's an overview of what my Nix configuration offers:
 
 - **External Dependency Integrations**: configuration built with nixvim.
