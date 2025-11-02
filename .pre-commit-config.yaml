@@ -1,1 +1,57 @@
-/nix/store/jvq16m8wz5lialpp54gf33b4i8lfxasf-pre-commit-config.json
+repos:
+  - repo: local
+    hooks:
+      - id: actionlint
+        name: actionlint
+        entry: actionlint
+        language: system
+        files: ".github/workflows/.*\.ya?ml$"
+      - id: clang-tidy
+        name: clang-tidy
+        entry: clang-tidy --version
+        language: system
+        pass_filenames: false
+      - id: deadnix
+        name: deadnix (disabled)
+        entry: echo 'deadnix disabled'
+        language: system
+        pass_filenames: false
+      - id: eslint
+        name: eslint
+        entry: eslint --version
+        language: system
+        pass_filenames: false
+      - id: luacheck
+        name: luacheck
+        entry: luacheck --version
+        language: system
+        pass_filenames: false
+      - id: ensure-sops
+        name: ensure-sops (structured only)
+        entry: pre-commit-hook-ensure-sops
+        language: system
+        files: "(?x)^(
+          secrets/(?:premsnix|pmallapp|mac|imac|nuc|users)/.*\.(yaml|json|env|ini)$
+          |secrets/(known_hosts|ssh_known_hosts)$
+        )"
+        exclude: "(?x)^(
+          secrets/hosts/.*/ssh_host_ed25519_key$
+          |secrets/hosts/ssh_host_ed25519_key$
+          |secrets/users/.*/authorized_keys$
+        )"
+      - id: treefmt
+        name: treefmt
+        entry: treefmt
+        language: system
+        pass_filenames: false
+      - id: typos
+        name: typos
+        entry: typos --config typos.toml --force-exclude
+        language: system
+        pass_filenames: true
+        exclude: "(?x)^(
+          secrets/hosts/.*/ssh_host_ed25519_key$
+          |secrets/hosts/ssh_host_ed25519_key$
+          |secrets/users/.*/authorized_keys$
+          |secrets/(known_hosts|ssh_known_hosts)$
+        )"

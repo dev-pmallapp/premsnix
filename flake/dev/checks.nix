@@ -51,6 +51,36 @@
             echo 'All systems have strict SSH managed keys enforced and required secrets present.' >&2
             touch $out
           '';
+        ssh-strict-json =
+          let
+            hostCfgs = (inputs.self.nixosConfigurations or {});
+            allHosts = builtins.attrNames hostCfgs;
+            skipHosts = [ ];
+            perHost = lib.genAttrs allHosts (
+              h:
+              let cfg = (hostCfgs.${h}.config.premsnix.security.openssh.managedKeys or {}); in
+              let hasKey = builtins.pathExists (inputs.self + "/secrets/hosts/" + h + "/ssh_host_ed25519_key"); in
+              {
+                strict = cfg ? strict && cfg.strict == true;
+                warnMissing = cfg ? warnMissing && cfg.warnMissing == true;
+                hostKeyPresent = hasKey;
+                skipped = lib.elem h skipHosts;
+                status = if lib.elem h skipHosts then "skipped" else if (cfg ? strict && cfg.strict == true && hasKey) then "ok" else "fail";
+              }
+            );
+            global = {
+              authorizedKeysPresent = builtins.pathExists (inputs.self + "/secrets/users/pmallapp/authorized_keys");
+              knownHostsPresent = builtins.pathExists (inputs.self + "/secrets/known_hosts");
+            };
+            failures = builtins.length (lib.filter (h: let v = perHost.${h}; in v.status != "ok") allHosts)
+              + (if global.authorizedKeysPresent then 0 else 1)
+              + (if global.knownHostsPresent then 0 else 1);
+            json = builtins.toJSON { inherit perHost global failures; totalHosts = builtins.length allHosts; };
+          in pkgs.runCommand "ssh-strict-json" { } ''
+            cat > $out <<'JSON'
+            ${json}
+            JSON
+          '';
       };
     };
 }

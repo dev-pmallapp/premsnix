@@ -21,9 +21,19 @@ jobs:
         run: nix flake show || true
       - name: Run SSH strict check (x86_64-linux)
         run: nix build .#checks.x86_64-linux.ssh-strict
+      - name: Build JSON summary (x86_64-linux)
+        run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json
       - name: Run SSH strict check (aarch64-linux)
         run: nix build .#checks.aarch64-linux.ssh-strict || echo "Skipped: aarch64-linux build on x86_64 runner"
       - name: Summarize
         if: always()
         run: |
           echo "SSH Strict Check completed"
+          if [ -f ssh-strict-summary.json ]; then
+            echo "Summary JSON:"; cat ssh-strict-summary.json; fi
+      - name: Upload strict summary artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssh-strict-summary
+          path: ssh-strict-summary.json
