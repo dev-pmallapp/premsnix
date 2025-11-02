@@ -67,6 +67,9 @@ flake switch
 ```
 
 ## Features
+This repository contains configuration and packages for the premunix systems using Nix flakes.
+
+### SSH Host Key Management
 
 Here's an overview of what my Nix configuration offers:
 
