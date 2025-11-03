@@ -53,7 +53,7 @@ jobs:
           fi
       - name: Upload strict summary artifact
         if: always() && matrix.arch == 'x86_64-linux'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ssh-strict-summary
           path: ssh-strict-summary.json

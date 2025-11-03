@@ -21,7 +21,7 @@ jobs:
         continue-on-error: true
       - name: Flake Show (JSON)
         run: nix flake show --json > flake-show-${{ matrix.system }}.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: flake-show-${{ matrix.system }}
           path: flake-show-${{ matrix.system }}.json
@@ -52,7 +52,7 @@ jobs:
         continue-on-error: true
       - name: Upload formatting diff
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: formatting-diff
           path: formatting-diff.patch

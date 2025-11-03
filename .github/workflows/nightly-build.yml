@@ -31,7 +31,7 @@ jobs:
         run: nix build .#${{ matrix.target }}
       - name: Upload rpi4 sdImage artifact
         if: contains(matrix.target, 'rpi4.config.system.build.sdImage')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: rpi4-sdImage
           path: result/sd-image/*.img.zst
