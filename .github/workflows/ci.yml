@@ -128,8 +128,8 @@ jobs:
         continue-on-error: true
       - name: Evaluate Home Manager configurations
         run: nix eval .#homeConfigurations --apply 'builtins.attrNames'
-  evaluate-devshells:
-    name: "[EVAL] Dev Shells"
+  evaluate-devshell-default:
+    name: "[EVAL] DevShell - default"
     needs: [lint-workflows, format-check, brand-scan, deadnix]
     runs-on: ubuntu-latest
     steps:
@@ -142,14 +142,174 @@ jobs:
           name: premsnix
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
-      - name: Evaluate dev shells
-        run: cd flake/dev && nix flake show --json --impure | nix shell nixpkgs#jq -c jq -r '.devShells | keys[]'
+      - name: Build devshell
+        run: cd flake/dev && nix build .#devShells.x86_64-linux.default --impure --no-link
+  evaluate-devshell-c:
+    name: "[EVAL] DevShell - c"
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build devshell
+        run: cd flake/dev && nix build .#devShells.x86_64-linux.c --impure --no-link
+  evaluate-devshell-python:
+    name: "[EVAL] DevShell - python"
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build devshell
+        run: cd flake/dev && nix build .#devShells.x86_64-linux.python --impure --no-link
+  evaluate-devshell-rust:
+    name: "[EVAL] DevShell - rust"
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build devshell
+        run: cd flake/dev && nix build .#devShells.x86_64-linux.rust --impure --no-link
+  evaluate-devshell-nix:
+    name: "[EVAL] DevShell - nix"
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build devshell
+        run: cd flake/dev && nix build .#devShells.x86_64-linux.nix --impure --no-link
+  evaluate-devshell-migrator:
+    name: "[EVAL] DevShell - migrator"
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build devshell
+        run: cd flake/dev && nix build .#devShells.x86_64-linux.migrator --impure --no-link
   # ============================================================
   # STAGE 3: BUILD - Build checks (depends on EVAL)
   # ============================================================
+  build-nuc-v11:
+    name: "[BUILD] nixos@nuc-v11"
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshell-default, evaluate-devshell-c, evaluate-devshell-python, evaluate-devshell-rust, evaluate-devshell-nix, evaluate-devshell-migrator]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build system
+        run: nix build .#nixosConfigurations.nixos@nuc-v11.config.system.build.toplevel --no-link
+  build-pmallapp-nixos:
+    name: "[BUILD] pmallapp@nixos"
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshell-default, evaluate-devshell-c, evaluate-devshell-python, evaluate-devshell-rust, evaluate-devshell-nix, evaluate-devshell-migrator]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build system
+        run: nix build .#nixosConfigurations.pmallapp@nixos.config.system.build.toplevel --no-link
+  build-nuc-v09:
+    name: "[BUILD] pmallapp@nuc-v09"
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshell-default, evaluate-devshell-c, evaluate-devshell-python, evaluate-devshell-rust, evaluate-devshell-nix, evaluate-devshell-migrator]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build system
+        run: nix build .#nixosConfigurations.pmallapp@nuc-v09.config.system.build.toplevel --no-link
+  build-premsnix:
+    name: "[BUILD] pmallapp@premsnix"
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshell-default, evaluate-devshell-c, evaluate-devshell-python, evaluate-devshell-rust, evaluate-devshell-nix, evaluate-devshell-migrator]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build system
+        run: nix build .#nixosConfigurations.pmallapp@premsnix.config.system.build.toplevel --no-link
+  build-thinkpad:
+    name: "[BUILD] pmallapp@thinkpad-p16s"
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshell-default, evaluate-devshell-c, evaluate-devshell-python, evaluate-devshell-rust, evaluate-devshell-nix, evaluate-devshell-migrator]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Build system
+        run: nix build .#nixosConfigurations.pmallapp@thinkpad-p16s.config.system.build.toplevel --no-link
   ssh-strict-check:
     name: "[BUILD] SSH Strict Check"
-    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshells]
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshell-default, evaluate-devshell-c, evaluate-devshell-python, evaluate-devshell-rust, evaluate-devshell-nix, evaluate-devshell-migrator]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -197,18 +357,26 @@ jobs:
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           fi
   # ============================================================
-  # STAGE 4: DEPLOY - Summary and status (always runs)
+  # STAGE 4: FINAL - Summary and status (always runs)
   # ============================================================
   ci-summary:
-    name: "[DEPLOY] CI Summary"
+    name: "[FINAL] CI Summary"
     if: always()
-    needs: [ssh-strict-check]
+    needs: [build-nuc-v11, build-pmallapp-nixos, build-nuc-v09, build-premsnix, build-thinkpad, ssh-strict-check]
     runs-on: ubuntu-latest
     steps:
       - name: Check results
         run: |
-          if [ "${{ needs.ssh-strict-check.result }}" != "success" ]; then
-            echo "CI checks failed"
+          FAILED=""
+          if [ "${{ needs.build-nuc-v11.result }}" != "success" ]; then FAILED="$FAILED build-nuc-v11"; fi
+          if [ "${{ needs.build-pmallapp-nixos.result }}" != "success" ]; then FAILED="$FAILED build-pmallapp-nixos"; fi
+          if [ "${{ needs.build-nuc-v09.result }}" != "success" ]; then FAILED="$FAILED build-nuc-v09"; fi
+          if [ "${{ needs.build-premsnix.result }}" != "success" ]; then FAILED="$FAILED build-premsnix"; fi
+          if [ "${{ needs.build-thinkpad.result }}" != "success" ]; then FAILED="$FAILED build-thinkpad"; fi
+          if [ "${{ needs.ssh-strict-check.result }}" != "success" ]; then FAILED="$FAILED ssh-strict-check"; fi
+          
+          if [ -n "$FAILED" ]; then
+            echo "❌ CI checks failed:$FAILED"
             exit 1
           fi
-          echo "All CI checks passed ✓"
+          echo "✅ All CI checks passed"
