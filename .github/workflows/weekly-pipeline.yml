@@ -113,23 +113,23 @@ jobs:
           cd flake/dev
           case "${{ matrix.shell }}" in
             default)
-              nix develop .#devShells.x86_64-linux.default --impure --offline --no-net --no-write-lock-file -c which nix 2>&1 | grep -v 'lock file contains mutable' || true
+              nix develop .#devShells.x86_64-linux.default --offline --no-write-lock-file -c which nix
               ;;
             c)
-              nix develop .#devShells.x86_64-linux.c --impure --offline --no-net --no-write-lock-file -c which gcc 2>&1 | grep -v 'lock file contains mutable' || true
+              nix develop .#devShells.x86_64-linux.c --offline --no-write-lock-file -c which gcc
               ;;
             python)
-              nix develop .#devShells.x86_64-linux.python --impure --offline --no-net --no-write-lock-file -c which python 2>&1 | grep -v 'lock file contains mutable' || true
-              nix develop .#devShells.x86_64-linux.python --impure --offline --no-net --no-write-lock-file -c which pytest 2>&1 | grep -v 'lock file contains mutable' || true
+              nix develop .#devShells.x86_64-linux.python --offline --no-write-lock-file -c which python
+              nix develop .#devShells.x86_64-linux.python --offline --no-write-lock-file -c which pytest
               ;;
             rust)
-              nix develop .#devShells.x86_64-linux.rust --impure --offline --no-net --no-write-lock-file -c which cargo 2>&1 | grep -v 'lock file contains mutable' || true
+              nix develop .#devShells.x86_64-linux.rust --offline --no-write-lock-file -c which cargo
               ;;
             nix)
-              nix develop .#devShells.x86_64-linux.nix --impure --offline --no-net --no-write-lock-file -c which nix-diff 2>&1 | grep -v 'lock file contains mutable' || true
+              nix develop .#devShells.x86_64-linux.nix --offline --no-write-lock-file -c which nix-diff
               ;;
             migrator)
-              nix develop .#devShells.x86_64-linux.migrator --impure --offline --no-net --no-write-lock-file -c which nix 2>&1 | grep -v 'lock file contains mutable' || true
+              nix develop .#devShells.x86_64-linux.migrator --offline --no-write-lock-file -c which nix
               ;;
           esac
   test-build-validation:
