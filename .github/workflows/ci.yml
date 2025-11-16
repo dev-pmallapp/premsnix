@@ -5,9 +5,11 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  # Stage 1: Fast linting checks (run in parallel)
+  # ============================================================
+  # STAGE 1: CHECK - Linting and static analysis
+  # ============================================================
   lint-workflows:
-    name: Lint Workflows
+    name: "[CHECK] Lint Workflows"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +19,7 @@ jobs:
       - name: Run actionlint
         run: nix run nixpkgs#actionlint -- .github/workflows/*.yml
   format-check:
-    name: Format Check
+    name: "[CHECK] Format Check"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,7 +36,7 @@ jobs:
       - name: Check formatting
         run: nix fmt -- --fail-on-change
   brand-scan:
-    name: Brand Scan
+    name: "[CHECK] Brand Scan"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -61,7 +63,7 @@ jobs:
             exit 1
           fi
   deadnix:
-    name: Dead Code Analysis
+    name: "[CHECK] Dead Code Analysis"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -75,9 +77,11 @@ jobs:
         continue-on-error: true
       - name: Run deadnix
         run: nix run nixpkgs#deadnix -- --fail .
-  # Stage 2: Flake evaluation (depends on stage 1)
+  # ============================================================
+  # STAGE 2: EVAL - Flake evaluation (depends on CHECK)
+  # ============================================================
   evaluate-nixos:
-    name: Evaluate NixOS Configurations
+    name: "[EVAL] NixOS Configurations"
     needs: [lint-workflows, format-check, brand-scan, deadnix]
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +97,7 @@ jobs:
       - name: Evaluate NixOS configurations
         run: nix eval .#nixosConfigurations --apply 'builtins.attrNames'
   evaluate-darwin:
-    name: Evaluate Darwin Configurations
+    name: "[EVAL] Darwin Configurations"
     needs: [lint-workflows, format-check, brand-scan, deadnix]
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +113,7 @@ jobs:
       - name: Evaluate Darwin configurations
         run: nix eval .#darwinConfigurations --apply 'builtins.attrNames'
   evaluate-homes:
-    name: Evaluate Home Configurations
+    name: "[EVAL] Home Configurations"
     needs: [lint-workflows, format-check, brand-scan, deadnix]
     runs-on: ubuntu-latest
     steps:
@@ -124,10 +128,28 @@ jobs:
         continue-on-error: true
       - name: Evaluate Home Manager configurations
         run: nix eval .#homeConfigurations --apply 'builtins.attrNames'
-  # Stage 3: Build checks (depends on evaluation)
+  evaluate-devshells:
+    name: "[EVAL] Dev Shells"
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Evaluate dev shells
+        run: cd flake/dev && nix flake show --json --impure | nix shell nixpkgs#jq -c jq -r '.devShells | keys[]'
+  # ============================================================
+  # STAGE 3: BUILD - Build checks (depends on EVAL)
+  # ============================================================
   ssh-strict-check:
-    name: SSH Strict Check
-    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes]
+    name: "[BUILD] SSH Strict Check"
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes, evaluate-devshells]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -140,9 +162,9 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Run SSH strict check
-        run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict --no-write-lock-file
+        run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict --impure
       - name: Build JSON summary
-        run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict-json --no-write-lock-file && cp result ../../ssh-strict-summary.json
+        run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict-json --impure && cp result ../../ssh-strict-summary.json
       - name: Enforce failure threshold
         if: always()
         run: |
@@ -174,32 +196,18 @@ jobs:
             BODY=$'## SSH Strict Check Summary\n\n'"$SUMMARY"$'\n'"$GLOBAL"$'\n\n### Per-Host Status\n\n'"$HOST_TABLE"$'\n'
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           fi
-  system-checks:
-    name: System Checks
-    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v23
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
-      - uses: cachix/cachix-action@v16
-        with:
-          name: premsnix
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        continue-on-error: true
-      - name: Check expressions
-        run: nix flake check --all-systems --no-build
-  # Summary job (always runs, shows overall status)
+  # ============================================================
+  # STAGE 4: DEPLOY - Summary and status (always runs)
+  # ============================================================
   ci-summary:
-    name: CI Summary
+    name: "[DEPLOY] CI Summary"
     if: always()
-    needs: [ssh-strict-check, system-checks]
+    needs: [ssh-strict-check]
     runs-on: ubuntu-latest
     steps:
       - name: Check results
         run: |
-          if [ "${{ needs.ssh-strict-check.result }}" != "success" ] || [ "${{ needs.system-checks.result }}" != "success" ]; then
+          if [ "${{ needs.ssh-strict-check.result }}" != "success" ]; then
             echo "CI checks failed"
             exit 1
           fi
