@@ -38,10 +38,10 @@ jobs:
       - name: Show flake
         run: nix flake show || true
       - name: Run SSH strict check
-        run: nix develop .#default -c bash -lc 'nix build .#checks.${{ matrix.arch }}.ssh-strict' || echo "strict check failed"
+        run: nix develop .#default -c bash -lc 'nix build .#checks.${{ matrix.arch }}.ssh-strict'
       - name: Build JSON summary (x86 only)
         if: matrix.arch == 'x86_64-linux'
-        run: nix develop .#default -c bash -lc 'nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json' || echo "summary build failed"
+        run: nix develop .#default -c bash -lc 'nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json'
       - name: Summarize
         if: always()
         run: |
