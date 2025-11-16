@@ -29,7 +29,12 @@
             # Combine both into a unified check
             allHosts = builtins.attrNames nixosHosts ++ builtins.attrNames darwinHosts;
             # Legacy / deprecated or non-target hosts to skip
-            skipHosts = [ ];
+            skipHosts = [
+              "imac" # Legacy deprecated host
+              "khanelimac" # Legacy deprecated host
+              "mac-m1" # Marks as deprecated, use mac instead
+              "khanelimac-m1" # Legacy deprecated host
+            ];
             failures =
               lib.concatMap (
                 h:
@@ -87,7 +92,12 @@
             nixosHosts = inputs.self.nixosConfigurations or { };
             darwinHosts = inputs.self.darwinConfigurations or { };
             allHosts = builtins.attrNames nixosHosts ++ builtins.attrNames darwinHosts;
-            skipHosts = [ ];
+            skipHosts = [
+              "imac" # Legacy deprecated host
+              "khanelimac" # Legacy deprecated host
+              "mac-m1" # Marks as deprecated, use mac instead
+              "khanelimac-m1" # Legacy deprecated host
+            ];
             perHost = lib.genAttrs allHosts (
               h:
               let
@@ -126,7 +136,7 @@
                   let
                     v = perHost.${h};
                   in
-                  v.status != "ok"
+                  v.status == "fail"
                 ) allHosts
               )
               + (if global.authorizedKeysPresent then 0 else 1)

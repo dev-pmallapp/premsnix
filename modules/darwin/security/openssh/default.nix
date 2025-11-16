@@ -94,9 +94,10 @@ in
       });
 
     # Add known hosts via static /etc path to stay pure-eval safe.
-    programs.ssh.knownHostsFiles = mkIf (cfg.manageKnownHosts && knownHostsPath != null) [
-      "/etc/ssh/ssh_known_hosts"
-    ];
+    # Note: programs.ssh.knownHostsFiles doesn't exist on nix-darwin, skip it
+    # programs.ssh.knownHostsFiles = mkIf (cfg.manageKnownHosts && knownHostsPath != null) [
+    #   "/etc/ssh/ssh_known_hosts"
+    # ];
 
     # Soft warnings (when strict=false and warnMissing=true)
     warnings = mkIf (!cfg.strict && cfg.warnMissing) (
