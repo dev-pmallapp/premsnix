@@ -36,8 +36,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nix-rosetta-builder = {
-      # url = "github:cpick/nix-rosetta-builder";
-      url = "github:pmallapp/nix-rosetta-builder/speedfactor";
+      url = "github:cpick/nix-rosetta-builder";
+      # url = "github:pmallapp/nix-rosetta-builder/speedfactor"; # Fork no longer exists
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixos-wsl = {
