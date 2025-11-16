@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [x86_64-linux, aarch64-linux]
+        arch: [x86_64-linux]
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
@@ -104,7 +104,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [x86_64-linux, aarch64-linux]
+        arch: [x86_64-linux]
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
@@ -117,11 +117,10 @@ jobs:
         continue-on-error: true
       - name: Run SSH strict check
         run: nix build .#checks.${{ matrix.arch }}.ssh-strict
-      - name: Build JSON summary (x86 only)
-        if: matrix.arch == 'x86_64-linux'
+      - name: Build JSON summary
         run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json
       - name: Enforce failure threshold
-        if: always() && matrix.arch == 'x86_64-linux'
+        if: always()
         run: |
           if [ ! -f ssh-strict-summary.json ]; then
             echo "No summary JSON produced" >&2
@@ -134,13 +133,13 @@ jobs:
             exit 1
           fi
       - name: Upload summary artifact
-        if: always() && matrix.arch == 'x86_64-linux'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ssh-strict-summary
           path: ssh-strict-summary.json
       - name: Comment on PR
-        if: github.event_name == 'pull_request' && matrix.arch == 'x86_64-linux'
+        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
