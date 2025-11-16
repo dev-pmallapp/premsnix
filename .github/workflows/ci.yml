@@ -76,8 +76,8 @@ jobs:
       - name: Run deadnix
         run: nix run nixpkgs#deadnix -- --fail .
   # Stage 2: Flake evaluation (depends on stage 1)
-  evaluate-flake:
-    name: Evaluate Flake
+  evaluate-nixos:
+    name: Evaluate NixOS Configurations
     needs: [lint-workflows, format-check, brand-scan, deadnix]
     runs-on: ubuntu-latest
     steps:
@@ -85,19 +85,49 @@ jobs:
       - uses: cachix/install-nix-action@v23
         with:
           install_url: https://releases.nixos.org/nix/nix-2.18.1/install
-          extra_nix_config: |
-            system-features = nixos-test benchmark big-parallel kvm
       - uses: cachix/cachix-action@v16
         with:
           name: premsnix
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
-      - name: Evaluate flake outputs
+      - name: Evaluate NixOS configurations
         run: nix eval .#nixosConfigurations --apply 'builtins.attrNames'
+  evaluate-darwin:
+    name: Evaluate Darwin Configurations
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Evaluate Darwin configurations
+        run: nix eval .#darwinConfigurations --apply 'builtins.attrNames'
+  evaluate-homes:
+    name: Evaluate Home Configurations
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.18.1/install
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Evaluate Home Manager configurations
+        run: nix eval .#homeConfigurations --apply 'builtins.attrNames'
   # Stage 3: Build checks (depends on evaluation)
   ssh-strict-check:
     name: SSH Strict Check
-    needs: evaluate-flake
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -146,7 +176,7 @@ jobs:
           fi
   system-checks:
     name: System Checks
-    needs: evaluate-flake
+    needs: [evaluate-nixos, evaluate-darwin, evaluate-homes]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
