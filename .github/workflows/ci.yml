@@ -77,12 +77,9 @@ jobs:
         run: nix run nixpkgs#deadnix -- --fail .
   # Stage 2: Flake evaluation (depends on stage 1)
   evaluate-flake:
-    name: Evaluate Flake (${{ matrix.arch }})
+    name: Evaluate Flake
     needs: [lint-workflows, format-check, brand-scan, deadnix]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: [x86_64-linux]
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
@@ -99,12 +96,9 @@ jobs:
         run: nix eval .#nixosConfigurations --apply 'x: builtins.length (builtins.attrNames x)'
   # Stage 3: Build checks (depends on evaluation)
   ssh-strict-check:
-    name: SSH Strict (${{ matrix.arch }})
+    name: SSH Strict Check
     needs: evaluate-flake
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: [x86_64-linux]
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
@@ -116,7 +110,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Run SSH strict check
-        run: nix build .#checks.${{ matrix.arch }}.ssh-strict
+        run: nix build .#checks.x86_64-linux.ssh-strict
       - name: Build JSON summary
         run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json
       - name: Enforce failure threshold
@@ -151,12 +145,9 @@ jobs:
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           fi
   system-checks:
-    name: System Checks (${{ matrix.arch }})
+    name: System Checks
     needs: evaluate-flake
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: [x86_64-linux]
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
