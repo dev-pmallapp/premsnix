@@ -113,23 +113,23 @@ jobs:
           cd flake/dev
           case "${{ matrix.shell }}" in
             default)
-              nix develop .#devShells.x86_64-linux.default --impure --no-write-lock-file -c which nix
+              nix develop .#devShells.x86_64-linux.default --override-input root path:$PWD/../.. --no-write-lock-file -c which nix
               ;;
             c)
-              nix develop .#devShells.x86_64-linux.c --impure --no-write-lock-file -c which gcc
+              nix develop .#devShells.x86_64-linux.c --override-input root path:$PWD/../.. --no-write-lock-file -c which gcc
               ;;
             python)
-              nix develop .#devShells.x86_64-linux.python --impure --no-write-lock-file -c which python
-              nix develop .#devShells.x86_64-linux.python --impure --no-write-lock-file -c which pytest
+              nix develop .#devShells.x86_64-linux.python --override-input root path:$PWD/../.. --no-write-lock-file -c which python
+              nix develop .#devShells.x86_64-linux.python --override-input root path:$PWD/../.. --no-write-lock-file -c which pytest
               ;;
             rust)
-              nix develop .#devShells.x86_64-linux.rust --impure --no-write-lock-file -c which cargo
+              nix develop .#devShells.x86_64-linux.rust --override-input root path:$PWD/../.. --no-write-lock-file -c which cargo
               ;;
             nix)
-              nix develop .#devShells.x86_64-linux.nix --impure --no-write-lock-file -c which nix-diff
+              nix develop .#devShells.x86_64-linux.nix --override-input root path:$PWD/../.. --no-write-lock-file -c which nix-diff
               ;;
             migrator)
-              nix develop .#devShells.x86_64-linux.migrator --impure --no-write-lock-file -c which nix
+              nix develop .#devShells.x86_64-linux.migrator --override-input root path:$PWD/../.. --no-write-lock-file -c which nix
               ;;
           esac
   test-build-validation:
