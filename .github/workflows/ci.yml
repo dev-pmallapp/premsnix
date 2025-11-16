@@ -93,7 +93,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Evaluate flake outputs
-        run: nix eval .#nixosConfigurations --apply 'x: builtins.length (builtins.attrNames x)'
+        run: nix eval .#nixosConfigurations --apply 'builtins.attrNames'
   # Stage 3: Build checks (depends on evaluation)
   ssh-strict-check:
     name: SSH Strict Check
