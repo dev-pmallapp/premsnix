@@ -14,7 +14,7 @@ jobs:
         with:
           install_url: https://nixos.org/nix/install
       - name: Cachix (optional cache)
-        uses: cachix/cachix-action@v15
+        uses: cachix/cachix-action@v16
         with:
           name: premsnix
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
@@ -34,7 +34,7 @@ jobs:
         with:
           install_url: https://nixos.org/nix/install
       - name: Cachix (optional cache)
-        uses: cachix/cachix-action@v15
+        uses: cachix/cachix-action@v16
         with:
           name: premsnix
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
@@ -72,7 +72,7 @@ jobs:
         with:
           install_url: https://nixos.org/nix/install
       - name: Cachix (optional cache)
-        uses: cachix/cachix-action@v15
+        uses: cachix/cachix-action@v16
         with:
           name: premsnix
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
