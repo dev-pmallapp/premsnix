@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
       - name: Run actionlint
-        run: nix develop .#default -c actionlint .github/workflows/*.yml
+        run: nix run nixpkgs#actionlint -- .github/workflows/*.yml
 
   format-check:
     name: Format Check
@@ -31,7 +31,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Check formatting
-        run: nix develop .#default -c bash -lc 'treefmt --fail-on-change'
+        run: nix run nixpkgs#treefmt -- --fail-on-change
 
   brand-scan:
     name: Brand Scan
@@ -73,7 +73,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Run deadnix
-        run: nix develop .#default -c deadnix --fail .
+        run: nix run nixpkgs#deadnix -- --fail .
 
   # Stage 2: Flake evaluation (depends on stage 1)
   evaluate-flake:
@@ -114,10 +114,10 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Run SSH strict check
-        run: nix develop .#default -c bash -lc 'nix build .#checks.${{ matrix.arch }}.ssh-strict'
+        run: nix build .#checks.${{ matrix.arch }}.ssh-strict
       - name: Build JSON summary (x86 only)
         if: matrix.arch == 'x86_64-linux'
-        run: nix develop .#default -c bash -lc 'nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json'
+        run: nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json
       - name: Enforce failure threshold
         if: always() && matrix.arch == 'x86_64-linux'
         run: |
@@ -125,7 +125,8 @@ jobs:
             echo "No summary JSON produced" >&2
             exit 1
           fi
-          FAILURES=$(jq -r '.failures' ssh-strict-summary.json)
+          nix shell nixpkgs#jq -c jq -r '.failures' ssh-strict-summary.json > /tmp/failures
+          FAILURES=$(cat /tmp/failures)
           if [ "$FAILURES" -gt 0 ]; then
             echo "SSH strict check reported $FAILURES failures" >&2
             exit 1
