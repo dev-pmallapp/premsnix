@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
       - name: Run actionlint
-        run: nix develop .#default -c actionlint
+        run: nix develop .#default -c actionlint .github/workflows/*.yml
 
   format-check:
     name: Format Check
@@ -22,13 +22,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v23
+        with:
+          extra_nix_config: |
+            accept-flake-config = true
       - uses: cachix/cachix-action@v16
         with:
           name: premsnix
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Check formatting
-        run: nix develop .#default -c treefmt --fail-on-change
+        run: nix develop .#default -c bash -lc 'treefmt --fail-on-change'
 
   brand-scan:
     name: Brand Scan
@@ -70,7 +73,7 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         continue-on-error: true
       - name: Run deadnix
-        run: nix develop .#default -c deadnix --fail
+        run: nix develop .#default -c deadnix --fail .
 
   # Stage 2: Flake evaluation (depends on stage 1)
   evaluate-flake:
