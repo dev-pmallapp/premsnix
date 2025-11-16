@@ -14,8 +14,7 @@ runs:
           --exclude-dir=khanelimac-m1 \
           --exclude='result*' \
           --exclude=flake.lock \
-          --exclude=brand-scan/action.yml \
-          --exclude=ci/action.yml 2>/dev/null | \
+          --exclude='*.yml' 2>/dev/null | \
           awk -F: '{
             match($0, /^[^:]+:[^:]+:(.*)$/, arr);
             line = arr[1];

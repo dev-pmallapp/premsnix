@@ -32,7 +32,7 @@ jobs:
               MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . \
                 --exclude-dir=.git --exclude-dir=secrets --exclude-dir=khanelimac \
                 --exclude-dir=khanelimac-m1 --exclude='result*' --exclude=flake.lock \
-                --exclude=brand-scan.yml --exclude=ci.yml 2>/dev/null | \
+                --exclude='*.yml' 2>/dev/null | \
                 awk -F: '{match($0, /^[^:]+:[^:]+:(.*)$/, arr); line = arr[1];
                 if (line !~ /^[[:space:]]*(#|\/\/|\/\*|\*|")/) print $0}' || true)
               [ -n "$MATCHES" ] && echo "$MATCHES" >&2 && exit 1 || true
