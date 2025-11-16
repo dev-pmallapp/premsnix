@@ -167,9 +167,7 @@ in
                 sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
               }
               // lib.optionalAttrs (host == "mac") {
-                sshKey =
-                  config.sops.secrets.mac_pmallapp_ssh_key.path
-                    or config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
+                sshKey = config.sops.secrets.mac_pmallapp_ssh_key.path;
                 # Prefer local builds for personal usage
                 systems = [
                   "x86_64-darwin"
@@ -191,11 +189,6 @@ in
               }
               // lib.optionalAttrs (host == "premsnix") {
                 sshKey = config.sops.secrets.premsnix_pmallapp_ssh_key.path;
-              }
-              # TODO: figure out preferring local over remote
-              // lib.optionalAttrs (host == "khanelimac") {
-                sshKey = config.sops.secrets.khanelimac_pmallapp_ssh_key.path;
-                maxJobs = 0;
               }
             )
           ];

@@ -29,7 +29,7 @@ in
       package = pkgs.cloudflared;
 
       tunnels = {
-        "KHANELIMANCOM" = {
+        "MAIN_TUNNEL" = {
           # TODO: replace with sops secret
           credentialsFile = "REPLACEME";
           default = "http_status:404";

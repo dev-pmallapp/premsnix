@@ -245,7 +245,7 @@ def main():
         print()
         print("Examples:")
         print("  why-depends premsnix chromium-unwrapped")
-        print("  why-depends --fast khanelimac firefox")
+        print("  why-depends --fast mac firefox")
         print(
             "  why-depends .#nixosConfigurations.premsnix.config.system.build.toplevel chromium-unwrapped"
         )

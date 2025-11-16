@@ -8,7 +8,6 @@
       url = "path:./../..";
       # Unneeded in dev flake
       inputs = {
-        khanelivim.follows = "";
         disko.follows = "";
         lanzaboote.follows = "";
         nix-darwin.follows = "";

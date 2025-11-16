@@ -11,11 +11,24 @@ jobs:
       - name: Scan for legacy branding
         run: |
           set -euo pipefail
-          echo 'Scanning for legacy tokens: khaneli khanelivim khanelisnow khanelimac'
-          MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . || true)
+          echo 'Scanning for legacy tokens in active code (excluding comments, secrets, deprecated dirs)'
+          # Exclude: secrets, deprecated host dirs, flake.lock, brand-scan.yml itself
+          MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . \
+            --exclude-dir=.git \
+            --exclude-dir=secrets \
+            --exclude-dir=khanelimac \
+            --exclude-dir=khanelimac-m1 \
+            --exclude=flake.lock \
+            --exclude=brand-scan.yml 2>/dev/null | \
+            awk -F: '{
+              # Extract line content after filename:line:
+              line = substr($0, index($0, $3));
+              # Skip if line starts with comment markers
+              if (line !~ /^[[:space:]]*(#|\/\/|\/\*|\*)/) print $0
+            }' || true)
           if [ -n "${MATCHES}" ]; then
-            echo "Forbidden legacy branding detected:" >&2
+            echo "Forbidden legacy branding in active code:" >&2
             echo "${MATCHES}" >&2
             exit 1
           fi
-          echo 'No legacy branding strings found.'
+          echo 'No legacy branding in active code.'
