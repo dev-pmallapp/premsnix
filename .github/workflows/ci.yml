@@ -374,7 +374,7 @@ jobs:
           if [ "${{ needs.build-premsnix.result }}" != "success" ]; then FAILED="$FAILED build-premsnix"; fi
           if [ "${{ needs.build-thinkpad.result }}" != "success" ]; then FAILED="$FAILED build-thinkpad"; fi
           if [ "${{ needs.ssh-strict-check.result }}" != "success" ]; then FAILED="$FAILED ssh-strict-check"; fi
-          
+
           if [ -n "$FAILED" ]; then
             echo "❌ CI checks failed:$FAILED"
             exit 1
