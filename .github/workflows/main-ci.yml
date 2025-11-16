@@ -3,7 +3,6 @@ on:
   push:
     branches: [main, master]
   workflow_dispatch:
-
 jobs:
   checks:
     name: ${{ matrix.check }}
@@ -16,7 +15,7 @@ jobs:
       - uses: ./.github/workflows/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          accept-flake-config: 'true'
+          accept-flake-config: "true"
       - name: Run check
         run: |
           case "${{ matrix.check }}" in
@@ -42,7 +41,6 @@ jobs:
               nix run nixpkgs#deadnix -- --fail .
               ;;
           esac
-
   eval:
     name: Eval ${{ matrix.type }}
     needs: [checks]
@@ -58,7 +56,6 @@ jobs:
       - uses: ./.github/workflows/actions/eval-configs
         with:
           config-type: ${{ matrix.type }}
-
   eval-devshells:
     name: DevShell ${{ matrix.shell }}
     needs: [checks]
@@ -75,7 +72,6 @@ jobs:
       - uses: ./.github/workflows/actions/eval-devshell
         with:
           shell-name: ${{ matrix.shell }}
-
   build:
     name: Build ${{ matrix.host }}
     needs: [eval, eval-devshells]
@@ -97,7 +93,6 @@ jobs:
       - uses: ./.github/workflows/actions/build-host
         with:
           host-name: ${{ matrix.host }}
-
   ssh-check:
     name: SSH Strict
     needs: [eval, eval-devshells]
@@ -109,8 +104,7 @@ jobs:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - uses: ./.github/workflows/actions/check-ssh-strict
         with:
-          upload-artifact: 'true'
-
+          upload-artifact: "true"
   summary:
     name: Summary
     if: always()
@@ -118,4 +112,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          [ "${{ needs.build.result }}" = "success" ] && [ "${{ needs.ssh-check.result }}" = "success" ] && echo "✅ CI passed" || (echo "❌ CI failed" && exit 1)
+          if [ "${{ needs.build.result }}" = "success" ] && [ "${{ needs.ssh-check.result }}" = "success" ]; then
+            echo "✅ CI passed"
+          else
+            echo "❌ CI failed"
+            exit 1
+          fi

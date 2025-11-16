@@ -3,7 +3,6 @@ on:
   push:
     branches: [dev, dev-*]
   workflow_dispatch:
-
 jobs:
   # Quick checks for fast feedback
   quick-checks:
@@ -14,10 +13,9 @@ jobs:
       - uses: ./.github/workflows/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          accept-flake-config: 'true'
+          accept-flake-config: "true"
       - uses: ./.github/workflows/actions/check-actionlint
       - uses: ./.github/workflows/actions/check-brand
-
   # Format check (separate to avoid timing issues)
   format-check:
     name: Format Check
@@ -27,9 +25,8 @@ jobs:
       - uses: ./.github/workflows/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          accept-flake-config: 'true'
+          accept-flake-config: "true"
       - uses: ./.github/workflows/actions/check-format
-
   # Eval configs
   eval-configs:
     name: Eval ${{ matrix.config }}
@@ -46,7 +43,6 @@ jobs:
       - uses: ./.github/workflows/actions/eval-configs
         with:
           config-type: ${{ matrix.config }}
-
   # SSH strict check (critical for dev)
   ssh-check:
     name: SSH Strict Check
@@ -59,4 +55,4 @@ jobs:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - uses: ./.github/workflows/actions/check-ssh-strict
         with:
-          upload-artifact: 'true'
+          upload-artifact: "true"

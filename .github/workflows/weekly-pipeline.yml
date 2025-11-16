@@ -1,9 +1,8 @@
 name: Weekly Full Pipeline
 on:
   schedule:
-    - cron: '0 2 * * 0' # Every Sunday at 2 AM UTC
+    - cron: "0 2 * * 0" # Every Sunday at 2 AM UTC
   workflow_dispatch:
-
 jobs:
   # All checks
   checks:
@@ -18,7 +17,7 @@ jobs:
       - uses: ./.github/workflows/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          accept-flake-config: 'true'
+          accept-flake-config: "true"
       - name: Run ${{ matrix.check }}
         run: |
           case "${{ matrix.check }}" in
@@ -27,7 +26,6 @@ jobs:
             brand) ./.github/workflows/actions/check-brand ;;
             deadnix) ./.github/workflows/actions/check-deadnix ;;
           esac
-
   # Eval all configurations
   eval-configs:
     name: Eval - ${{ matrix.config }}
@@ -44,7 +42,6 @@ jobs:
       - uses: ./.github/workflows/actions/eval-configs
         with:
           config-type: ${{ matrix.config }}
-
   # Eval all devshells
   eval-devshells:
     name: DevShell - ${{ matrix.shell }}
@@ -62,7 +59,6 @@ jobs:
       - uses: ./.github/workflows/actions/eval-devshell
         with:
           shell-name: ${{ matrix.shell }}
-
   # Build ALL hosts
   build-all-hosts:
     name: Build - ${{ matrix.host }}
@@ -85,7 +81,6 @@ jobs:
       - uses: ./.github/workflows/actions/build-host
         with:
           host-name: ${{ matrix.host }}
-
   # SSH strict check
   ssh-check:
     name: SSH Strict Check
@@ -98,8 +93,7 @@ jobs:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - uses: ./.github/workflows/actions/check-ssh-strict
         with:
-          upload-artifact: 'true'
-
+          upload-artifact: "true"
   # Comprehensive testing
   test-devshells:
     name: Test DevShell - ${{ matrix.shell }}
@@ -138,7 +132,6 @@ jobs:
               nix develop .#devShells.x86_64-linux.migrator --impure -c which nix
               ;;
           esac
-
   test-build-validation:
     name: Test Build - ${{ matrix.host }}
     needs: [build-all-hosts, ssh-check]
@@ -165,7 +158,6 @@ jobs:
             echo "Host ${{ matrix.host }} missing strict SSH" >&2
             exit 1
           fi
-
   # Final summary
   weekly-summary:
     name: Weekly Summary

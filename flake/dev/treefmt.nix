@@ -17,7 +17,11 @@
 
         programs = {
           # FIXME: broken dependency on darwin
-          actionlint.enable = pkgs.stdenv.hostPlatform.isLinux;
+          actionlint = {
+            enable = pkgs.stdenv.hostPlatform.isLinux;
+            # Exclude composite action files (they are not workflows)
+            excludes = [ ".github/workflows/actions/*/action.yml" ];
+          };
           # Disabled because upstream module fetches remote schema via HTTPS, which breaks in environments with custom TLS roots.
           biome = {
             enable = false;

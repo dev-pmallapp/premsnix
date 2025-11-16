@@ -4,11 +4,11 @@ inputs:
   upload-artifact:
     description: Whether to upload the JSON summary as an artifact
     required: false
-    default: 'false'
+    default: "false"
   comment-pr:
     description: Whether to comment on PR with results
     required: false
-    default: 'false'
+    default: "false"
   github-token:
     description: GitHub token for PR comments
     required: false
@@ -18,11 +18,9 @@ runs:
     - name: Run SSH strict check
       shell: bash
       run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict --impure
-    
     - name: Build JSON summary
       shell: bash
       run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict-json --impure && cp result ../../ssh-strict-summary.json
-    
     - name: Enforce failure threshold
       if: always()
       shell: bash
@@ -37,14 +35,12 @@ runs:
           echo "SSH strict check reported $FAILURES failures" >&2
           exit 1
         fi
-    
     - name: Upload summary artifact
       if: always() && inputs.upload-artifact == 'true'
       uses: actions/upload-artifact@v4
       with:
         name: ssh-strict-summary
         path: ssh-strict-summary.json
-    
     - name: Comment on PR
       if: inputs.comment-pr == 'true'
       shell: bash
