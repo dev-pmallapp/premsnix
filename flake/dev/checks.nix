@@ -25,7 +25,8 @@
         ssh-strict =
           let
             nixosHosts = inputs.self.nixosConfigurations or { };
-            darwinHosts = inputs.self.darwinConfigurations or { };
+            # Only evaluate Darwin on Darwin platforms to avoid cross-platform issues
+            darwinHosts = if pkgs.stdenv.isDarwin then (inputs.self.darwinConfigurations or { }) else { };
             # Combine both into a unified check
             allHosts = builtins.attrNames nixosHosts ++ builtins.attrNames darwinHosts;
             # Legacy / deprecated or non-target hosts to skip
@@ -90,7 +91,8 @@
         ssh-strict-json =
           let
             nixosHosts = inputs.self.nixosConfigurations or { };
-            darwinHosts = inputs.self.darwinConfigurations or { };
+            # Only evaluate Darwin on Darwin platforms to avoid cross-platform issues
+            darwinHosts = if pkgs.stdenv.isDarwin then (inputs.self.darwinConfigurations or { }) else { };
             allHosts = builtins.attrNames nixosHosts ++ builtins.attrNames darwinHosts;
             skipHosts = [
               "imac" # Legacy deprecated host
