@@ -19,8 +19,9 @@ Welcome to premsnix, a personal Nix configuration repository. This repository
 contains my NixOS and Nixpkgs configurations, along with various tools and
 customizations to enhance the Nix experience.
 
-> Tip: When making Nix changes (formatting, checks, secrets management), enter the dev shell first:
-> `nix develop .#default` (or use `direnv` to auto-load). This ensures tools like `jq`, `sops`, `deadnix`, and `statix` are available.
+> Tip: When making Nix changes (formatting, checks, secrets management), enter
+> the dev shell first: `nix develop .#default` (or use `direnv` to auto-load).
+> This ensures tools like `jq`, `sops`, `deadnix`, and `statix` are available.
 
 ## Table of Contents
 
@@ -70,7 +71,9 @@ flake switch
 ```
 
 ## Features
-This repository contains configuration and packages for the premunix systems using Nix flakes.
+
+This repository contains configuration and packages for the premunix systems
+using Nix flakes.
 
 ### SSH Host Key Management
 
@@ -78,13 +81,17 @@ This repository contains configuration and packages for the premunix systems usi
  <img src="https://img.shields.io/github/actions/workflow/status/pmallapp/premsnix/ssh-strict.yml?branch=main&label=ssh%20strict&colorA=363a4f&colorB=f5bde6&style=for-the-badge" alt="SSH Strict Status" />
 </a>
 
-All NixOS and Darwin hosts enforce strict SSH key management with automated CI validation. The configuration ensures:
+All NixOS and Darwin hosts enforce strict SSH key management with automated CI
+validation. The configuration ensures:
+
 - Declarative host keys (sops-encrypted ed25519)
 - Managed authorized_keys and known_hosts
 - Multi-platform coverage (NixOS + Darwin)
 - Nightly validation runs with detailed per-host status reporting
 
-Use the dev shell for Nix changes—it includes all required tooling (sops, jq, actionlint):
+Use the dev shell for Nix changes—it includes all required tooling (sops, jq,
+actionlint):
+
 ```bash
 nix develop
 ```

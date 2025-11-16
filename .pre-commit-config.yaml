@@ -5,7 +5,7 @@ repos:
         name: actionlint
         entry: actionlint
         language: system
-        files: ".github/workflows/.*\.ya?ml$"
+        files: '.github/workflows/.*\.ya?ml$'
       - id: clang-tidy
         name: clang-tidy
         entry: clang-tidy --version
@@ -30,15 +30,8 @@ repos:
         name: ensure-sops (structured only)
         entry: pre-commit-hook-ensure-sops
         language: system
-        files: "(?x)^(
-          secrets/(?:premsnix|pmallapp|mac|imac|nuc|users)/.*\.(yaml|json|env|ini)$
-          |secrets/(known_hosts|ssh_known_hosts)$
-        )"
-        exclude: "(?x)^(
-          secrets/hosts/.*/ssh_host_ed25519_key$
-          |secrets/hosts/ssh_host_ed25519_key$
-          |secrets/users/.*/authorized_keys$
-        )"
+        files: '(?x)^( secrets/(?:premsnix|pmallapp|mac|imac|nuc|users)/.*\.(yaml|json|env|ini)$ |secrets/(known_hosts|ssh_known_hosts)$ )'
+        exclude: "(?x)^( secrets/hosts/.*/ssh_host_ed25519_key$ |secrets/hosts/ssh_host_ed25519_key$ |secrets/users/.*/authorized_keys$ )"
       - id: treefmt
         name: treefmt
         entry: treefmt
@@ -49,9 +42,4 @@ repos:
         entry: typos --config typos.toml --force-exclude
         language: system
         pass_filenames: true
-        exclude: "(?x)^(
-          secrets/hosts/.*/ssh_host_ed25519_key$
-          |secrets/hosts/ssh_host_ed25519_key$
-          |secrets/users/.*/authorized_keys$
-          |secrets/(known_hosts|ssh_known_hosts)$
-        )"
+        exclude: "(?x)^( secrets/hosts/.*/ssh_host_ed25519_key$ |secrets/hosts/ssh_host_ed25519_key$ |secrets/users/.*/authorized_keys$ |secrets/(known_hosts|ssh_known_hosts)$ )"

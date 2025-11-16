@@ -1,14 +1,12 @@
 name: SSH Strict Check
-
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'
-
+    - cron: "0 3 * * *"
 jobs:
   actionlint:
     name: Workflow Lint
@@ -75,7 +73,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -f ssh-strict-summary.json ]; then
-            SUMMARY=$(jq -r '. | "**Failures:** " + (.failures|tostring) + " | **Total Hosts:** " + (.totalHosts|tostring)')
+            SUMMARY=$(jq -r '. | "**Failures:** " + (.failures|tostring) + " | **Total Hosts:** " + (.totalHosts|tostring)' ssh-strict-summary.json)
             GLOBAL=$(jq -r '.global | "**Global:** AuthKeys=" + (.authorizedKeysPresent|tostring) + ", KnownHosts=" + (.knownHostsPresent|tostring)' ssh-strict-summary.json)
             HOST_TABLE=$(jq -r '.perHost | to_entries | map("| " + .key + " | " + .value.platform + " | " + .value.status + " | " + (.value.strict|tostring) + " | " + (.value.hostKeyPresent|tostring) + " | " + (.value.warnMissing|tostring) + " |") | ("| Host | Platform | Status | Strict | HostKey | WarnMissing |"), ("|------|----------|--------|--------|---------|-------------|"), .[]' ssh-strict-summary.json)
             BODY=$'## SSH Strict Check Summary\n\n'"$SUMMARY"$'\n'"$GLOBAL"$'\n\n### Per-Host Status\n\n'"$HOST_TABLE"$'\n'
@@ -84,3 +82,4 @@ jobs:
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           else
             echo "No summary JSON to comment"
+          fi

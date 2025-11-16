@@ -4,6 +4,6 @@ browseable = "browseable"
 
 [files]
 extend-exclude = [
-	"secrets/hosts/*/ssh_host_ed25519_key",
-	"secrets/hosts/ssh_host_ed25519_key",
+  "secrets/hosts/*/ssh_host_ed25519_key",
+  "secrets/hosts/ssh_host_ed25519_key",
 ]
