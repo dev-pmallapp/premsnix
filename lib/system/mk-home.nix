@@ -34,7 +34,7 @@ inputs.home-manager.lib.homeManagerConfiguration {
     { _module.args.lib = extendedLib; }
 
     inputs.catppuccin.homeModules.catppuccin
-    inputs.hypr-socket-watch.homeManagerModules.default
+    # inputs.hypr-socket-watch.homeManagerModules.default # Removed: repo 404
     inputs.nix-index-database.homeModules.nix-index
     inputs.sops-nix.homeManagerModules.sops
 

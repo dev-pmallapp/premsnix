@@ -16,7 +16,7 @@
         anyrun-nixos-options.follows = "";
         catppuccin.follows = "";
         firefox-addons.follows = "";
-        hypr-socket-watch.follows = "";
+        # hypr-socket-watch.follows = ""; # Removed: repo 404
         nh.follows = "";
         nixpkgs-citrix-workspace.follows = "";
         nix-flatpak.follows = "";

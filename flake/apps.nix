@@ -33,7 +33,7 @@ _: {
             "anyrun-nixos-options"
             "catppuccin"
             "firefox-addons"
-            "hypr-socket-watch"
+            # "hypr-socket-watch" # Removed: repo 404
             # "hyprland"
             # Removed legacy khanelivim entry
             "nh"

@@ -59,7 +59,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    hypr-socket-watch.url = "github:pmallapp/hypr-socket-watch";
+    # hypr-socket-watch repo removed (404)
     nh.url = "github:nix-community/nh";
     nixpkgs-citrix-workspace.url = "github:NixOS/nixpkgs/87894d3b7116a8e1c4827d66e17b89099d218c50";
     nix-flatpak.url = "github:gmodena/nix-flatpak/latest";

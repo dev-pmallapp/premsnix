@@ -22,7 +22,7 @@ in
 {
   options.premsnix.services.hyprpaper = {
     enable = mkEnableOption "Hyprpaper";
-    enableSocketWatch = mkEnableOption "hypr-socket-watch";
+    # enableSocketWatch = mkEnableOption "hypr-socket-watch"; # Removed: repo 404
     monitors = mkOption {
       description = "Monitors and their wallpapers";
       type =
@@ -48,14 +48,14 @@ in
         };
       };
 
-      hypr-socket-watch = {
-        enable = cfg.enableSocketWatch;
-        package = hypr-socket-watch.packages.${system}.hypr-socket-watch;
-
-        monitor = "DP-1";
-        wallpapers = "${pkgs.premsnix.wallpapers}/share/wallpapers/";
-        debug = false;
-      };
+      # hypr-socket-watch removed (repo 404)
+      # hypr-socket-watch = {
+      #   enable = cfg.enableSocketWatch;
+      #   package = hypr-socket-watch.packages.${system}.hypr-socket-watch;
+      #   monitor = "DP-1";
+      #   wallpapers = "${pkgs.premsnix.wallpapers}/share/wallpapers/";
+      #   debug = false;
+      # };
     };
   };
 }
