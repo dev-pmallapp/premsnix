@@ -4,7 +4,6 @@ on:
     branches: [main, master]
   pull_request:
   workflow_dispatch:
-
 jobs:
   # Stage 1: Fast linting checks (run in parallel)
   lint-workflows:
@@ -17,7 +16,6 @@ jobs:
           install_url: https://releases.nixos.org/nix/nix-2.18.1/install
       - name: Run actionlint
         run: nix run nixpkgs#actionlint -- .github/workflows/*.yml
-
   format-check:
     name: Format Check
     runs-on: ubuntu-latest
@@ -35,7 +33,6 @@ jobs:
         continue-on-error: true
       - name: Check formatting
         run: nix fmt -- --fail-on-change
-
   brand-scan:
     name: Brand Scan
     runs-on: ubuntu-latest
@@ -63,7 +60,6 @@ jobs:
             echo "${MATCHES}" >&2
             exit 1
           fi
-
   deadnix:
     name: Dead Code Analysis
     runs-on: ubuntu-latest
@@ -79,7 +75,6 @@ jobs:
         continue-on-error: true
       - name: Run deadnix
         run: nix run nixpkgs#deadnix -- --fail .
-
   # Stage 2: Flake evaluation (depends on stage 1)
   evaluate-flake:
     name: Evaluate Flake (${{ matrix.arch }})
@@ -102,7 +97,6 @@ jobs:
         continue-on-error: true
       - name: Evaluate flake
         run: nix flake show --all-systems
-
   # Stage 3: Build checks (depends on evaluation)
   ssh-strict-check:
     name: SSH Strict (${{ matrix.arch }})
@@ -157,7 +151,6 @@ jobs:
             BODY=$'## SSH Strict Check Summary\n\n'"$SUMMARY"$'\n'"$GLOBAL"$'\n\n### Per-Host Status\n\n'"$HOST_TABLE"$'\n'
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           fi
-
   system-checks:
     name: System Checks (${{ matrix.arch }})
     needs: evaluate-flake
@@ -177,7 +170,6 @@ jobs:
         continue-on-error: true
       - name: Check expressions
         run: nix flake check --all-systems --no-build
-
   # Summary job (always runs, shows overall status)
   ci-summary:
     name: CI Summary
