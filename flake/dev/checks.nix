@@ -24,15 +24,22 @@
       checks = {
         ssh-strict =
           let
-            hostCfgs = (inputs.self.nixosConfigurations or {});
-            allHosts = builtins.attrNames hostCfgs;
-            # Legacy / deprecated or non-target hosts to skip (Darwin excluded until module path defined)
+            nixosHosts = (inputs.self.nixosConfigurations or {});
+            darwinHosts = (inputs.self.darwinConfigurations or {});
+            # Combine both into a unified check
+            allHosts = builtins.attrNames nixosHosts ++ builtins.attrNames darwinHosts;
+            # Legacy / deprecated or non-target hosts to skip
             skipHosts = [ ];
             failures =
               lib.concatMap (
                 h:
                 if lib.elem h skipHosts then [ ] else
-                let cfg = (hostCfgs.${h}.config.premsnix.security.openssh.managedKeys or {}); in
+                let 
+                  cfg = 
+                    if builtins.hasAttr h nixosHosts 
+                    then (nixosHosts.${h}.config.premsnix.security.openssh.managedKeys or {})
+                    else (darwinHosts.${h}.config.premsnix.security.openssh.managedKeys or {});
+                in
                 let msgs = [ ]
                   ++ (if (cfg ? strict && cfg.strict == true) then [ ] else [ "${h}: strict != true" ])
                   ++ (if (cfg ? warnMissing && cfg.warnMissing == true) then [ "${h}: warnMissing should be removed under strict" ] else [ ])
@@ -53,18 +60,25 @@
           '';
         ssh-strict-json =
           let
-            hostCfgs = (inputs.self.nixosConfigurations or {});
-            allHosts = builtins.attrNames hostCfgs;
+            nixosHosts = (inputs.self.nixosConfigurations or {});
+            darwinHosts = (inputs.self.darwinConfigurations or {});
+            allHosts = builtins.attrNames nixosHosts ++ builtins.attrNames darwinHosts;
             skipHosts = [ ];
             perHost = lib.genAttrs allHosts (
               h:
-              let cfg = (hostCfgs.${h}.config.premsnix.security.openssh.managedKeys or {}); in
+              let 
+                cfg = 
+                  if builtins.hasAttr h nixosHosts 
+                  then (nixosHosts.${h}.config.premsnix.security.openssh.managedKeys or {})
+                  else (darwinHosts.${h}.config.premsnix.security.openssh.managedKeys or {});
+              in
               let hasKey = builtins.pathExists (inputs.self + "/secrets/hosts/" + h + "/ssh_host_ed25519_key"); in
               {
                 strict = cfg ? strict && cfg.strict == true;
                 warnMissing = cfg ? warnMissing && cfg.warnMissing == true;
                 hostKeyPresent = hasKey;
                 skipped = lib.elem h skipHosts;
+                platform = if builtins.hasAttr h nixosHosts then "nixos" else "darwin";
                 status = if lib.elem h skipHosts then "skipped" else if (cfg ? strict && cfg.strict == true && hasKey) then "ok" else "fail";
               }
             );

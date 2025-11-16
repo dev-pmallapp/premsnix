@@ -14,6 +14,7 @@ let
     statix
     sops
     jq
+    actionlint
     self'.formatter
   ];
 in

@@ -78,6 +78,17 @@ This repository contains configuration and packages for the premunix systems usi
  <img src="https://img.shields.io/github/actions/workflow/status/pmallapp/premsnix/ssh-strict.yml?branch=main&label=ssh%20strict&colorA=363a4f&colorB=f5bde6&style=for-the-badge" alt="SSH Strict Status" />
 </a>
 
+All NixOS and Darwin hosts enforce strict SSH key management with automated CI validation. The configuration ensures:
+- Declarative host keys (sops-encrypted ed25519)
+- Managed authorized_keys and known_hosts
+- Multi-platform coverage (NixOS + Darwin)
+- Nightly validation runs with detailed per-host status reporting
+
+Use the dev shell for Nix changes—it includes all required tooling (sops, jq, actionlint):
+```bash
+nix develop
+```
+
 Here's an overview of what my Nix configuration offers:
 
 - **External Dependency Integrations**: configuration built with nixvim.
@@ -99,7 +110,8 @@ Here's an overview of what my Nix configuration offers:
 - **CI with Cachix**: The configuration includes continuous integration (CI)
   that pushes built artifacts to [Cachix](https://github.com/cachix/cachix).
   This ensures efficient builds and reduces the need to build dependencies on
-  your local machine.
+  your local machine. CI also validates workflow syntax with actionlint and
+  enforces strict SSH key management across all platforms.
 
 - **Utilize sops-nix**: Secret management with
   [sops-nix](https://github.com/Mic92/sops-nix) for secure and encrypted

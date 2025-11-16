@@ -10,6 +10,18 @@ on:
     - cron: '0 3 * * *'
 
 jobs:
+  actionlint:
+    name: Workflow Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v23
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Run actionlint
+        run: nix develop .#default -c bash -lc 'actionlint -color'
   strict:
     strategy:
       fail-fast: false
@@ -63,10 +75,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -f ssh-strict-summary.json ]; then
-            SUMMARY=$(jq -r '. | "Failures: " + (.failures|tostring) + ", Hosts: " + (.totalHosts|tostring)')
-            HOST_TABLE=$(jq -r '.perHost | to_entries | map("| " + .key + " | " + .value.status + " | " + (.value.strict|tostring) + " | " + (.value.hostKeyPresent|tostring) + " |") | ("| Host | Status | Strict | HostKey |"), ("|------|--------|--------|---------|"), .[]' ssh-strict-summary.json)
-            BODY=$'SSH Strict Summary:\n'"$SUMMARY"$'\n\n'"$HOST_TABLE"$'\n'
-            echo "Posting PR comment:\n$BODY"
+            SUMMARY=$(jq -r '. | "**Failures:** " + (.failures|tostring) + " | **Total Hosts:** " + (.totalHosts|tostring)')
+            GLOBAL=$(jq -r '.global | "**Global:** AuthKeys=" + (.authorizedKeysPresent|tostring) + ", KnownHosts=" + (.knownHostsPresent|tostring)' ssh-strict-summary.json)
+            HOST_TABLE=$(jq -r '.perHost | to_entries | map("| " + .key + " | " + .value.platform + " | " + .value.status + " | " + (.value.strict|tostring) + " | " + (.value.hostKeyPresent|tostring) + " | " + (.value.warnMissing|tostring) + " |") | ("| Host | Platform | Status | Strict | HostKey | WarnMissing |"), ("|------|----------|--------|--------|---------|-------------|"), .[]' ssh-strict-summary.json)
+            BODY=$'## SSH Strict Check Summary\n\n'"$SUMMARY"$'\n'"$GLOBAL"$'\n\n### Per-Host Status\n\n'"$HOST_TABLE"$'\n'
+            echo "Posting PR comment:"
+            echo "$BODY"
             gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
           else
             echo "No summary JSON to comment"
