@@ -1,9 +1,9 @@
 {
   config,
-  inputs,
+  # inputs, # Unused after hypr-socket-watch removal
   lib,
-  pkgs,
-  system,
+  # pkgs, # Unused
+  # system, # Unused after hypr-socket-watch removal
 
   ...
 }:
@@ -14,7 +14,7 @@ let
     types
     mkOption
     ;
-  inherit (inputs) hypr-socket-watch;
+  # inherit (inputs) hypr-socket-watch; # Removed: repo 404
   inherit (lib.premsnix) mkOpt;
 
   cfg = config.premsnix.services.hyprpaper;
