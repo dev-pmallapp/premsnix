@@ -78,7 +78,8 @@ jobs:
       - name: Run deadnix
         run: nix run nixpkgs#deadnix -- --fail .
   # ============================================================
-  # STAGE 2: EVAL - Flake evaluation (depends on CHECK)
+  # STAGE 2: EVAL - Flake evaluation (parallel, depends on CHECK)
+  # Includes: NixOS, Darwin, Home configurations + DevShells
   # ============================================================
   evaluate-nixos:
     name: "[EVAL] NixOS Configurations"
