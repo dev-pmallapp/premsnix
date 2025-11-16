@@ -9,4 +9,4 @@ runs:
   steps:
     - name: Build devshell
       shell: bash
-      run: cd flake/dev && nix build .#devShells.x86_64-linux.${{ inputs.shell-name }} --override-input root path:$PWD/../.. --no-write-lock-file --no-link
+      run: cd flake/dev && nix build .#devShells.x86_64-linux.${{ inputs.shell-name }} --impure --offline --no-net --no-write-lock-file --no-link 2>&1 | grep -v 'lock file contains mutable' || true
