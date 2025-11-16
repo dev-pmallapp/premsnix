@@ -1,0 +1,182 @@
+name: Weekly Full Pipeline
+on:
+  schedule:
+    - cron: '0 2 * * 0' # Every Sunday at 2 AM UTC
+  workflow_dispatch:
+
+jobs:
+  # All checks
+  checks:
+    name: ${{ matrix.check }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check: [actionlint, format, brand, deadnix]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          accept-flake-config: 'true'
+      - name: Run ${{ matrix.check }}
+        run: |
+          case "${{ matrix.check }}" in
+            actionlint) ./.github/workflows/actions/check-actionlint ;;
+            format) ./.github/workflows/actions/check-format ;;
+            brand) ./.github/workflows/actions/check-brand ;;
+            deadnix) ./.github/workflows/actions/check-deadnix ;;
+          esac
+
+  # Eval all configurations
+  eval-configs:
+    name: Eval - ${{ matrix.config }}
+    needs: [checks]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config: [nixos, darwin, homes]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/eval-configs
+        with:
+          config-type: ${{ matrix.config }}
+
+  # Eval all devshells
+  eval-devshells:
+    name: DevShell - ${{ matrix.shell }}
+    needs: [checks]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [default, c, python, rust, nix, migrator]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/eval-devshell
+        with:
+          shell-name: ${{ matrix.shell }}
+
+  # Build ALL hosts
+  build-all-hosts:
+    name: Build - ${{ matrix.host }}
+    needs: [eval-configs, eval-devshells]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - nixos@nuc-v11
+          - pmallapp@nixos
+          - pmallapp@nuc-v09
+          - pmallapp@premsnix
+          - pmallapp@thinkpad-p16s
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/build-host
+        with:
+          host-name: ${{ matrix.host }}
+
+  # SSH strict check
+  ssh-check:
+    name: SSH Strict Check
+    needs: [eval-configs, eval-devshells]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/check-ssh-strict
+        with:
+          upload-artifact: 'true'
+
+  # Comprehensive testing
+  test-devshells:
+    name: Test DevShell - ${{ matrix.shell }}
+    needs: [build-all-hosts, ssh-check]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [default, c, python, rust, nix, migrator]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Test devshell tools
+        run: |
+          cd flake/dev
+          case "${{ matrix.shell }}" in
+            default)
+              nix develop .#devShells.x86_64-linux.default --impure -c which nix
+              ;;
+            c)
+              nix develop .#devShells.x86_64-linux.c --impure -c which gcc
+              ;;
+            python)
+              nix develop .#devShells.x86_64-linux.python --impure -c which python
+              nix develop .#devShells.x86_64-linux.python --impure -c which pytest
+              ;;
+            rust)
+              nix develop .#devShells.x86_64-linux.rust --impure -c which cargo
+              ;;
+            nix)
+              nix develop .#devShells.x86_64-linux.nix --impure -c which nix-diff
+              ;;
+            migrator)
+              nix develop .#devShells.x86_64-linux.migrator --impure -c which nix
+              ;;
+          esac
+
+  test-build-validation:
+    name: Test Build - ${{ matrix.host }}
+    needs: [build-all-hosts, ssh-check]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - nixos@nuc-v11
+          - pmallapp@nixos
+          - pmallapp@nuc-v09
+          - pmallapp@premsnix
+          - pmallapp@thinkpad-p16s
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Validate host build
+        run: |
+          # Verify SSH strict mode
+          STRICT=$(nix eval .#nixosConfigurations."${{ matrix.host }}".config.premsnix.security.openssh.managedKeys.strict --json)
+          if [ "$STRICT" != "true" ]; then
+            echo "Host ${{ matrix.host }} missing strict SSH" >&2
+            exit 1
+          fi
+
+  # Final summary
+  weekly-summary:
+    name: Weekly Summary
+    if: always()
+    needs: [test-devshells, test-build-validation]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          if [ "${{ needs.test-devshells.result }}" != "success" ] || [ "${{ needs.test-build-validation.result }}" != "success" ]; then
+            echo "❌ Weekly pipeline failed"
+            exit 1
+          fi
+          echo "✅ Weekly pipeline passed"

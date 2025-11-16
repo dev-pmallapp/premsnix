@@ -1,0 +1,12 @@
+name: Evaluate DevShell
+description: Build and validate a devshell
+inputs:
+  shell-name:
+    description: Name of the devshell
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Build devshell
+      shell: bash
+      run: cd flake/dev && nix build .#devShells.x86_64-linux.${{ inputs.shell-name }} --impure --no-link

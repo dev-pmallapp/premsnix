@@ -1,0 +1,27 @@
+name: Evaluate Configurations
+description: Evaluate NixOS, Darwin, or Home configurations
+inputs:
+  config-type:
+    description: Type of configuration (nixos, darwin, homes)
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Evaluate ${{ inputs.config-type }} configurations
+      shell: bash
+      run: |
+        case "${{ inputs.config-type }}" in
+          nixos)
+            nix eval .#nixosConfigurations --apply 'builtins.attrNames'
+            ;;
+          darwin)
+            nix eval .#darwinConfigurations --apply 'builtins.attrNames'
+            ;;
+          homes)
+            nix eval .#homeConfigurations --apply 'builtins.attrNames'
+            ;;
+          *)
+            echo "Unknown config type: ${{ inputs.config-type }}"
+            exit 1
+            ;;
+        esac

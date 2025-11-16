@@ -1,0 +1,28 @@
+name: Check Brand
+description: Scan for legacy branding terms
+runs:
+  using: composite
+  steps:
+    - name: Scan for legacy branding
+      shell: bash
+      run: |
+        set -euo pipefail
+        MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . \
+          --exclude-dir=.git \
+          --exclude-dir=secrets \
+          --exclude-dir=khanelimac \
+          --exclude-dir=khanelimac-m1 \
+          --exclude='result*' \
+          --exclude=flake.lock \
+          --exclude=brand-scan/action.yml \
+          --exclude=ci/action.yml 2>/dev/null | \
+          awk -F: '{
+            match($0, /^[^:]+:[^:]+:(.*)$/, arr);
+            line = arr[1];
+            if (line !~ /^[[:space:]]*(#|\/\/|\/\*|\*|")/) print $0
+          }' || true)
+        if [ -n "${MATCHES}" ]; then
+          echo "Forbidden legacy branding:" >&2
+          echo "${MATCHES}" >&2
+          exit 1
+        fi

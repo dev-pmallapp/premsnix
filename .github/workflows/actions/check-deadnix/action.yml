@@ -1,0 +1,8 @@
+name: Check Deadnix
+description: Run dead code analysis
+runs:
+  using: composite
+  steps:
+    - name: Run deadnix
+      shell: bash
+      run: nix run nixpkgs#deadnix -- --fail .

@@ -1,0 +1,12 @@
+name: Build Host
+description: Build a NixOS host configuration
+inputs:
+  host-name:
+    description: Name of the host configuration
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Build system
+      shell: bash
+      run: nix build .#nixosConfigurations."${{ inputs.host-name }}".config.system.build.toplevel --no-link

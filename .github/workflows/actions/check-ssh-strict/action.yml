@@ -1,0 +1,60 @@
+name: Check SSH Strict
+description: Run SSH strict mode validation
+inputs:
+  upload-artifact:
+    description: Whether to upload the JSON summary as an artifact
+    required: false
+    default: 'false'
+  comment-pr:
+    description: Whether to comment on PR with results
+    required: false
+    default: 'false'
+  github-token:
+    description: GitHub token for PR comments
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Run SSH strict check
+      shell: bash
+      run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict --impure
+    
+    - name: Build JSON summary
+      shell: bash
+      run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict-json --impure && cp result ../../ssh-strict-summary.json
+    
+    - name: Enforce failure threshold
+      if: always()
+      shell: bash
+      run: |
+        if [ ! -f ssh-strict-summary.json ]; then
+          echo "No summary JSON produced" >&2
+          exit 1
+        fi
+        nix shell nixpkgs#jq -c jq -r '.failures' ssh-strict-summary.json > /tmp/failures
+        FAILURES=$(cat /tmp/failures)
+        if [ "$FAILURES" -gt 0 ]; then
+          echo "SSH strict check reported $FAILURES failures" >&2
+          exit 1
+        fi
+    
+    - name: Upload summary artifact
+      if: always() && inputs.upload-artifact == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ssh-strict-summary
+        path: ssh-strict-summary.json
+    
+    - name: Comment on PR
+      if: inputs.comment-pr == 'true'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        if [ -f ssh-strict-summary.json ]; then
+          SUMMARY=$(jq -r '. | "**Failures:** " + (.failures|tostring) + " | **Total Hosts:** " + (.totalHosts|tostring)' ssh-strict-summary.json)
+          GLOBAL=$(jq -r '.global | "**Global:** AuthKeys=" + (.authorizedKeysPresent|tostring) + ", KnownHosts=" + (.knownHostsPresent|tostring)' ssh-strict-summary.json)
+          HOST_TABLE=$(jq -r '.perHost | to_entries | map("| " + .key + " | " + .value.platform + " | " + .value.status + " | " + (.value.strict|tostring) + " | " + (.value.hostKeyPresent|tostring) + " | " + (.value.warnMissing|tostring) + " |") | ("| Host | Platform | Status | Strict | HostKey | WarnMissing |"), ("|------|----------|--------|--------|---------|-------------|"), .[]' ssh-strict-summary.json)
+          BODY=$'## SSH Strict Check Summary\n\n'"$SUMMARY"$'\n'"$GLOBAL"$'\n\n### Per-Host Status\n\n'"$HOST_TABLE"$'\n'
+          nix shell nixpkgs#gh -c gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
+        fi

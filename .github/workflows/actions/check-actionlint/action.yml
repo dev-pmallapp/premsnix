@@ -1,0 +1,8 @@
+name: Check Actionlint
+description: Run actionlint on workflow files
+runs:
+  using: composite
+  steps:
+    - name: Run actionlint
+      shell: bash
+      run: nix run nixpkgs#actionlint -- .github/workflows/*/action.yml

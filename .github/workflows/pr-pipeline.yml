@@ -1,0 +1,153 @@
+name: Pull Request Pipeline
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # All checks
+  lint-workflows:
+    name: Lint Workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+      - uses: ./.github/workflows/actions/check-actionlint
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          accept-flake-config: 'true'
+      - uses: ./.github/workflows/actions/check-format
+
+  brand-scan:
+    name: Brand Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+      - uses: ./.github/workflows/actions/check-brand
+
+  deadnix:
+    name: Dead Code Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/check-deadnix
+
+  # Eval all configurations
+  eval-nixos:
+    name: Eval NixOS
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/eval-configs
+        with:
+          config-type: nixos
+
+  eval-darwin:
+    name: Eval Darwin
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/eval-configs
+        with:
+          config-type: darwin
+
+  eval-homes:
+    name: Eval Homes
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/eval-configs
+        with:
+          config-type: homes
+
+  # Eval devshells
+  eval-devshells:
+    name: DevShell - ${{ matrix.shell }}
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [default, c, python, rust, nix, migrator]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/eval-devshell
+        with:
+          shell-name: ${{ matrix.shell }}
+
+  # Build representative hosts
+  build-hosts:
+    name: Build - ${{ matrix.host }}
+    needs: [eval-nixos, eval-darwin, eval-homes, eval-devshells]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - nixos@nuc-v11
+          - pmallapp@nixos
+          - pmallapp@premsnix
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/build-host
+        with:
+          host-name: ${{ matrix.host }}
+
+  # SSH strict check with PR comment
+  ssh-check:
+    name: SSH Strict Check
+    needs: [eval-nixos, eval-darwin, eval-homes, eval-devshells]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - uses: ./.github/workflows/actions/check-ssh-strict
+        with:
+          upload-artifact: 'true'
+          comment-pr: 'true'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Summary
+  pr-summary:
+    name: PR Summary
+    if: always()
+    needs: [build-hosts, ssh-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          if [ "${{ needs.build-hosts.result }}" != "success" ] || [ "${{ needs.ssh-check.result }}" != "success" ]; then
+            echo "❌ PR checks failed"
+            exit 1
+          fi
+          echo "✅ All PR checks passed"
