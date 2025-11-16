@@ -1,5 +1,6 @@
 name: Dead code analysis
-on: [push]
+on:
+  workflow_dispatch: # Manual trigger only, covered by ci.yml
 jobs:
   deadnix:
     name: Deadnix

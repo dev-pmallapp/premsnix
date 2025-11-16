@@ -1,12 +1,8 @@
 name: SSH Strict Check
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-  workflow_dispatch:
+  workflow_dispatch: # Manual trigger only, covered by ci.yml
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 3 * * *" # Nightly check
 jobs:
   actionlint:
     name: Workflow Lint

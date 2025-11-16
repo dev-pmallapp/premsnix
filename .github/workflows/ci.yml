@@ -1,0 +1,180 @@
+name: CI Pipeline
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Stage 1: Fast linting checks (run in parallel)
+  lint-workflows:
+    name: Lint Workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+      - name: Run actionlint
+        run: nix develop .#default -c actionlint
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Check formatting
+        run: nix fmt -- --fail-on-change
+
+  brand-scan:
+    name: Brand Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for legacy branding
+        run: |
+          set -euo pipefail
+          MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . \
+            --exclude-dir=.git \
+            --exclude-dir=secrets \
+            --exclude-dir=khanelimac \
+            --exclude-dir=khanelimac-m1 \
+            --exclude='result*' \
+            --exclude=flake.lock \
+            --exclude=brand-scan.yml \
+            --exclude=ci.yml 2>/dev/null | \
+            awk -F: '{
+              match($0, /^[^:]+:[^:]+:(.*)$/, arr);
+              line = arr[1];
+              if (line !~ /^[[:space:]]*(#|\/\/|\/\*|\*|")/) print $0
+            }' || true)
+          if [ -n "${MATCHES}" ]; then
+            echo "Forbidden legacy branding:" >&2
+            echo "${MATCHES}" >&2
+            exit 1
+          fi
+
+  deadnix:
+    name: Dead Code Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Run deadnix
+        run: nix develop .#default -c deadnix --fail
+
+  # Stage 2: Flake evaluation (depends on stage 1)
+  evaluate-flake:
+    name: Evaluate Flake (${{ matrix.arch }})
+    needs: [lint-workflows, format-check, brand-scan, deadnix]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64-linux, aarch64-linux]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+        with:
+          extra_nix_config: |
+            system-features = nixos-test benchmark big-parallel kvm
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Evaluate flake
+        run: nix flake show --all-systems
+
+  # Stage 3: Build checks (depends on evaluation)
+  ssh-strict-check:
+    name: SSH Strict (${{ matrix.arch }})
+    needs: evaluate-flake
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64-linux, aarch64-linux]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Run SSH strict check
+        run: nix develop .#default -c bash -lc 'nix build .#checks.${{ matrix.arch }}.ssh-strict'
+      - name: Build JSON summary (x86 only)
+        if: matrix.arch == 'x86_64-linux'
+        run: nix develop .#default -c bash -lc 'nix build .#checks.x86_64-linux.ssh-strict-json && cp result ssh-strict-summary.json'
+      - name: Enforce failure threshold
+        if: always() && matrix.arch == 'x86_64-linux'
+        run: |
+          if [ ! -f ssh-strict-summary.json ]; then
+            echo "No summary JSON produced" >&2
+            exit 1
+          fi
+          FAILURES=$(jq -r '.failures' ssh-strict-summary.json)
+          if [ "$FAILURES" -gt 0 ]; then
+            echo "SSH strict check reported $FAILURES failures" >&2
+            exit 1
+          fi
+      - name: Upload summary artifact
+        if: always() && matrix.arch == 'x86_64-linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssh-strict-summary
+          path: ssh-strict-summary.json
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && matrix.arch == 'x86_64-linux'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f ssh-strict-summary.json ]; then
+            SUMMARY=$(jq -r '. | "**Failures:** " + (.failures|tostring) + " | **Total Hosts:** " + (.totalHosts|tostring)' ssh-strict-summary.json)
+            GLOBAL=$(jq -r '.global | "**Global:** AuthKeys=" + (.authorizedKeysPresent|tostring) + ", KnownHosts=" + (.knownHostsPresent|tostring)' ssh-strict-summary.json)
+            HOST_TABLE=$(jq -r '.perHost | to_entries | map("| " + .key + " | " + .value.platform + " | " + .value.status + " | " + (.value.strict|tostring) + " | " + (.value.hostKeyPresent|tostring) + " | " + (.value.warnMissing|tostring) + " |") | ("| Host | Platform | Status | Strict | HostKey | WarnMissing |"), ("|------|----------|--------|--------|---------|-------------|"), .[]' ssh-strict-summary.json)
+            BODY=$'## SSH Strict Check Summary\n\n'"$SUMMARY"$'\n'"$GLOBAL"$'\n\n### Per-Host Status\n\n'"$HOST_TABLE"$'\n'
+            gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$BODY"
+          fi
+
+  system-checks:
+    name: System Checks (${{ matrix.arch }})
+    needs: evaluate-flake
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64-linux]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
+      - uses: cachix/cachix-action@v16
+        with:
+          name: premsnix
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        continue-on-error: true
+      - name: Check expressions
+        run: nix flake check --all-systems --no-build
+
+  # Summary job (always runs, shows overall status)
+  ci-summary:
+    name: CI Summary
+    if: always()
+    needs: [ssh-strict-check, system-checks]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check results
+        run: |
+          if [ "${{ needs.ssh-strict-check.result }}" != "success" ] || [ "${{ needs.system-checks.result }}" != "success" ]; then
+            echo "CI checks failed"
+            exit 1
+          fi
+          echo "All CI checks passed ✓"

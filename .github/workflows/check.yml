@@ -1,5 +1,6 @@
 name: Check
-on: [push, pull_request, workflow_dispatch]
+on:
+  workflow_dispatch: # Manual trigger only, covered by ci.yml
 jobs:
   checks:
     name: Check expressions on ${{ matrix.arch }}

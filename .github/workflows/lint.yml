@@ -1,5 +1,6 @@
 name: Lint & Flake Check
-on: [push, pull_request]
+on:
+  workflow_dispatch: # Manual trigger only, covered by ci.yml
 jobs:
   eval:
     name: Evaluate Flake (matrix)

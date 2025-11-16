@@ -1,8 +1,6 @@
 name: Brand Scan
 on:
-  push:
-  pull_request:
-  workflow_dispatch:
+  workflow_dispatch: # Manual trigger only, covered by ci.yml
 jobs:
   scan:
     runs-on: ubuntu-latest

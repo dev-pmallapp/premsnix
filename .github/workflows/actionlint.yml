@@ -1,5 +1,6 @@
 name: Lint GitHub Actions Workflows
-on: [push, pull_request]
+on:
+  workflow_dispatch: # Manual trigger only, covered by ci.yml
 jobs:
   actionlint:
     name: Actionlint
