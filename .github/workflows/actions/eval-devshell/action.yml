@@ -9,4 +9,4 @@ runs:
   steps:
     - name: Build devshell
       shell: bash
-      run: cd flake/dev && nix build .#devShells.x86_64-linux.${{ inputs.shell-name }} --offline --no-write-lock-file --no-link
+      run: cd flake/dev && nix build .#devShells.x86_64-linux.${{ inputs.shell-name }} --offline --no-update-lock-file --no-write-lock-file --no-link

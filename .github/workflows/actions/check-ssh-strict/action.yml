@@ -17,10 +17,10 @@ runs:
   steps:
     - name: Run SSH strict check
       shell: bash
-      run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict --offline --no-write-lock-file
+      run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict --offline --no-update-lock-file --no-write-lock-file
     - name: Build JSON summary
       shell: bash
-      run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict-json --offline --no-write-lock-file && cp result ../../ssh-strict-summary.json
+      run: cd flake/dev && nix build .#checks.x86_64-linux.ssh-strict-json --offline --no-update-lock-file --no-write-lock-file && cp result ../../ssh-strict-summary.json
     - name: Enforce failure threshold
       if: always()
       shell: bash

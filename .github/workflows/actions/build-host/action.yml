@@ -9,4 +9,4 @@ runs:
   steps:
     - name: Build system
       shell: bash
-      run: nix build .#nixosConfigurations."${{ inputs.host-name }}".config.system.build.toplevel --offline --no-write-lock-file --no-link
+      run: nix build .#nixosConfigurations."${{ inputs.host-name }}".config.system.build.toplevel --offline --no-update-lock-file --no-write-lock-file --no-link
