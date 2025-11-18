@@ -11,11 +11,9 @@ jobs:
           set -euo pipefail
           echo 'Scanning for legacy tokens in active code (excluding comments, secrets, deprecated dirs)'
           # Exclude: secrets, deprecated host dirs, flake.lock, brand-scan.yml itself, build results
-          MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . \
+          MATCHES=$(grep -RniE '' . \
             --exclude-dir=.git \
             --exclude-dir=secrets \
-            --exclude-dir=khanelimac \
-            --exclude-dir=khanelimac-m1 \
             --exclude='result*' \
             --exclude=flake.lock \
             --exclude=brand-scan.yml 2>/dev/null | \

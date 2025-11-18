@@ -7,13 +7,8 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        MATCHES=$(grep -RniE 'khaneli(vim|snow)?|khanelimac' . \
-          --exclude-dir=.git \
-          --exclude-dir=secrets \
-          --exclude-dir=khanelimac \
-          --exclude-dir=khanelimac-m1 \
-          --exclude='result*' \
-          --exclude=flake.lock \
+        MATCHES=$(grep -RniE '' . \
+          --exclude-dir=.git --exclude-dir=secrets --exclude='result*' --exclude=flake.lock \
           --exclude='*.yml' 2>/dev/null | \
           awk -F: '{
             match($0, /^[^:]+:[^:]+:(.*)$/, arr);
